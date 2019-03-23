@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+
+zuul:
+  sensitiveHeaders: Cookie,Set-Cookie
+  routes:
+    foos:
+      path: /monsters/**
+      url: http://localhost:8081/monsters
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry:  true
+    service-url:
+      default-zones: ${EUREKA_URI:http://localhost:8761/eureka}  
+
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-value: azertyuiopqsdfghjklmwxcvbn123456789!azertyuiopqsdfghjklmwxcvbn123456789!
