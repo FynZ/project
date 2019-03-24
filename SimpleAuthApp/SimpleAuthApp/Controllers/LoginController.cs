@@ -20,9 +20,9 @@ namespace SimpleAuthApp.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login([FromBody] UserViewModel user)
+        public IActionResult Login([FromBody] LoginViewModel user)
         {
-            return Json(_userService.Authenticate(user.Username, user.Password));
+            return Json(_userService.Authenticate(user.Email, user.Password));
         }
 
         [Route("who-am-i")]

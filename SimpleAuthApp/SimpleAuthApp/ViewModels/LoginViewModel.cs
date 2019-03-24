@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace SimpleAuthApp.ViewModels
 {
-    public class UserViewModel
+    public class LoginViewModel
     {
         [Required]
-        public string Username { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
 
         [Required]
         public string Password { get; set; }
+
+        public bool RememberMe { get; set; }
     }
 }
