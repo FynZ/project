@@ -8,12 +8,27 @@ spring:
 zuul:
   sensitiveHeaders: Cookie,Set-Cookie
   routes:
+    # ALLOW ANONYMOUS
+    news:
+      path: /news/**
+      url: http://localhost:8084/news
     auth:
       path: /auth/**
       url: http://localhost:5000/auth
+    # ROLE USER
     monsters:
       path: /monsters/**
       url: http://localhost:8081/monsters
+    trading:
+      path: /trading/**
+      url: http://localhost:8082/trading
+    messaging:
+      path: /messaging/**
+      url: http://localhost:8083/messaging
+    # ROLE ADMIN
+    admin:
+      path: /admin/**
+      url: http://localhost:8085/admin
   
 
 eureka:
