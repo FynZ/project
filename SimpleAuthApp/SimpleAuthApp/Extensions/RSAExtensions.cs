@@ -9,7 +9,7 @@ namespace SimpleAuthApp.Extensions
         public static void FromXml(this RSA rsa, string xmlString)
         {
             var parameters = new RSAParameters();
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlString);
 
             if (xmlDoc.DocumentElement.Name.Equals("RSAKeyValue"))
