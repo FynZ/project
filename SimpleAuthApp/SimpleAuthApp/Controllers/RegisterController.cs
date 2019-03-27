@@ -27,11 +27,18 @@ namespace SimpleAuthApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _userService.CreateUser(new User
+                var result = _userService.CreateUser(new User
                 {
                     Email = registerViewModel.Email,
                     Username = registerViewModel.Username,
                 }, registerViewModel.Password);
+
+                if (result.WasCreated)
+                {
+                    return Ok(result);
+                }
+
+                return Conflict(result);
             }
 
             return BadRequest();

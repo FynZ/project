@@ -16,6 +16,6 @@ namespace SimpleAuthApp.DTO
             WasCreated = false;
         }
 
-        public bool IsElligible => EmailTaken == false && UsernameTaken == false;
+        public bool IsEligible => EmailTaken == false && UsernameTaken == false;
     }
 }

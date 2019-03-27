@@ -10,7 +10,7 @@ namespace SimpleAuthApp.Services
 {
     public interface IUserService
     {
-        User Authenticate(string username, string password);
+        JWT Authenticate(string username, string password);
         IEnumerable<User> GetAll();
 
         RegisterResult CreateUser(User user, string password);

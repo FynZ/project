@@ -10,7 +10,14 @@ namespace SimpleAuthApp.Repositories
     {
         private static readonly List<User> _users = new List<User>
         {
-            new User { Id = 1, FirstName = "Test", LastName = "User", Email = "test", Username = "test", Password = "test" }
+            new User
+            {
+                Id = 1, FirstName = "Test", LastName = "User", Email = "test@test.test", Username = "test", Password = "test", Roles = new List<Role>()
+                {
+                    new Role() {Id = 1, Name = "User"},
+                    new Role() {Id = 2, Name = "Admin"},
+                }
+            }
         };
 
         public User GetUser(string email, string password)
