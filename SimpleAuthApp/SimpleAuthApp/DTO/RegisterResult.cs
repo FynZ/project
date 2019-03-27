@@ -7,8 +7,8 @@ namespace SimpleAuthApp.DTO
 {
     public class RegisterResult
     {
-        public bool EmailTaken { get; set; }
         public bool UsernameTaken { get; set; }
+        public bool EmailTaken { get; set; }
         public bool WasCreated { get; set; }
 
         public RegisterResult()
@@ -16,6 +16,6 @@ namespace SimpleAuthApp.DTO
             WasCreated = false;
         }
 
-        public bool IsEligible => EmailTaken == false && UsernameTaken == false;
+        public bool IsEligible => UsernameTaken == false && EmailTaken == false;
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography;
+using System.Text;
 using SimpleAuthApp.DTO;
 using SimpleAuthApp.Models;
 using SimpleAuthApp.Repositories;
@@ -21,40 +21,23 @@ namespace SimpleAuthApp.Services
             _jwtHandler = jwtHandler;
         }
 
-        // move thhis shit elsewhere
-        public JWT Authenticate(string username, string password)
+        public JWT Authenticate(string email, string password)
         {
-            var user = _userRepository.GetUser(username, password);
+            var user = _userRepository.GetUserByEmail(email);
 
-            // return null if user not found
-            if (user == null)
-                return null;
+            if (user != null)
+            {
+                if (PasswordsMatch(password, user.Password))
+                {
+                    var claims = new List<Claim>();
+                    claims.Add(new Claim(ClaimTypes.Name, user.Username));
+                    claims.AddRange(user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)));
 
-            var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Name, user.Username));
-            claims.AddRange(user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)));
+                    return _jwtHandler.Create(user);
+                }
+            }
 
-            return _jwtHandler.Create(user);
-
-
-            // authentication successful so generate jwt token
-            //var tokenHandler = new JwtSecurityTokenHandler();
-            //var tokenDescriptor = new SecurityTokenDescriptor
-            //{
-            //    Subject = new ClaimsIdentity(new Claim[]
-            //    {
-            //        new Claim(ClaimTypes.Name, user.Id.ToString()),
-            //    }),
-            //    Expires = DateTime.UtcNow.AddDays(7),
-            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_keyManager.Key), _keyManager.Algorithm)
-            //};
-            //var token = tokenHandler.CreateToken(tokenDescriptor);
-            //user.Token = tokenHandler.WriteToken(token);
-
-            //// remove password before returning
-            //user.Password = null;
-
-            //return user;
+            return null;
         }
 
         public IEnumerable<User> GetAll()
@@ -64,23 +47,46 @@ namespace SimpleAuthApp.Services
 
         public RegisterResult CreateUser(User user, string password)
         {
-            user.Password = password;
+            user.Password = HashPassword(password);
 
             var result = new RegisterResult
             {
-                EmailTaken = _userRepository.GetUserByUsername(user.Username) != null,
-                UsernameTaken = _userRepository.GetUserByUsername(user.Username) != null
+                UsernameTaken = _userRepository.GetUserByUsername(user.Username) != null,
+                EmailTaken = _userRepository.GetUserByEmail(user.Email) != null
             };
 
             if (result.IsEligible)
             {
                 _userRepository.CreateUser(user);
                 result.WasCreated = true;
-
-                return result;
             }
 
             return result;
+        }
+
+        private static bool PasswordsMatch(string givenPassword, string storedPassword)
+        {
+            using (var hashBuilder = SHA512.Create())
+            {
+                byte[] bytePassword = hashBuilder.ComputeHash(Encoding.UTF8.GetBytes(givenPassword));
+                var base64Password = Convert.ToBase64String(bytePassword);
+
+                if (base64Password != storedPassword)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static string HashPassword(string password)
+        {
+            using (var hashBuilder = SHA512.Create())
+            {
+                byte[] bytePassword = hashBuilder.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(bytePassword);
+            }
         }
     }
 }

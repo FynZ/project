@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleAuthApp.Repositories;
 using SimpleAuthApp.Services;
+using SimpleAuthApp.Settings;
 
 namespace SimpleAuthApp
 {

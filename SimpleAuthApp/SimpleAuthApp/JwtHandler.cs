@@ -8,7 +8,9 @@ using System.Text;
 using System.Xml;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using SimpleAuthApp.Extensions;
 using SimpleAuthApp.Models;
+using SimpleAuthApp.Settings;
 
 namespace SimpleAuthApp
 {
@@ -24,8 +26,8 @@ namespace SimpleAuthApp
 
         // object used to write the token
         private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
-        private readonly SecurityKey _issuerSigningKey;
-        private readonly SigningCredentials _signingCredentials;
+
+        // Represent the Jwt Header (alg + typ)
         private readonly JwtHeader _jwtHeader;
 
         public JwtHandler(IOptions<JwtSettings> settings)
@@ -35,51 +37,58 @@ namespace SimpleAuthApp
 
             if (_settings.UseRsa)
             {
-                using (RSA publicRsa = RSA.Create())
-                {
-                    var publicKeyXml = File.ReadAllText(_settings.RsaPublicKeyXML);
-                    publicRsa.FromXml(publicKeyXml);
-                    _issuerSigningKey = new RsaSecurityKey(publicRsa);
-                }
+                var signingCredentials = CreateRsaCredentials(_settings.RsaPrivateKeyXML);
 
-                using (RSA privateRsa = RSA.Create())
-                {
-                    var privateKeyXml = File.ReadAllText(_settings.RsaPrivateKeyXML);
-                    privateRsa.FromXml(privateKeyXml);
-                    var privateKey = new RsaSecurityKey(privateRsa);
-                    _signingCredentials = new SigningCredentials(privateKey, SecurityAlgorithms.RsaSha256);
-                }
+                _jwtHeader = new JwtHeader(signingCredentials);
             }
             else
             {
-                _issuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.HmacSecretKey));
-                _signingCredentials = new SigningCredentials(_issuerSigningKey, SecurityAlgorithms.HmacSha256);
-            }
+                var issuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.HmacSecretKey));
+                var signingCredentials = new SigningCredentials(issuerSigningKey, SecurityAlgorithms.HmacSha256);
 
-            _jwtHeader = new JwtHeader(_signingCredentials);
+                _jwtHeader = new JwtHeader(signingCredentials);
+            }
+        }
+
+        private static RsaSecurityKey CreateSecurityKey(string publicKeyRelativePath)
+        {
+            using (RSA publicRsa = RSA.Create())
+            {
+                var publicKeyXml = File.ReadAllText(publicKeyRelativePath);
+                publicRsa.FromXml(publicKeyXml);
+
+                return new RsaSecurityKey(publicRsa);
+            }
+        }
+
+        private static SigningCredentials CreateRsaCredentials(string privateKeyRelativePath)
+        {
+            using (RSA privateRsa = RSA.Create())
+            {
+                var privateKeyXml = File.ReadAllText(privateKeyRelativePath);
+                privateRsa.FromXml(privateKeyXml);
+                var privateKey = new RsaSecurityKey(privateRsa);
+
+                return new SigningCredentials(privateKey, SecurityAlgorithms.RsaSha256);
+            }
         }
 
         public static TokenValidationParameters InitializeJwtParameters()
         {
-            using (RSA publicRsa = RSA.Create())
+            // dirty but the information is needed before the DI can be used (reason the method is static in the first place)
+            var issuerSigningKey = CreateSecurityKey("Ressources/public-key.xml");
+
+            return new TokenValidationParameters
             {
-                var publicKeyXml = File.ReadAllText("Ressources/public-key.xml");
-                publicRsa.FromXml(publicKeyXml);
-                var publicKey = new RsaSecurityKey(publicRsa);
-
-                return new TokenValidationParameters
-                {
-
-                    //NameClaimType = "name",
-                    // No need to specify the key as the generated token use a key name which is implicitly converted by the framework
-                    //RoleClaimType = "roles",
-                    ValidateAudience = false,
-                    //ValidateLifetime = false,
-                    ValidIssuer = "FDO",
-                    RequireSignedTokens = true,
-                    IssuerSigningKey = publicKey,
-                };
-            }
+                //NameClaimType = "name",
+                // No need to specify the key as the generated token use a key name which is implicitly converted by the framework
+                //RoleClaimType = "roles",
+                ValidateAudience = false,
+                ValidateLifetime = false,
+                ValidIssuer = "FDO",
+                RequireSignedTokens = true,
+                IssuerSigningKey = issuerSigningKey,
+            };
         }
 
         public JWT Create(User user)
@@ -102,8 +111,7 @@ namespace SimpleAuthApp
                 {"iat", now},
                 {"jti", Guid.NewGuid().ToString("N")}
             };
-            payload.AddClaims(user.Roles.Select(x => new Claim("caca", x.Name)));
-            //payload.AddClaims(user.Roles.Select(x => new Claim(ClaimTypes.Role, x.Name)));
+            payload.AddClaims(user.Roles.Select(x => new Claim("roles", x.Name)));
 
             var jwt = new JwtSecurityToken(_jwtHeader, payload);
             var token = _jwtSecurityTokenHandler.WriteToken(jwt);
@@ -113,57 +121,6 @@ namespace SimpleAuthApp
                 Token = token,
                 Expires = exp
             };
-        }
-    }
-
-    public class JwtSettings
-    {
-        public string Issuer { get; set; }
-        public string Audience { get; set; }
-        public string HmacSecretKey { get; set; }
-        public int ExpiryDays { get; set; }
-        public bool UseRsa { get; set; }
-        public string RsaPrivateKeyXML { get; set; }
-        public string RsaPublicKeyXML { get; set; }
-    }
-
-    public class JWT
-    {
-        public string Token { get; set; }
-        public long Expires { get; set; }
-    }
-
-    public static class RSAExtension
-    {
-        public static void FromXml(this RSA rsa, string xmlString)
-        {
-            var parameters = new RSAParameters();
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(xmlString);
-
-            if (xmlDoc.DocumentElement.Name.Equals("RSAKeyValue"))
-            {
-                foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
-                {
-                    switch (node.Name)
-                    {
-                        case "Modulus": parameters.Modulus = Convert.FromBase64String(node.InnerText); break;
-                        case "Exponent": parameters.Exponent = Convert.FromBase64String(node.InnerText); break;
-                        case "P": parameters.P = Convert.FromBase64String(node.InnerText); break;
-                        case "Q": parameters.Q = Convert.FromBase64String(node.InnerText); break;
-                        case "DP": parameters.DP = Convert.FromBase64String(node.InnerText); break;
-                        case "DQ": parameters.DQ = Convert.FromBase64String(node.InnerText); break;
-                        case "InverseQ": parameters.InverseQ = Convert.FromBase64String(node.InnerText); break;
-                        case "D": parameters.D = Convert.FromBase64String(node.InnerText); break;
-                    }
-                }
-            }
-            else
-            {
-                throw new Exception("Invalid XML RSA key.");
-            }
-
-            rsa.ImportParameters(parameters);
         }
     }
 }

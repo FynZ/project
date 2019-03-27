@@ -12,27 +12,26 @@ namespace SimpleAuthApp.Repositories
         {
             new User
             {
-                Id = 1, FirstName = "Test", LastName = "User", Email = "test@test.test", Username = "test", Password = "test", Roles = new List<Role>()
+                Id = 1,
+                Email = "test@test.test",
+                Username = "test",
+                Password = "7iaw3Ur350mqGo7jwQrpkj9hiYB3Lkc/iBml1JQODbJ6wYX4oOHV+E+IvIh/1nsUNzLDBMxfqa2Ob1f1ACio/w==",
+                Roles = new List<Role>
                 {
-                    new Role() {Id = 1, Name = "User"},
-                    new Role() {Id = 2, Name = "Admin"},
+                    new Role {Id = 1, Name = "User"},
+                    new Role {Id = 2, Name = "Admin"},
                 }
             }
         };
 
-        public User GetUser(string email, string password)
-        {
-            return _users.FirstOrDefault(x => x.Email == email && x.Password == password);
-        }
-
         public User GetUserByEmail(string email)
         {
-            return _users.FirstOrDefault(x => x.Email == email);
+            return _users.FirstOrDefault(x => String.Equals(x.Email, email, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public User GetUserByUsername(string username)
         {
-            return _users.FirstOrDefault(x => x.Username == username);
+            return _users.FirstOrDefault(x => String.Equals(x.Username, username, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public IEnumerable<User> GetAllUsers()
@@ -40,12 +39,15 @@ namespace SimpleAuthApp.Repositories
             return _users;
         }
 
-        public void CreateUser(object user)
+        public void CreateUser(User user)
         {
-            _users.Add(new User
+            user.Id = _users.Count;
+            user.Roles = new List<Role>
             {
+                new Role {Id = 1, Name = "User"}
+            };
 
-            });
+            _users.Add(user);
         }
     }
 }
