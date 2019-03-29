@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@EnableResourceServer
+// @EnableResourceServer
 @EnableZuulProxy
 @SpringBootApplication
 // @EnableDiscoveryClient
