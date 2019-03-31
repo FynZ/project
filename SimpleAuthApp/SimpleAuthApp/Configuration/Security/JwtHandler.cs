@@ -11,13 +11,8 @@ using SimpleAuthApp.Extensions;
 using SimpleAuthApp.Models;
 using SimpleAuthApp.Settings;
 
-namespace SimpleAuthApp
+namespace SimpleAuthApp.Configuration.Security
 {
-    public interface IJwtHandler
-    {
-        JWT Create(User user);
-    }
-
     public class JwtHandler : IJwtHandler
     {
         // Settings from the AppSettings file
@@ -86,7 +81,7 @@ namespace SimpleAuthApp
                 ValidateLifetime = false,
                 ValidIssuer = "FDO",
                 RequireSignedTokens = true,
-                IssuerSigningKey = issuerSigningKey,
+                IssuerSigningKey = issuerSigningKey
             };
         }
 

@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Xml;
 
-namespace SimpleAuthApp.Extensions
+namespace SimpleAuthApp.Configuration.Security
 {
     public static class RSAExtensions
     {

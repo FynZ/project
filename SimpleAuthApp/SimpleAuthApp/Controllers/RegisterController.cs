@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SimpleAuthApp.Models;
 using SimpleAuthApp.Services;
 using SimpleAuthApp.ViewModels;
@@ -6,6 +7,7 @@ using SimpleAuthApp.ViewModels;
 namespace SimpleAuthApp.Controllers
 {
     [ApiController]
+    [AllowAnonymous]
     public class RegisterController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -15,8 +17,8 @@ namespace SimpleAuthApp.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
-        [Route("register")]
+        [AllowAnonymous]
+        [HttpPost("register")]
         public IActionResult Register([FromBody] RegisterViewModel registerViewModel)
         {
             if (ModelState.IsValid)

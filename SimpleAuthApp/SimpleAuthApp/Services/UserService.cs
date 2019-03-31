@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using SimpleAuthApp.Configuration;
+using SimpleAuthApp.Configuration.Security;
 using SimpleAuthApp.DTO;
 using SimpleAuthApp.Models;
 using SimpleAuthApp.Repositories;

@@ -1,4 +1,4 @@
-﻿namespace SimpleAuthApp
+﻿namespace SimpleAuthApp.Models.Enumerations
 {
     public enum Server
     {

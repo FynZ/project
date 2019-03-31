@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SimpleAuthApp.Services;
 using SimpleAuthApp.ViewModels;
 
 namespace SimpleAuthApp.Controllers
 {
     [ApiController]
+    [AllowAnonymous]
     public class LoginController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -14,8 +16,8 @@ namespace SimpleAuthApp.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
-        [Route("login")]
+        [AllowAnonymous]
+        [HttpPost("login")]
         public IActionResult Login([FromBody] LoginViewModel user)
         {
             var jwt = _userService.Authenticate(user.Email, user.Password);
@@ -28,7 +30,8 @@ namespace SimpleAuthApp.Controllers
             return Unauthorized();
         }
 
-        [Route("who-am-i")]
+        [Authorize]
+        [HttpGet("who-am-i")]
         public IActionResult WhoAmI()
         {
             return Content($"Hello {User.Identity.Name}");

@@ -36,7 +36,7 @@
 		</dependency> -->
 
         <!-- Exclude Spring Boot's Default Logging -->
-        <dependency>
+        <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <exclusions>
@@ -45,10 +45,10 @@
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency> -->
 
         <!-- Add Log4j2 Dependency -->
-        <dependency>
+        <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
@@ -56,7 +56,7 @@
             <groupId>org.appenders.log4j</groupId>
             <artifactId>log4j2-elasticsearch-jest</artifactId>
             <version>1.3.0</version>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -81,6 +81,12 @@
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
             <version>${oauth-autoconfig.version}</version>
         </dependency> -->
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.6.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
