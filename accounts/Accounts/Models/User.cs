@@ -6,7 +6,9 @@ namespace Accounts.Models
     {
         public int Id { get; set; }
         public string Username { get; set; }
+        public string UsernameUpper { get; set; }
         public string Email { get; set; }
+        public string EmailUpper { get; set; }
         public string Password { get; set; }
         public bool Verified { get; set; }
         public bool Banned { get; set; }

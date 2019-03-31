@@ -46,7 +46,6 @@ namespace Accounts
             finally
             {
                 Log.CloseAndFlush();
-
             }
         }
 
