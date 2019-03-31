@@ -23,22 +23,22 @@ namespace SimpleAuthApp
         {
             try
             {
-                //Program.InitializeConfiguration();
-                //Program.InitializeLogging();
-
-                WebHost.CreateDefaultBuilder(args)
-                    .UseStartup<Startup>()
-                    .Build()
-                    .Run();
+                Program.InitializeConfiguration();
+                Program.InitializeLogging();
 
                 //WebHost.CreateDefaultBuilder(args)
                 //    .UseStartup<Startup>()
-                //    //.UseUrls("http://*:80")
-                //    //.UseConfiguration(Configuration)
-                //    //.AddLogging()
-                //    //.AddMetrics()
                 //    .Build()
                 //    .Run();
+
+                WebHost.CreateDefaultBuilder(args)
+                    .UseStartup<Startup>()
+                    .UseUrls("http://*:80")
+                    .UseConfiguration(Configuration)
+                    .AddLogging()
+                    .AddMetrics()
+                    .Build()
+                    .Run();
 
                 return 0;
             }

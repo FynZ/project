@@ -33,7 +33,7 @@ namespace SimpleAuthApp.Services
                 {
                     var claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, user.Username));
-                    claims.AddRange(user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)));
+                    claims.AddRange(user.Roles.Select(role => new Claim("roles", role.Name)));
 
                     return _jwtHandler.Create(user);
                 }

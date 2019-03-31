@@ -7,6 +7,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using SimpleAuthApp.Configuration.Security.Models;
 using SimpleAuthApp.Extensions;
 using SimpleAuthApp.Models;
 using SimpleAuthApp.Settings;
@@ -74,7 +76,7 @@ namespace SimpleAuthApp.Configuration.Security
 
             return new TokenValidationParameters
             {
-                //NameClaimType = "name",
+                NameClaimType = "name",
                 // No need to specify the key as the generated token use a key name which is implicitly converted by the framework
                 //RoleClaimType = "roles",
                 ValidateAudience = false,
@@ -93,21 +95,36 @@ namespace SimpleAuthApp.Configuration.Security
             var exp = (long)(new TimeSpan(expires.Ticks - centuryBegin.Ticks).TotalSeconds);
             var now = (long)(new TimeSpan(nowUtc.Ticks - centuryBegin.Ticks).TotalSeconds);
 
-            var payload = new JwtPayload
+            var jwtToken = new JwtToken
             {
-                {"unique_name", user.Username},
-                {"name", user.Username},
-                {"iss", _settings.Issuer ?? String.Empty},
-                {"sub", user.Id},
-                {"aud", _settings.Audience ?? String.Empty},
-                {"exp", exp},
-                {"nbf", now},
-                {"iat", now},
-                {"jti", Guid.NewGuid().ToString("N")}
+                name = user.Username,
+                iss = _settings.Issuer ?? String.Empty,
+                sub = user.Id,
+                aud = _settings.Audience ?? String.Empty,
+                exp = exp,
+                nbf = now,
+                iat = now,
+                jti = Guid.NewGuid().ToString("N"),
+                roles = user.Roles.Select(x => x.Name)
             };
-            payload.AddClaims(user.Roles.Select(x => new Claim("roles", x.Name)));
 
-            var jwt = new JwtSecurityToken(_jwtHeader, payload);
+            //var payload = new JwtPayload(JsonConvert.SerializeObject(jwtToken));
+
+            //var payload = new JwtPayload
+            //{
+            //    {"unique_name", user.Username},
+            //    {"name", user.Username},
+            //    {"iss", _settings.Issuer ?? String.Empty},
+            //    {"sub", user.Id},
+            //    {"aud", _settings.Audience ?? String.Empty},
+            //    {"exp", exp},
+            //    {"nbf", now},
+            //    {"iat", now},
+            //    {"jti", Guid.NewGuid().ToString("N")}
+            //};
+            //payload.AddClaims(user.Roles.Select(x => new Claim("roles", x.Name)));
+
+            var jwt = new JwtSecurityToken(_jwtHeader, jwtToken);
             var token = _jwtSecurityTokenHandler.WriteToken(jwt);
 
             return new JWT

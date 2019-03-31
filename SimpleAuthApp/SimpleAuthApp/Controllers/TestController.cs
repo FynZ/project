@@ -9,21 +9,21 @@ namespace SimpleAuthApp.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        [Route("user")]
+        [HttpGet("user")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         public IActionResult TestUser()
         {
             return Content($"Hello {User.Identity.Name}");
         }
 
-        [Route("prout")]
+        [HttpGet("prout")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Prout")]
         public IActionResult TestProut()
         {
             return Content($"Hello {User.Identity.Name}");
         }
 
-        [Route("claims")]
+        [HttpGet("claims")]
         public IActionResult TestClaims()
         {
             if (User.Identity.IsAuthenticated)
@@ -32,22 +32,9 @@ namespace SimpleAuthApp.Controllers
             }
 
             return Unauthorized();
-
-            /*
-            var sb = new StringBuilder();
-            foreach (var claim in User.Claims)
-            {
-                sb.Append(claim.Type);
-                sb.Append(" | ");
-                sb.Append(claim.Value);
-                sb.Append(Environment.NewLine);
-            }
-
-            return Content(sb.ToString());
-            */
         }
 
-        [Route("claim")]
+        [HttpGet("claim")]
         public IActionResult TestClaim()
         {
             return Content("working");

@@ -14,6 +14,7 @@ using SimpleAuthApp.Extensions;
 using SimpleAuthApp.Repositories;
 using SimpleAuthApp.Services;
 using SimpleAuthApp.Settings;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace SimpleAuthApp
 {
@@ -45,15 +46,19 @@ namespace SimpleAuthApp
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Swagger
-            //services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Authentication Microservice", Version = "v1" });
+                c.DescribeAllEnumsAsStrings();
+            });
 
             // Compression
-            //services.Configure<GzipCompressionProviderOptions>
-            //    (options => options.Level = CompressionLevel.Optimal);
-            //services.AddResponseCompression(options =>
-            //{
-            //    options.Providers.Add<GzipCompressionProvider>();
-            //});
+            services.Configure<GzipCompressionProviderOptions>
+                (options => options.Level = CompressionLevel.Optimal);
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+            });
 
             // Config to Object registration
             services
@@ -69,29 +74,36 @@ namespace SimpleAuthApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //app
-            //.UseForwardedHeaders(GetForwardedHeadersOptions())
-            //.UseResponseCompression()
-            //.UseLoggingMiddleware()
-            //.UseAuthentication()
-            //.UseMvc();
-            //.UseSwagger()
-            //.UseSwaggerUI();
-
-            if (env.IsDevelopment())
+            app
+            .UseForwardedHeaders(GetForwardedHeadersOptions())
+            .UseResponseCompression()
+            .UseLoggingMiddleware()
+            .UseAuthentication()
+            .UseMvc()
+            .UseSwagger(
+            c =>
             {
-                app.UseDeveloperExceptionPage();
-            }
-            else
+                c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
+            })
+            .UseSwaggerUI(c =>
             {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication Microservice");
+            });
 
-            app.UseAuthentication();
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //    app.UseHsts();
+            //}
 
-            app.UseHttpsRedirection();
-            app.UseMvc();
+            //app.UseAuthentication();
+
+            //app.UseHttpsRedirection();
+            //app.UseMvc();
         }
 
         public static ForwardedHeadersOptions GetForwardedHeadersOptions()

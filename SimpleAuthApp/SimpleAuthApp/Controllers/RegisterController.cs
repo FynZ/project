@@ -7,7 +7,6 @@ using SimpleAuthApp.ViewModels;
 namespace SimpleAuthApp.Controllers
 {
     [ApiController]
-    [AllowAnonymous]
     public class RegisterController : ControllerBase
     {
         private readonly IUserService _userService;
