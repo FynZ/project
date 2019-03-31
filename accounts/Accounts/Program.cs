@@ -11,13 +11,13 @@ using Serilog.Debugging;
 using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
-using Accounts.Configuration;
+using Accounts.Configuration.Extensions;
 
 namespace Accounts
 {
     public class Program
     {
-        private static IConfiguration Configuration;
+        public static IConfiguration Configuration { get; private set; }
 
         public static async Task<int> Main(string[] args)
         {
@@ -25,11 +25,6 @@ namespace Accounts
             {
                 Program.InitializeConfiguration();
                 Program.InitializeLogging();
-
-                //WebHost.CreateDefaultBuilder(args)
-                //    .UseStartup<Startup>()
-                //    .Build()
-                //    .Run();
 
                 await WebHost.CreateDefaultBuilder(args)
                     .UseStartup<Startup>()
@@ -86,7 +81,7 @@ namespace Accounts
                 });
             }
 
-            Serilog.Log.Logger = logCfg.CreateLogger();
+            Log.Logger = logCfg.CreateLogger();
         }
 
         private static void InitializeConfiguration()

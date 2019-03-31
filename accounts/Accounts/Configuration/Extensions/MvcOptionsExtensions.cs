@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Accounts.Configuration;
 
-namespace Accounts.Extensions
+namespace Accounts.Configuration.Extensions
 {
     public static class MvcOptionsExtensions
     {

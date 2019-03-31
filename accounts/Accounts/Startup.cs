@@ -7,10 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Accounts.Configuration;
 using Accounts.Configuration.Extensions;
 using Accounts.Configuration.Security;
-using Accounts.Extensions;
 using Accounts.Repositories;
 using Accounts.Services;
 using Accounts.Settings;
@@ -89,21 +87,6 @@ namespace Accounts
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication Microservice");
             });
-
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
-            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            //    app.UseHsts();
-            //}
-
-            //app.UseAuthentication();
-
-            //app.UseHttpsRedirection();
-            //app.UseMvc();
         }
 
         public static ForwardedHeadersOptions GetForwardedHeadersOptions()

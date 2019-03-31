@@ -6,7 +6,7 @@ namespace Accounts.Services
 {
     public interface IUserService
     {
-        JWT Authenticate(string username, string password);
+        Jwt Authenticate(string username, string password);
         IEnumerable<User> GetAll();
 
         RegisterResult CreateUser(User user, string password);

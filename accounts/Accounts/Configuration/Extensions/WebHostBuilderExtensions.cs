@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Serilog;
 
-namespace Accounts.Configuration
+namespace Accounts.Configuration.Extensions
 {
     public static class WebHostBuilderExtensions
     {

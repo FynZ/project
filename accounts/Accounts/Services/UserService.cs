@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Accounts.Configuration;
 using Accounts.Configuration.Security;
 using Accounts.DTO;
 using Accounts.Models;
@@ -23,7 +22,7 @@ namespace Accounts.Services
             _jwtHandler = jwtHandler;
         }
 
-        public JWT Authenticate(string email, string password)
+        public Jwt Authenticate(string email, string password)
         {
             var user = _userRepository.GetUserByEmail(email);
 

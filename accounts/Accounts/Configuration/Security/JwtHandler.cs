@@ -2,7 +2,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
-using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Accounts.Configuration.Security.Models;
@@ -56,7 +55,7 @@ namespace Accounts.Configuration.Security
             }
         }
 
-        public JWT Create(User user)
+        public Jwt Create(User user)
         {
             var nowUtc = DateTime.UtcNow;
             var expires = nowUtc.AddDays(_settings.ExpiryDays);
@@ -80,7 +79,7 @@ namespace Accounts.Configuration.Security
             var jwt = new JwtSecurityToken(_jwtHeader, jwtToken);
             var token = _jwtSecurityTokenHandler.WriteToken(jwt);
 
-            return new JWT
+            return new Jwt
             {
                 Token = token,
                 Expires = exp

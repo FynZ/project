@@ -1,14 +1,8 @@
-﻿using System;
-using System.Buffers.Text;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-using Newtonsoft.Json;
-using Accounts.Configuration.Security;
 using Accounts.Configuration.Security.Models;
 using Accounts.Services;
 using Accounts.ViewModels;
