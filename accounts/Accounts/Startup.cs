@@ -65,7 +65,7 @@ namespace Accounts
             // Dependency Injection registration
             services
                 .AddSingleton<IJwtHandler, JwtHandler>()
-                .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<IUserRepository, UserRepository>(x => new UserRepository(Configuration.GetConnectionString("Postgres")))
                 .AddScoped<IUserService, UserService>();
         }
 
