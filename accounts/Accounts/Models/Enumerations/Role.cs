@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Accounts.Models.Enumerations
+﻿namespace Accounts.Models.Enumerations
 {
     public enum Role
     {
