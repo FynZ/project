@@ -63,7 +63,6 @@ namespace Accounts.Configuration.Security
             var exp = (long)(new TimeSpan(expires.Ticks - centuryBegin.Ticks).TotalSeconds);
             var now = (long)(new TimeSpan(nowUtc.Ticks - centuryBegin.Ticks).TotalSeconds);
 
-            var roles = user.Roles.Select(x => x.Name).ToArray();
             var jwtToken = new JwtToken
             {
                 name = user.Username,
@@ -74,7 +73,7 @@ namespace Accounts.Configuration.Security
                 nbf = now,
                 iat = now,
                 jti = Guid.NewGuid().ToString("N"),
-                roles = roles
+                roles = user.Roles.Select(x => x.Name)
             };
 
             var jwt = new JwtSecurityToken(_jwtHeader, jwtToken);
