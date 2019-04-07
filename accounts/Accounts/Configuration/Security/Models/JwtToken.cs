@@ -10,6 +10,7 @@ namespace Accounts.Configuration.Security.Models
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class JwtToken
     {
+        public int id { get; set; }
         public string name { get; set; }
         public string iss { get; set; }
         public int sub { get; set; }
@@ -29,6 +30,7 @@ namespace Accounts.Configuration.Security.Models
         {
             var payload = new JwtPayload
             {
+                {nameof(id), token.id },
                 {nameof(name), token.name},
                 {nameof(iss), token.iss},
                 {nameof(sub), token.sub},

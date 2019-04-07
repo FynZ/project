@@ -63,6 +63,4 @@ namespace Accounts.Controllers
             });
         }
     }
-
-
 }

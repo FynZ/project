@@ -65,6 +65,7 @@ namespace Accounts.Configuration.Security
 
             var jwtToken = new JwtToken
             {
+                id = user.Id,
                 name = user.Username,
                 iss = _settings.Issuer ?? String.Empty,
                 sub = user.Id,

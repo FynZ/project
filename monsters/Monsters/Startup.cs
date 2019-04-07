@@ -36,14 +36,14 @@ namespace Monsters
             services
                 .AddMvc(o =>
                 {
-                    o.UseGeneralRoutePrefix("auth");
+                    o.UseGeneralRoutePrefix("monsters");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Authentication Microservice", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "Monster Microservice", Version = "v1" });
                 c.DescribeAllEnumsAsStrings();
             });
 
