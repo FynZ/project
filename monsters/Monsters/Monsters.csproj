@@ -33,8 +33,6 @@
   <ItemGroup>
     <Folder Include="DTO\" />
     <Folder Include="Models\Enumerations\" />
-    <Folder Include="Repositories\" />
-    <Folder Include="Services\" />
     <Folder Include="Settings\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
