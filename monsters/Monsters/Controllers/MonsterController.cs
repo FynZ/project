@@ -20,40 +20,58 @@ namespace Monsters.Controllers
             _monsterService = monsterService;
         }
 
+        [HttpGet("init/{userId}")]
+        [AllowAnonymous]
+        public IActionResult Init(int userId)
+        {
+            _monsterService.InitUser(this.AuthenticatedUserId());
+
+            return Ok();
+        }
+
+        [HttpGet("init/{userId}")]
+        [AllowAnonymous]
+        public IActionResult GetUserMonsters(int userId)
+        {
+            var monsters = _monsterService.GetUserMonsters(this.AuthenticatedUserId());
+
+            return Ok(monsters);
+        }
+
         [HttpGet("increment/{monsterId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         public IActionResult Increment(int monsterId)
         {
-            return Content($"Request made by user {this.AuthenticatedUserId()}");
+            _monsterService.IncrementMonster(monsterId, this.AuthenticatedUserId());
+
+            return Ok();
         }
 
         [HttpGet("decrement/{monsterId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         public IActionResult Decrement(int monsterId)
         {
-            return Content($"Request made by user {this.AuthenticatedUserId()}");
+            _monsterService.DecrementMonster(monsterId, this.AuthenticatedUserId());
+
+            return Ok();
         }
 
         [HttpGet("propose/{monsterId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         public IActionResult Propose(int monsterId)
         {
-            return Content($"Request made by user {this.AuthenticatedUserId()}");
+            _monsterService.ProposeMonster(monsterId, this.AuthenticatedUserId());
+
+            return Ok();
         }
 
         [HttpGet("search/{monsterId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         public IActionResult Search(int monsterId)
         {
-            return Content($"Request made by user {this.AuthenticatedUserId()}");
-        }
+            _monsterService.SearchMonster(monsterId, this.AuthenticatedUserId());
 
-        [HttpGet("init/{userId}")]
-        [AllowAnonymous]
-        public IActionResult Init(int userId)
-        {
-            return null;
-
+            return Ok();
         }
     }
 }

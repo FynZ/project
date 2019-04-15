@@ -57,7 +57,7 @@ namespace Accounts.Configuration.Middlewares
                 var statusCode = httpContext.Response?.StatusCode;
                 var logLevel = statusCode > 499 ? LogEventLevel.Error : LogEventLevel.Information;
                 var elapsedMs = GetElapsedMilliseconds(start, Stopwatch.GetTimestamp());
-                var log = await CreateEnrichedLoggerAsync(httpContext.Request);
+                var log = await CreateEnrichedLoggerAsync(httpContext);
                 log.Write(logLevel, MessageTemplate, request.Method, request.Path, statusCode, elapsedMs);
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace Accounts.Configuration.Middlewares
         /// <remarks> If an exception occurs, it returns a simple, not enriched, valid logger. </remarks>
         /// <param name="request"> The current http request. </param>
         /// <returns> Always returns a new valid logger. </returns>
-        async Task<ILogger> CreateEnrichedLoggerAsync(HttpRequest request)
+        async Task<ILogger> CreateEnrichedLoggerAsync(HttpContext context)
         {
             try
             {
@@ -83,21 +83,22 @@ namespace Accounts.Configuration.Middlewares
                 var logEventEnrichers = new Collection<ILogEventEnricher>
                 {
                     // Do not log the "Authorization" attribut, to avoid the log of the bearer token
-                    new PropertyEnricher("RequestHeaders",  request.Headers.Where(w => w.Key != "Authorization").ToDictionary(h => h.Key, h => h.Value.ToString()), destructureObjects: true),
-                    new PropertyEnricher("RemoteIpAddress", request.HttpContext.Connection.RemoteIpAddress),
-                    new PropertyEnricher("AuthenticatedUserName", request.HttpContext.User.Identity.Name)
+                    new PropertyEnricher("RequestHeaders",  context.Request.Headers.Where(w => w.Key != "Authorization").ToDictionary(h => h.Key, h => h.Value.ToString()), destructureObjects: true),
+                    new PropertyEnricher("RemoteIpAddress", context.Request.HttpContext.Connection.RemoteIpAddress),
+                    new PropertyEnricher("AuthenticatedUserName", context.Request.HttpContext.User.Identity.Name),
+                    new PropertyEnricher("UserId", context.User.Identity.IsAuthenticated ? Int32.Parse(context.User.Claims.First(x => x.Type == "id").Value) : 0)
                 };
                 // Do not log the request attributs on the authentication route, to avoid the log of user and password 
-                if (!request.Path.Value.Contains("authentication/authenticate"))
+                if (!context.Request.Path.Value.Contains("authentication/authenticate"))
                 {
-                    logEventEnrichers.Add(new PropertyEnricher("RequestQueryString", request.Query.ToDictionary(v => v.Key, v => v.Value.ToString()), destructureObjects: true));
+                    logEventEnrichers.Add(new PropertyEnricher("RequestQueryString", context.Request.Query.ToDictionary(v => v.Key, v => v.Value.ToString()), destructureObjects: true));
                 }
 
 
-                if (_enableHttpRequestBodyLogging && request.ContentLength > 0)
+                if (_enableHttpRequestBodyLogging && context.Request.ContentLength > 0)
                 {
                     // Log the request body
-                    var bodyContent = await ReadBodyAsStringAsync(request) ?? string.Empty;
+                    var bodyContent = await ReadBodyAsStringAsync(context.Request) ?? string.Empty;
                     logEventEnrichers.Add(new PropertyEnricher("Request.Body", bodyContent));
                 }
 

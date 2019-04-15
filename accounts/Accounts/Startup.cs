@@ -75,8 +75,8 @@ namespace Accounts
             app
             .UseForwardedHeaders(GetForwardedHeadersOptions())
             .UseResponseCompression()
-            .UseLoggingMiddleware()
             .UseAuthentication()
+            .UseLoggingMiddleware()
             .UseMvc()
             .UseSwagger(
             c =>
@@ -89,7 +89,7 @@ namespace Accounts
             });
         }
 
-        public static ForwardedHeadersOptions GetForwardedHeadersOptions()
+        private static ForwardedHeadersOptions GetForwardedHeadersOptions()
         {
             var forwardedOptions = new ForwardedHeadersOptions
             {

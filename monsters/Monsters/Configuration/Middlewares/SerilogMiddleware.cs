@@ -15,6 +15,7 @@ using Serilog.Events;
 
 namespace Monsters.Configuration.Middlewares
 {
+    // TODO log authhenticated user if user is authenticated
     public class SerilogMiddleware
     {
         private const string MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
