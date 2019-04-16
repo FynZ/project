@@ -21,6 +21,7 @@ namespace Accounts.Services
             {
                 return false;
             }
+
             return _monsterRepository.InitUser(userId);
         }
 
