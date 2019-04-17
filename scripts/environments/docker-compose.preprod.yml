@@ -1,0 +1,47 @@
+version: '2'
+
+services:
+
+  webapi:
+    image: nexus.vpgrp.io/supply/lni/webapi:${tag}
+    environment:
+      ASPNETCORE_ENVIRONMENT: preprod
+      MASTER_KEY: ${MASTER_KEY}
+
+  articlemasterdataapi:
+    image: nexus.vpgrp.io/supply/lni/articlemasterdataapi:${tag}
+    environment:
+      ASPNETCORE_ENVIRONMENT: preprod
+      MASTER_KEY: ${MASTER_KEY}
+
+  articlemasterdataworker:
+    image: nexus.vpgrp.io/supply/lni/articlemasterdataworker:${tag}
+    environment:
+      ASPNETCORE_ENVIRONMENT: preprod
+      MASTER_KEY: ${MASTER_KEY}
+
+  filetransferservice:
+    image: nexus.vpgrp.io/supply/lni/filetransfer.service:${tag}
+    environment:
+      ASPNETCORE_ENVIRONMENT: preprod
+      MASTER_KEY: ${MASTER_KEY}
+
+  naswriterservice:
+    image: nexus.vpgrp.io/supply/lni/naswriter.service:${tag}
+    environment:
+      ASPNETCORE_ENVIRONMENT: preprod
+      MASTER_KEY: ${MASTER_KEY}
+    volumes:
+      - /mnt/LNI:/nas
+
+  sql-migration:
+    image: nexus.vpgrp.io/supply/lni/lni-sql:${tag}
+    restart: "no"
+    labels:
+      io.rancher.container.start_once: 'true'
+    entrypoint: 'flyway -url=jdbc:postgresql://${Database_Server}:${Database_Port}/${Database_Name} -outOfOrder=true -user=${Database_User} -password=${Database_Password} -locations=filesystem:/sql migrate'
+
+  messagebus:
+    image: rabbitmq:3.6-management
+    environment:
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbit log_levels [{error}]"

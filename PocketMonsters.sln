@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accounts", "src\Accounts\Accounts.csproj", "{0865A02F-FC9A-40F4-A1B3-A212D2F63EB8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monsters", "src\Monsters\Monsters.csproj", "{0A935850-94F8-4B2B-B2A3-173FE6C250CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0865A02F-FC9A-40F4-A1B3-A212D2F63EB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0865A02F-FC9A-40F4-A1B3-A212D2F63EB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0865A02F-FC9A-40F4-A1B3-A212D2F63EB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0865A02F-FC9A-40F4-A1B3-A212D2F63EB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A935850-94F8-4B2B-B2A3-173FE6C250CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A935850-94F8-4B2B-B2A3-173FE6C250CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A935850-94F8-4B2B-B2A3-173FE6C250CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A935850-94F8-4B2B-B2A3-173FE6C250CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1901F015-DC04-4FE4-A2BC-0335C89B6D42}
+	EndGlobalSection
+EndGlobal

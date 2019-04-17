@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cake.Json</name>
+    </assembly>
+    <members>
+        <!-- Badly formed XML comment ignored for member "T:Cake.Json.JsonAliases" -->
+        <member name="M:Cake.Json.JsonAliases.DeserializeJsonFromFile``1(Cake.Core.ICakeContext,Cake.Core.IO.FilePath)">
+            <summary>
+            Deserializes the JSON from a file.
+            </summary>
+            <returns>The Deserialized Object.</returns>
+            <param name="context">The context.</param>
+            <param name="filename">The JSON filename.</param>
+            <typeparam name="T">The type to deserialize to.</typeparam>
+        </member>
+        <member name="M:Cake.Json.JsonAliases.DeserializeJson``1(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            Deserializes the JSON from a string.
+            </summary>
+            <returns>The Deserialized Object.</returns>
+            <param name="context">The context.</param>
+            <param name="json">The JSON string.</param>
+            <typeparam name="T">The type to deserialize to.</typeparam>
+        </member>
+        <member name="M:Cake.Json.JsonAliases.SerializeJsonToPrettyFile``1(Cake.Core.ICakeContext,Cake.Core.IO.FilePath,``0)">
+            <summary>
+            Serializes an object to a pretty JSON file.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="filename">The filename to serialize to.</param>
+            <param name="instance">The object to serialize.</param>
+            <typeparam name="T">The type of object to serialize.</typeparam>
+        </member>
+        <member name="M:Cake.Json.JsonAliases.SerializeJsonToFile``1(Cake.Core.ICakeContext,Cake.Core.IO.FilePath,``0)">
+            <summary>
+            Serializes an object to a JSON file.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="filename">The filename to serialize to.</param>
+            <param name="instance">The object to serialize.</param>
+            <typeparam name="T">The type of object to serialize.</typeparam>
+        </member>
+        <member name="M:Cake.Json.JsonAliases.SerializeJson``1(Cake.Core.ICakeContext,``0)">
+            <summary>
+            Serializes an object to a JSON string.
+            </summary>
+            <returns>The JSON string.</returns>
+            <param name="context">The context.</param>
+            <param name="instance">The object to serialize.</param>
+            <typeparam name="T">The type of object to serialize.</typeparam>
+        </member>
+        <member name="M:Cake.Json.JsonAliases.SerializeJsonPretty``1(Cake.Core.ICakeContext,``0)">
+            <summary>
+            Serializes an object to a pretty JSON string.
+            </summary>
+            <returns>The JSON string.</returns>
+            <param name="context">The context.</param>
+            <param name="instance">The object to serialize.</param>
+            <typeparam name="T">The type of object to serialize.</typeparam>
+        </member>
+        <member name="M:Cake.Json.JsonAliases.ParseJson(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            Parses the JSON into a JObject.
+            </summary>
+            <returns>The JObject.</returns>
+            <param name="context">The context.</param>
+            <param name="json">The JSON to parse.</param>
+        </member>
+        <member name="M:Cake.Json.JsonAliases.ParseJsonFromFile(Cake.Core.ICakeContext,Cake.Core.IO.FilePath)">
+            <summary>
+            Parses the file contents into a JObject.
+            </summary>
+            <returns>The JObject.</returns>
+            <param name="context">The context.</param>
+            <param name="filename">The filename to serialize from.</param>
+        </member>
+        <member name="T:Cake.Json.NamespaceDoc">
+            <summary>
+            This namespace contain types 
+            representing data used for interaction with JSON.
+            </summary>
+        </member>
+    </members>
+</doc>

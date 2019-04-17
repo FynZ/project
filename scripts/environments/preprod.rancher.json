@@ -1,0 +1,6 @@
+{
+    "ServerUrl" : "http://rancher-supply-ppd.vpback.vpgrp.io:8080",
+    "AccessKey" : "8E420DB247EF35952BBA",
+    "SecretKey" : "eDoWDF32FvpSicbirfWoWe5ZlpPqzfycD8GyX3HUNELPm1+trMW6uKBReRgZ4Rzu7JIZYSQcHT5iCdeYWqbTNPH+iqcM3XW51te/RAOCpOw=",
+    "DefaultStack" : "LNI"
+}
