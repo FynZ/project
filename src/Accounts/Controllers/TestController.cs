@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Accounts.Controllers
@@ -7,6 +8,7 @@ namespace Accounts.Controllers
     /// Testing class for development purpose only
     /// </summary>
     [ApiController]
+    [EnableCors("Default")]
     public class TestController : ControllerBase
     {
         [HttpGet("user")]

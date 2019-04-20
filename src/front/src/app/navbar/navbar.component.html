@@ -28,11 +28,14 @@
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
+      <li *ngIf="isLoggedIn() == false" class="nav-item">
         <a routerLink="/login" routerLinkActive="active" class="nav-link" href="#">Login</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="isLoggedIn() == false" class="nav-item">
         <a routerLink="/register" routerLinkActive="active" class="nav-link" href="#">Register</a>
+      </li>
+      <li *ngIf="isLoggedIn() == true" class="nav-item">
+        <a routerLink="/register" routerLinkActive="active" class="nav-link" href="#">Logout</a>
       </li>
     </ul>
     <!-- <form class="form-inline my-2 my-lg-0">

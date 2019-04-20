@@ -4,12 +4,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Accounts.Configuration.Security.Models;
+using Accounts.Models;
 using Accounts.Services;
 using Accounts.ViewModels;
+using Microsoft.AspNetCore.Cors;
 
 namespace Accounts.Controllers
 {
     [ApiController]
+    [EnableCors("Default")]
     public class LoginController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -21,6 +24,7 @@ namespace Accounts.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
+        [ProducesResponseType(typeof(Jwt), (int)HttpStatusCode.OK)]
         public IActionResult Login([FromBody] LoginViewModel user)
         {
             var jwt = _userService.Authenticate(user.Email, user.Password);
@@ -39,6 +43,7 @@ namespace Accounts.Controllers
 
         [AllowAnonymous]
         [HttpGet("who-am-i")]
+        [ProducesResponseType(typeof(WhoAmI), (int)HttpStatusCode.OK)]
         public IActionResult WhoAmI()
         {
             if (User.Identity.IsAuthenticated)

@@ -4,21 +4,21 @@
     <div class="col-2">
     </div>
     <div class="col-8">
-      <form>
+      <form [formGroup]="form">
         <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          <label for="email">Email address</label>
+          <input formControlName="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" value="test@test.test">
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <label for="password">Password</label>
+          <input formControlName="password" type="password" class="form-control" id="password" placeholder="Password" value="testtest">
         </div>
         <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
-          <label class="form-check-label" for="exampleCheck1">Remember me</label>
+          <input formControlName="rememberMe" type="checkbox" class="form-check-input" id="remember-me">
+          <label class="form-check-label" for="remember-me">Remember me</label>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <br/>
+        <button (click)="login()" type="submit" class="btn btn-primary">Login</button>
       </form>
     </div>
     <div class="col-2">

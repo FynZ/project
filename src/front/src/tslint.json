@@ -1,6 +1,15 @@
 {
     "extends": "../tslint.json",
     "rules": {
+          // MANUALLY MODIFIED SETTINGS
+        "no-debugger": false,
+        "one-line": [
+            false,
+            "check-open-brace",
+            "check-catch", 
+            "check-finally", 
+            "check-else"
+        ],
         "directive-selector": [
             true,
             "attribute",

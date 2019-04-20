@@ -5,6 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -31,9 +36,18 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    CommonModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot({
+      timeOut: 2500,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }) // ToastrModule added
   ],
   providers: [],
   bootstrap: [AppComponent]

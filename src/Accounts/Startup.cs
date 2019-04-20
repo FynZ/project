@@ -29,6 +29,13 @@ namespace Accounts
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddPolicy("Default", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
             // Authentication
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
