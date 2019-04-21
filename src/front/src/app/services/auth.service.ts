@@ -22,7 +22,7 @@ export class AuthService {
 
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:4200/login'
+            'Access-Control-Allow-Origin': 'http://localhost:4200/'
          });
         this.options = {
             headers
@@ -33,7 +33,7 @@ export class AuthService {
     {
         try
         {
-            const response = await this.http.post<LoginResult>('http://localhost:80/auth/login', {
+            const response = await this.http.post<LoginResult>('http://localhost:80/auth/login/', {
                 Email: email,
                 Password: password,
                 RememberMe: rememberMe

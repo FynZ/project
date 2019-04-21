@@ -1,4 +1,4 @@
-#tool "nuget:?package=ReportGenerator"
+// #tool "nuget:?package=ReportGenerator"
 #addin nuget:?package=Cake.Coverlet
 #addin nuget:?package=Cake.FileHelpers
 
@@ -10,10 +10,11 @@ var sln = "../PocketMonsters.sln";
 var publishDir = "../publish/";
 
 #load "docker.cake"
-#load "exporters.cake"
-#load "rancher.cake"
+// #load "exporters.cake"
+// #load "rancher.cake"
 
 var publishedProjects = new [] { "Accounts", "Monsters" };
+var mavenProjects = new [] { "gateway", "eureka", "ressources"};
 
 Setup(ctx =>
 {
@@ -164,6 +165,7 @@ Task("Default") // Build and run unit tests only, then publish the application (
     .IsDependentOn("Test")
     .IsDependentOn("Publish")
     .IsDependentOn("DockerBuild");
+    // .IsDependentOn("MavenBuild");
 
 void ReplaceInFileContent(string file, string old, string target)
 {
@@ -245,6 +247,29 @@ Task("DockerBuild").Does(() =>
 		var projectName = ((DirectoryPath)(MakeAbsolute(Directory(dockerFilePath)).FullPath)).GetDirectoryName().ToLower();
         BuildDockerImage(imageTag, dockerFilePath, projectName);
         // DockerPushImage(imageTag, projectName);
+    }
+});
+
+public void ExecuteProcess(string process, params string[] args)
+{
+    var processArgumentBuilder = new ProcessArgumentBuilder();
+
+    foreach (var arg in args)
+    {
+        processArgumentBuilder.Append(arg);
+    }
+
+    StartProcess(process, new ProcessSettings {
+            Arguments = processArgumentBuilder
+        }
+    );
+}
+
+Task("MavenBuild").Does(() =>
+{
+    foreach (var project in mavenProjects)
+    {
+        ExecuteProcess("D:/Programs/maven/bin/mvn.cmd", "-f", $"../src/{project}", "compile", "com.google.cloud.tools:jib-maven-plugin:1.1.1:dockerBuild");
     }
 });
 

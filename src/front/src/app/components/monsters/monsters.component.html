@@ -1,0 +1,23 @@
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-2">
+    </div>
+    <div class="col-8">
+      <div *ngFor="let monster of monsters">
+        <div class="card">
+          <img src="assets/images/{{monster.slug}}.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{monster.name}}</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2">
+    </div>
+  </div>
+</div>

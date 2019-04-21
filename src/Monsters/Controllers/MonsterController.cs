@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Accounts.Controllers;
 using Accounts.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Monsters.Controllers
 {
     [ApiController]
+    [EnableCors("Default")]
     public class MonsterController : ControllerBase
     {
         private readonly IMonsterService _monsterService;
