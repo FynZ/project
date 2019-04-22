@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
     selector: 'app-monsters',
     templateUrl: './monsters.component.html',
-    styleUrls: ['./monsters.component.sass']
+    styleUrls: ['./monsters.component.scss']
 })
 export class MonstersComponent implements OnInit
 {
