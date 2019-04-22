@@ -120,7 +120,6 @@ Task("Publish") // Publishing backend artifacts for CI (backend tests included).
     .IsDependentOn("Test")
     .Does(() =>
 {
-
     foreach (var project in publishedProjects)
     {
         var outputDirectory = publishDir + project;
@@ -156,16 +155,14 @@ Task("Publish") // Publishing backend artifacts for CI (backend tests included).
             ArgumentCustomization = args => args.Append("--no-restore /p:Version=" + version)
         });
     }
-
-
 });
 
 Task("Default") // Build and run unit tests only, then publish the application (frontend + backend)
     .IsDependentOn("Build")
     .IsDependentOn("Test")
     .IsDependentOn("Publish")
-    .IsDependentOn("DockerBuild");
-    // .IsDependentOn("MavenBuild");
+    .IsDependentOn("DockerBuild")
+    .IsDependentOn("MavenBuild");
 
 void ReplaceInFileContent(string file, string old, string target)
 {
@@ -269,6 +266,7 @@ Task("MavenBuild").Does(() =>
 {
     foreach (var project in mavenProjects)
     {
+        Console.WriteLine("Building maven project {0}", project);
         ExecuteProcess("D:/Programs/maven/bin/mvn.cmd", "-f", $"../src/{project}", "compile", "com.google.cloud.tools:jib-maven-plugin:1.1.1:dockerBuild");
     }
 });
