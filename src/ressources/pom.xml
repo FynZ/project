@@ -60,7 +60,7 @@
 				<version>1.0</version>
 				<configuration>
 				<to>
-					<image>pocket_monster-ressources</image>
+					<image>pocket_monsters-ressources</image>
 				</to>
 				</configuration>
 			</plugin>

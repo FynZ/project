@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 80
 
 spring:
   application:
@@ -11,24 +11,27 @@ zuul:
     # ALLOW ANONYMOUS
     news:
       path: /news/**
-      url: http://localhost:8084/news
+      url: http://pm-news:80/news
+    ressources:
+      path: /ressources/**
+      url: http://pm-ressources:80/ressources
     auth:
       path: /auth/**
-      url: http://localhost:5000/auth
+      url: http://pm-accounts:80/auth
     # ROLE USER
     monsters:
       path: /monsters/**
-      url: http://localhost:8081/monsters
+      url: http://pm-monsters:80/monsters
     trading:
       path: /trading/**
-      url: http://localhost:8082/trading
+      url: http://pm-trading:80/trading
     messaging:
       path: /messaging/**
-      url: http://localhost:8083/messaging
+      url: http://pm-messages:80/messaging
     # ROLE ADMIN
     admin:
       path: /admin/**
-      url: http://localhost:8085/admin
+      url: http://pm-admin:80/admin
   
 
 eureka:

@@ -132,7 +132,7 @@
 				<version>1.0</version>
 				<configuration>
 				<to>
-					<image>pocket_monster-gateway</image>
+					<image>pocket_monsters-gateway</image>
 				</to>
 				</configuration>
 			</plugin>

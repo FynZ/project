@@ -41,17 +41,41 @@ services:
     #volumes:
       #- kibana-volume
 
+  gateway:
+    image: pocket_monsters-gateway:latest
+    container_name: pm-gateway
+    ports:
+      - 80:80
+
   accounts:
     image: pocket_monsters-accounts:latest
     container_name: pm-accounts
     ports:
-      - 80:80
+      - 81:80
 
   monsters:
     image: pocket_monsters-monsters:latest
     container_name: pm-monsters
     ports:
-      - 81:81
+      - 82:80
+      
+  # trading
+
+  # messaging
+
+  # news
+
+  ressources:
+    image: pocket_monsters-ressources:latest
+    container_name: pm-ressources
+    ports:
+      - 89:80
+
+  eureka:
+    image: pocket_monsters-eureka:latest
+    container_name: pm-eureka
+    ports:
+      - 90:80
 
 volumes:
   postgres-volume:

@@ -28,7 +28,7 @@ namespace Monsters
 
                 await WebHost.CreateDefaultBuilder(args)
                     .UseStartup<Startup>()
-                    .UseUrls("http://*:81")
+                    .UseUrls("http://*:80")
                     .UseConfiguration(Configuration)
                     .AddLogging()
                     .AddMetrics()

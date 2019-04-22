@@ -56,7 +56,7 @@
 				<version>1.0</version>
 				<configuration>
 				<to>
-					<image>pocket_monster-eureka</image>
+					<image>pocket_monsters-eureka</image>
 				</to>
 				</configuration>
 			</plugin>
