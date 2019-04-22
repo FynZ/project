@@ -1,50 +1,13 @@
--- auto-generated definition
-create table t_monsters
-(
-    id       serial      not null
-        constraint t_monsters_pk
-            primary key,
-    name     varchar(50) not null,
-    slug     varchar(50) not null,
-    minlevel integer     not null,
-    maxlevel integer     not null,
-    ankamaid integer
-);
-
-alter table t_monsters
-    owner to admin;
-
-create unique index t_monsters_id_uindex
-    on t_monsters (id);
-
--- auto-generated definition
-create table t_user_monsters
-(
-    id         serial                not null
-        constraint t_user_monsters_pk
-            primary key,
-    monster_id integer               not null,
-    count      integer default 0     not null,
-    search     boolean default true  not null,
-    propose    boolean default false not null,
-    user_id    integer               not null
-);
-
-alter table t_user_monsters
-    owner to admin;
-
-create unique index t_user_monsters_id_uindex
-    on t_user_monsters (id);
-
-INSERT INTO public.t_monsters
+INSERT INTO t_monsters
 (
    Name,
    Slug,
-   min_level,
-   max_level,
-   AnkamaId
+   MinLevel,
+   MaxLevel,
+   AnkamaId,
 )
 VALUES
+(
     ('Aboudbra le Porteur', 'aboudbra-le-porteur', 35, 47, 2384),
     ('Abrakadnuzar', 'abrakadnuzar', 40, 52, 2385),
     ('Abrakanette l''Encapsulé', 'abrakanette-lencapsule', 78, 90, 2388),
@@ -330,4 +293,5 @@ VALUES
     ('Warkolad l''Etreinte', 'warkolad-letreinte', 74, 82, 2306),
     ('Watdogue le Bien Nommé', 'watdogue-le-bien-nomme', 48, 56, 2305),
     ('Wokènrôl le Danseur', 'wokenrol-le-danseur', 52, 60, 2308),
-    ('YokaiKoral le Duel', 'yokaikoral-le-duel', 128, 140, 2303)
+    ('YokaiKoral le Duel', 'yokaikoral-le-duel', 128, 140, 2303),
+)
