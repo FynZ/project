@@ -12,7 +12,7 @@ namespace Accounts.Services
         public void InitMonster(int userId)
         {
             using (var client = new HttpClient())
-            using (HttpResponseMessage response = client.GetAsync($"http://monsters:81/monsters/init/{userId}").Result)
+            using (HttpResponseMessage response = client.GetAsync($"http://monsters:80/monsters/init/{userId}").Result)
             {
                 if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 300)
                 {

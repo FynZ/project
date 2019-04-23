@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class MonstersComponent implements OnInit
 {
-    private monsters: Monster[];
+    public monsters: Monster[];
 
     constructor(private monsterService: MonsterService, private authService: AuthService)
     {

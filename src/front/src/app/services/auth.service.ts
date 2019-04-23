@@ -29,7 +29,7 @@ export class AuthService {
          };
      }
 
-    async login(email: string, password: string, rememberMe: boolean = false): Promise<boolean>
+    public async login(email: string, password: string, rememberMe: boolean = false): Promise<boolean>
     {
         try
         {
@@ -57,6 +57,14 @@ export class AuthService {
         {
             return false;
         }
+    }
+
+    public logout()
+    {
+        this.authenticated = false;
+        this.roles = [];
+        this.token = "";
+        this.expires = 0;
     }
 
     public isAuthenticated(): boolean

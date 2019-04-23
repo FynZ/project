@@ -6,9 +6,9 @@ create table t_monsters
             primary key,
     name     varchar(50) not null,
     slug     varchar(50) not null,
-    minlevel integer     not null,
-    maxlevel integer     not null,
-    ankamaid integer
+    min_level integer     not null,
+    max_level integer     not null,
+    ankama_id integer
 );
 
 alter table t_monsters
@@ -42,7 +42,7 @@ INSERT INTO public.t_monsters
    Slug,
    min_level,
    max_level,
-   AnkamaId
+   ankama_id
 )
 VALUES
     ('Aboudbra le Porteur', 'aboudbra-le-porteur', 35, 47, 2384),

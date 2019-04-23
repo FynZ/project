@@ -9,7 +9,7 @@ import { News } from 'src/app/models/news';
 })
 export class HomeComponent implements OnInit {
 
-    private news: News[];
+    public news: News[];
 
     constructor(private newsService: NewsService)
     {

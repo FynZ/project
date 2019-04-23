@@ -5,6 +5,7 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var version = Argument("productversion", "1.0.0");
+var location = Argument("loc", "laptop");
 
 var sln = "../PocketMonsters.sln";
 var publishDir = "../publish/";
@@ -267,7 +268,14 @@ Task("MavenBuild").Does(() =>
     foreach (var project in mavenProjects)
     {
         Console.WriteLine("Building maven project {0}", project);
-        ExecuteProcess("D:/Programs/maven/bin/mvn.cmd", "-f", $"../src/{project}", "compile", "com.google.cloud.tools:jib-maven-plugin:1.1.1:dockerBuild");
+        if (location == "desktop")
+        {
+        	ExecuteProcess("D:/Programs/maven/bin/mvn.cmd", "-f", $"../src/{project}", "compile", "com.google.cloud.tools:jib-maven-plugin:1.1.1:dockerBuild");
+        }
+        else
+        {
+        	ExecuteProcess("C:/Program Files/maven/bin/mvn.cmd", "-f", $"../src/{project}", "compile", "com.google.cloud.tools:jib-maven-plugin:1.1.1:dockerBuild");
+        }
     }
 });
 
