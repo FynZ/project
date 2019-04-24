@@ -2,15 +2,25 @@
 
 <div class="container-fluid">
     <div class="row">
-      <div class="col-1">
-      </div>
-      <div class="col-8">
-        <router-outlet></router-outlet>
-      </div>
-      <div class="col-3">
-        <br/>
-        <a class="twitter-timeline" href="https://twitter.com/DOFUSfr">Tweets by @DOFUSfr</a>
-      </div>
+        <div class="col-1">
+        </div>
+        <div class="col-7">
+            <div class="content">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="content">
+                <div class="card">
+                    <ngx-twitter-timeline 
+                        [data]="{sourceType: 'url', url: 'https://twitter.com/DOFUSfr'}"
+                        [opts]="{tweetLimit: 5}">
+                    </ngx-twitter-timeline>  
+                </div>
+            </div>
+        </div>
+    <div class="col-1">
     </div>
-  </div>
+    </div>
+</div>
 

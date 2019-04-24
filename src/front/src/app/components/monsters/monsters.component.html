@@ -5,18 +5,22 @@
             <div class="row">
                 <div *ngFor="let monster of monsters" class="col-4 card-group monster">
                     <div class="card">
-                        <img src="http://localhost:89/ressources/monsters/{{monster.slug}}.png" class="card-img-top img-monster" alt="...">
-                        <div class="card-body">
-                            <a>
-                                <h5 routerLink="/monsters/{{monster.id}}" class="card-title">{{monster.name}}</h5>
-                            </a>
+                        <div [ngClass]="(monster.count > 0)? 'acquired' : 'missing'" class="card-body">
+                            <div class="text-center">
+                                <img src="http://localhost:89/ressources/monsters/{{monster.slug}}.png" class="card-img-top img-monster" alt="...">
+                            </div>
+                            <div>
+                                <a>
+                                    <h5 routerLink="/monsters/{{monster.id}}" class="card-title">{{monster.name}}</h5>
+                                </a>
+                            </div>
                             <div class="container-fluid">
                                 <div class="row">
-                                    <div class ="col align-items-center justify-content-center">
+                                    <div class ="col text-center">
                                         <span class="align-middle">
-                                            <button class="btn btn-secondary">+</button>
+                                            <button (click)="incrementMonster(monster.id)" class="btn btn-secondary">+</button>
                                             <p class="d-inline-block align-middle monster-count">{{monster.count}}</p>
-                                            <button class="btn btn-secondary">-</button>
+                                            <button (click)="decrementMonster(monster.id)" class="btn btn-secondary">-</button>
                                         </span>
                                     </div>
                                 </div>

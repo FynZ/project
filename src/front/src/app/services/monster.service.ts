@@ -7,16 +7,17 @@ import { Monster } from '../models/monster';
 })
 export class MonsterService {
 
-    private options: any;
+    private jsonOptions: any;
+    private regularOptions: any;
 
     constructor(private http: HttpClient)
     {
-        const headers = new HttpHeaders({
+        const jsonheaders = new HttpHeaders({
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': 'http://localhost:4200/'
         });
-        this.options = {
-            headers
+        this.jsonOptions = {
+            jsonheaders
         };
     }
 
@@ -40,6 +41,52 @@ export class MonsterService {
             console.log(content);
 
             return content;
+        }
+    }
+
+    async incrementMonster(monsterId : number) : Promise<boolean>
+    {
+        return await this.executeMonsterRequest(`http://localhost:82/monsters/increment/${monsterId}`);
+    }
+
+    async decrementMonster(monsterId : number) : Promise<boolean>
+    {
+        return await this.executeMonsterRequest(`http://localhost:82/monsters/decrement/${monsterId}`);
+    }
+
+    async proposeMonster(monsterId : number) : Promise<boolean>
+    {
+        return await this.executeMonsterRequest(`http://localhost:82/monsters/propose/${monsterId}`);
+    }
+
+    async unproposeMonster(monsterId : number) : Promise<boolean>
+    {
+        return await this.executeMonsterRequest(`http://localhost:82/monsters/unpropose/${monsterId}`);
+    }
+
+    async searchMonster(monsterId : number) : Promise<boolean>
+    {
+        return await this.executeMonsterRequest(`http://localhost:82/monsters/search/${monsterId}`);
+    }
+
+    async unsearchMonster(monsterId : number) : Promise<boolean>
+    {
+        return await this.executeMonsterRequest(`http://localhost:82/monsters/unsearch/${monsterId}`);
+    }
+
+    private async executeMonsterRequest(url: string) : Promise<boolean>
+    {
+        try
+        {
+            console.log(url);
+
+            await this.http.get(url, this.jsonOptions).toPromise();
+
+            return true;
+        }
+        catch(e)
+        {
+            return false;
         }
     }
 }
