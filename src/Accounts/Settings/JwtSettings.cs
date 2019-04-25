@@ -7,6 +7,6 @@
         public string HmacSecretKey { get; set; }
         public int ExpiryDays { get; set; }
         public bool UseRsa { get; set; }
-        public string RsaPrivateKeyXML { get; set; }
+        public string RsaPrivateKeyXml { get; set; }
     }
 }

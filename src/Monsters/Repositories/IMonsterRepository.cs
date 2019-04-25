@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Accounts.Models;
+﻿using System.Collections.Generic;
+using Monsters.Models;
 
-namespace Accounts.Repositories
+namespace Monsters.Repositories
 {
     public interface IMonsterRepository
     {

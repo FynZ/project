@@ -41,6 +41,18 @@ services:
     #volumes:
       #- kibana-volume
 
+  messagebus:
+    image: rabbitmq:3.6-management
+    container_name: pm-messagebus
+    environment:
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbit log_levels [{error}]"
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - "5772:5672"
+      - "15672:15672"
+
+
   gateway:
     image: pocket_monsters-gateway:latest
     container_name: pm-gateway

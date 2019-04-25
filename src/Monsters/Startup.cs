@@ -1,18 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.IO.Compression;
-using Accounts.Repositories;
-using Accounts.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Monsters.Configuration.Extensions;
 using Monsters.Configuration.Security;
+using Monsters.Repositories;
+using Monsters.Services;
+using Monsters.Services.Communication;
+using Monsters.Settings;
 using Swashbuckle.AspNetCore.Swagger;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Monsters
 {
@@ -81,11 +84,16 @@ namespace Monsters
             });
 
             // Config to Object registration
+            services
+                .Configure<RabbitMQSettings>(Configuration.GetSection("rabbitMQ"));
 
             // Dependency Injection registration
             services
-                .AddScoped<IMonsterRepository, MonsterRepository>(x => new MonsterRepository(Configuration.GetConnectionString("Postgres")))
-                .AddScoped<IMonsterService, MonsterService>();
+                .AddSingleton<IMonsterRepository, MonsterRepository>(x =>
+                    new MonsterRepository(Configuration.GetConnectionString("Postgres")))
+                .AddSingleton<IMonsterService, MonsterService>()
+                .AddSingleton<IMonsterIniter, MonsterService>()
+                .AddSingleton<IHostedService, AccountServiceCommunication>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

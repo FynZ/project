@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Accounts.Models;
-using Accounts.Repositories;
+﻿using System.Collections.Generic;
+using Monsters.Models;
+using Monsters.Repositories;
 
-namespace Accounts.Services
+namespace Monsters.Services
 {
-    public class MonsterService : IMonsterService
+    public class MonsterService : IMonsterService, IMonsterIniter
     {
         private readonly IMonsterRepository _monsterRepository;
 

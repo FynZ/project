@@ -30,7 +30,7 @@ namespace Accounts.Configuration.Security
 
             if (_settings.UseRsa)
             {
-                var signingCredentials = CreateRsaCredentials(_settings.RsaPrivateKeyXML);
+                var signingCredentials = CreateRsaCredentials(_settings.RsaPrivateKeyXml);
 
                 _jwtHeader = new JwtHeader(signingCredentials);
             }

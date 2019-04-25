@@ -8,19 +8,21 @@ using Accounts.Configuration.Security;
 using Accounts.DTO;
 using Accounts.Models;
 using Accounts.Repositories;
+using Accounts.Services.HostedServices;
+using Accounts.Services.HostedServices.Communication;
 
 namespace Accounts.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IMonsterIniter _monsterIniter;
+        private readonly IMonsterServiceCommunication _monsterServiceCommunication;
         private readonly IJwtHandler _jwtHandler;
 
-        public UserService(IUserRepository userRepository, IMonsterIniter monsterIniter, IJwtHandler jwtHandler)
+        public UserService(IUserRepository userRepository, IHostedServiceAccessor<IMonsterServiceCommunication> monsterServiceCommunicationAccessor, IJwtHandler jwtHandler)
         {
             _userRepository = userRepository;
-            _monsterIniter = monsterIniter;
+            _monsterServiceCommunication = monsterServiceCommunicationAccessor.Service;
             _jwtHandler = jwtHandler;
         }
 
@@ -64,7 +66,7 @@ namespace Accounts.Services
 
                 result.WasCreated = true;
 
-                _monsterIniter.InitMonster(userId);
+                _monsterServiceCommunication.UserCreated(userId);
             }
 
             return result;

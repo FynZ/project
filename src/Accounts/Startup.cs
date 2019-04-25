@@ -2,7 +2,6 @@
 using System.IO.Compression;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -12,8 +11,12 @@ using Accounts.Configuration.Extensions;
 using Accounts.Configuration.Security;
 using Accounts.Repositories;
 using Accounts.Services;
+using Accounts.Services.HostedServices;
+using Accounts.Services.HostedServices.Communication;
 using Accounts.Settings;
+using Microsoft.Extensions.Hosting;
 using Swashbuckle.AspNetCore.Swagger;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Accounts
 {
@@ -82,14 +85,17 @@ namespace Accounts
 
             // Config to Object registration
             services
-                .Configure<JwtSettings>(Configuration.GetSection("jwtCreation"));
+                .Configure<JwtSettings>(Configuration.GetSection("jwtCreation"))
+                .Configure<RabbitMQSettings>(Configuration.GetSection("rabbitMQ"));
 
             // Dependency Injection registration
             services
                 .AddSingleton<IJwtHandler, JwtHandler>()
-                .AddScoped<IUserRepository, UserRepository>(x => new UserRepository(Configuration.GetConnectionString("Postgres")))
-                .AddScoped<IMonsterIniter, MonsterIniter>()
-                .AddScoped<IUserService, UserService>();
+                .AddSingleton<IUserRepository, UserRepository>(x => new UserRepository(Configuration.GetConnectionString("Postgres")))
+                .AddSingleton<IMonsterIniter, MonsterIniter>()
+                .AddSingleton<IUserService, UserService>()
+                .AddTransient<IHostedServiceAccessor<IMonsterServiceCommunication>, HostServiceAccessor<IMonsterServiceCommunication>>()
+                .AddSingleton<IHostedService, MonsterServiceCommunication>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

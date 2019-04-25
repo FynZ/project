@@ -70,10 +70,10 @@ namespace Accounts.Configuration.Middlewares
         }
 
         /// <summary>
-        ///     Creates a logger enriched with additionnal data from the <paramref name="request"/>.
+        ///     Creates a logger enriched with additionnal data from the <paramref name="context"/>.
         /// </summary>
         /// <remarks> If an exception occurs, it returns a simple, not enriched, valid logger. </remarks>
-        /// <param name="request"> The current http request. </param>
+        /// <param name="context"> The current http context. </param>
         /// <returns> Always returns a new valid logger. </returns>
         async Task<ILogger> CreateEnrichedLoggerAsync(HttpContext context)
         {

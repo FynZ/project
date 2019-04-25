@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Accounts.Controllers;
-using Accounts.Services;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Monsters.Services;
 
 namespace Monsters.Controllers
 {
@@ -26,7 +20,7 @@ namespace Monsters.Controllers
         [AllowAnonymous]
         public IActionResult Init(int userId)
         {
-            _monsterService.InitUser(userId);
+            (_monsterService as IMonsterIniter)?.InitUser(userId);
 
             return Ok();
         }
