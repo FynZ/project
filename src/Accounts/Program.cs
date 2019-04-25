@@ -23,12 +23,23 @@ namespace Accounts
         {
             try
             {
-                Program.InitializeConfiguration();
+                var environment =
+                    Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+                    ?? "development";
+
+                Program.InitializeConfiguration(environment);
                 Program.InitializeLogging();
+
+                if (environment != "development")
+                {
+                    var delay = 30 * 1000;
+                    Console.WriteLine($"Waiting {delay / 1000} seconds for dependencies to be ready");
+                    await Task.Delay(delay);
+                }
 
                 await WebHost.CreateDefaultBuilder(args)
                     .UseStartup<Startup>()
-                    .UseUrls("http://*:80")
+                    .UseUrls($"http://*:{(Int32.TryParse(Configuration["Port"], out var port) ? port : 80)}")
                     .UseConfiguration(Configuration)
                     .AddLogging()
                     .AddMetrics()
@@ -85,16 +96,14 @@ namespace Accounts
             Log.Logger = logCfg.CreateLogger();
         }
 
-        private static void InitializeConfiguration()
+        private static void InitializeConfiguration(string environment)
         {
-            var environmentVariable =
-                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
-                ?? "development";
+            Console.WriteLine($"Configuration is {environment}");
 
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false)
-                .AddJsonFile($"appsettings.{environmentVariable}.json", optional: true)
+                .AddJsonFile($"appsettings.{environment}.json", optional: true)
                 .AddEnvironmentVariables()
                 .Build();
         }

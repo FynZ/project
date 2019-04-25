@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Accounts.Services.HostedServices.Communication;
+using Accounts.Services.HostedServices.Communication.Models;
 using Accounts.Settings;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
+using Serilog;
 
 namespace Accounts.Services.HostedServices.Communication
 {
@@ -19,6 +25,8 @@ namespace Accounts.Services.HostedServices.Communication
 
         public MonsterServiceCommunication(IOptions<RabbitMQSettings> settings)
         {
+            Log.Information("Instanciating Hosted Service @{HostedService}", nameof(MonsterServiceCommunication));
+
             var factory = new ConnectionFactory
             {
                 HostName = settings.Value.Host,
@@ -30,7 +38,7 @@ namespace Accounts.Services.HostedServices.Communication
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
 
-            _channel.ExchangeDeclare(MessageExchanges.USER_CREATED, "fanout");
+            InitializeExchange(settings.Value, MessageExchanges.USER_CREATED);
         }
 
         public void UserCreated(int userId)
@@ -45,6 +53,8 @@ namespace Accounts.Services.HostedServices.Communication
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Log.Information("Launching Hosted Service @{HostedService}", nameof(MonsterServiceCommunication));
+
             stoppingToken.ThrowIfCancellationRequested();
 
             return Task.CompletedTask;
@@ -63,9 +73,16 @@ namespace Accounts.Services.HostedServices.Communication
             using (var handler = new HttpClientHandler { Credentials = new NetworkCredential(settings.Username, settings.Password) })
             using (var client = new HttpClient(handler))
             {
-                var result = client.GetAsync($"http://{settings.Host}:{settings.Port}/api/exchanges").Result;
+                var result = client.GetAsync($"http://{settings.Host}:{settings.ApiPort}/api/exchanges").Result;
 
-                var data = result.Content.ReadAsAsync<object[]>().Result;
+                var data = JsonConvert.DeserializeObject<List<Exchange>>(result.Content.ReadAsStringAsync().Result);
+
+                if (data.Any(x => x.Name == exchangeName) == false)
+                {
+                    Log.Information("Initializing exchange @{ExchangeName}", exchangeName);
+
+                    _channel.ExchangeDeclare(MessageExchanges.USER_CREATED, "fanout");
+                }
             }
         }
     }

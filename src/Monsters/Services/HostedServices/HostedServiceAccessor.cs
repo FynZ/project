@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Extensions.Hosting;
 
-namespace Accounts.Services.HostedServices
+namespace Monsters.Services.HostedServices
 {
     public class HostServiceAccessor<T> : IHostedServiceAccessor<T>
     {

@@ -9,7 +9,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Serilog;
 
-namespace Monsters.Services.Communication
+namespace Monsters.Services.HostedServices.Communication
 {
     public class AccountServiceCommunication : BackgroundService, IAccountServiceCommunication
     {
@@ -22,9 +22,17 @@ namespace Monsters.Services.Communication
 
         public AccountServiceCommunication(IMonsterIniter monsterIniter, IOptions<RabbitMQSettings> settings)
         {
+            Log.Information("Instanciating Hosted Service @{HostedService}", nameof(AccountServiceCommunication));
+
             _monsterIniter = monsterIniter;
 
-            var factory = new ConnectionFactory {HostName = settings.Value.Host, Port = settings.Value.Port};
+            var factory = new ConnectionFactory
+            {
+                HostName = settings.Value.Host,
+                Port = settings.Value.Port,
+                UserName = settings.Value.Username,
+                Password = settings.Value.Password
+            };
 
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
@@ -58,6 +66,8 @@ namespace Monsters.Services.Communication
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Log.Information("Launching Hosted Service @{HostedService}", nameof(AccountServiceCommunication));
+
             stoppingToken.ThrowIfCancellationRequested();
 
             _consumer = new EventingBasicConsumer(_channel);

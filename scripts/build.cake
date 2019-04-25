@@ -5,7 +5,7 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var version = Argument("productversion", "1.0.0");
-var location = Argument("loc", "laptop");
+var location = Argument("loc", "desktop");
 
 var sln = "../PocketMonsters.sln";
 var publishDir = "../publish/";

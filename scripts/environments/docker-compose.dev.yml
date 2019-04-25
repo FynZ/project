@@ -58,6 +58,10 @@ services:
     container_name: pm-gateway
     ports:
       - 80:80
+    depends_on:
+      - postgres
+      - elasticsearch
+      - messagebus
 
   accounts:
     image: pocket_monsters-accounts:latest

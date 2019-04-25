@@ -8,14 +8,112 @@ namespace Accounts.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private const string SELECT_ALL = "SELECT id AS Id, username AS Username, username_upper AS UsernameUpper, email AS Email, email_upper AS EmailUpper, password AS Password, verified AS Verified, banned AS Banned FROM t_users";
-        private const string SELECT_BY_ID = "SELECT id AS Id, username AS Username, username_upper AS UsernameUpper, email AS Email, email_upper AS EmailUpper, password AS Password, verified AS Verified, banned AS Banned FROM t_users WHERE id = @Id;";
-        private const string SELECT_BE_USERNAME = "SELECT id AS Id, username AS Username, username_upper AS UsernameUpper, email AS Email, email_upper AS EmailUpper, password AS Password, verified AS Verified, banned AS Banned FROM t_users WHERE username_upper = @Username;";
-        private const string SELECT_BY_EMAIL = "SELECT id AS Id, username AS Username, username_upper AS UsernameUpper, email AS Email, email_upper AS EmailUpper, password AS Password, verified AS Verified, banned AS Banned FROM t_users WHERE email_upper = @Email;";
-        private const string INSERT = "INSERT INTO t_users(username, username_upper, email, email_upper, password, verified, banned) VALUES (@Username, @UsernameUpper, @Email, @EmailUpper, @Password, @Verified, @Banned);";
+        #region Queries
+        private const string SELECT_ALL = @"
+            SELECT 
+                id                          AS Id, 
+                username                    AS Username, 
+                username_upper              AS UsernameUpper, 
+                email                       AS Email, 
+                email_upper                 AS EmailUpper, 
+                password                    AS Password, 
+                verified                    AS Verified, 
+                banned                      AS Banned 
+            FROM 
+                t_users";
 
-        private const string SELECT_USER_ROLES = "SELECT tr.id AS Id, tr.name AS Name FROM t_roles AS tr INNER JOIN t_user_roles AS tur ON tur.role_id = tr.id WHERE tur.user_id = @Id;";
-        private const string INSERT_USER_ROLE = "INSERT INTO t_user_roles (user_id, role_id) VALUES (@UserId, @RoleId);";
+        private const string SELECT_BY_ID = @"
+            SELECT 
+                id                          AS Id, 
+                username                    AS Username, 
+                username_upper              AS UsernameUpper, 
+                email                       AS Email, 
+                email_upper                 AS EmailUpper, 
+                password                    AS Password, 
+                verified                    AS Verified, 
+                banned                      AS Banned 
+            FROM 
+                t_users 
+            WHERE 
+                id = @Id;";
+
+        private const string SELECT_BE_USERNAME = @"
+            SELECT 
+                id                          AS Id, 
+                username                    AS Username, 
+                username_upper              AS UsernameUpper, 
+                email                       AS Email, 
+                email_upper                 AS EmailUpper, 
+                password                    AS Password, 
+                verified                    AS Verified, 
+                banned                      AS Banned 
+            FROM 
+                t_users 
+            WHERE 
+                username_upper = @Username;";
+
+        private const string SELECT_BY_EMAIL = @"
+            SELECT 
+                id                          AS Id, 
+                username                    AS Username, 
+                username_upper              AS UsernameUpper, 
+                email                       AS Email, 
+                email_upper                 AS EmailUpper, 
+                password                    AS Password, 
+                verified                    AS Verified, 
+                banned                      AS Banned 
+            FROM 
+                t_users 
+            WHERE 
+                email_upper = @Email;";
+
+        private const string INSERT = @"
+            INSERT INTO 
+                t_users
+            (
+                username, 
+                username_upper, 
+                email, 
+                email_upper, 
+                password, 
+                verified, 
+                banned
+            ) 
+            VALUES 
+            (
+                @Username, 
+                @UsernameUpper, 
+                @Email, 
+                @EmailUpper, 
+                @Password, 
+                @Verified, 
+                @Banned
+            );";
+
+        private const string SELECT_USER_ROLES = @"
+            SELECT 
+                tr.id                       AS Id, 
+                tr.name                     AS Name 
+            FROM 
+                t_roles                     AS tr 
+            INNER JOIN 
+                t_user_roles                AS tur ON tur.role_id = tr.id 
+            WHERE 
+                tur.user_id = @Id;";
+
+        private const string INSERT_USER_ROLE = @"
+            INSERT INTO 
+                t_user_roles 
+            (
+                user_id, 
+                role_id
+            ) 
+            VALUES 
+            (
+                @UserId, 
+                @RoleId
+            );";
+        #endregion Queries
 
         private readonly string _connectionString;
 

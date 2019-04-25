@@ -1,4 +1,4 @@
-﻿namespace Monsters.Services.Communication
+﻿namespace Monsters.Services.HostedServices.Communication
 {
     public static class MessageExchanges
     {

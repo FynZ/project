@@ -12,7 +12,8 @@ using Monsters.Configuration.Extensions;
 using Monsters.Configuration.Security;
 using Monsters.Repositories;
 using Monsters.Services;
-using Monsters.Services.Communication;
+using Monsters.Services.HostedServices;
+using Monsters.Services.HostedServices.Communication;
 using Monsters.Settings;
 using Swashbuckle.AspNetCore.Swagger;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
@@ -89,10 +90,10 @@ namespace Monsters
 
             // Dependency Injection registration
             services
-                .AddSingleton<IMonsterRepository, MonsterRepository>(x =>
-                    new MonsterRepository(Configuration.GetConnectionString("Postgres")))
+                .AddSingleton<IMonsterRepository, MonsterRepository>(x => new MonsterRepository(Configuration.GetConnectionString("Postgres")))
                 .AddSingleton<IMonsterService, MonsterService>()
                 .AddSingleton<IMonsterIniter, MonsterService>()
+                .AddTransient<IHostedServiceAccessor<IAccountServiceCommunication>, HostServiceAccessor<IAccountServiceCommunication>>()
                 .AddSingleton<IHostedService, AccountServiceCommunication>();
         }
 

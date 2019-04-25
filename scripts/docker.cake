@@ -60,10 +60,12 @@ Task("Package") // Publishing backend artifacts for CI (backend tests included).
     }
 });
 
-var envComposeFile = string.Format("./environments/docker-compose.{0}.yml", Argument<string>("Env", "dev"));
+var envComposeFile = string.Format("./environments/docker-compose.{0}.yml", Argument<string>("Env", "prod"));
 
 Task("CleanDevEnvironment").Does(() => // Cleaning the existing Docker integration environment...
 {
+    Console.WriteLine($"Running compose down with compose file {envComposeFile}");
+
     DockerComposeDown(new DockerComposeDownSettings
     {
         Files = new [] {envComposeFile},
@@ -76,6 +78,8 @@ Task("CleanDevEnvironment").Does(() => // Cleaning the existing Docker integrati
 Task("SetupDevEnvironment") // Build and run a Docker integration environment stack
     .Does(() =>
 {
+    Console.WriteLine($"Running compose up with compose file {envComposeFile}");
+
     DockerComposeUp(new DockerComposeUpSettings
     {
         Files = new [] {envComposeFile},
