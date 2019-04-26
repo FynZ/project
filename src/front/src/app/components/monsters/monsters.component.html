@@ -15,7 +15,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="filterNeed">I Need</label>
+                                <label for="filterNeed">Need</label>
                                 <select [(ngModel)]="filterNeed" class="form-control" id="filterNeed">
                                     <option value="/">-</option>
                                     <option value="+">Yes</option>
@@ -23,9 +23,9 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="filterHave">I Propose</label>
+                                <label for="filterHave">Propose</label>
                                 <select [(ngModel)]="filterPropose" class="form-control" id="filterHave">
-                                    <option value="/">-</option>
+                                    <option selectvalue="/">-</option>
                                     <option value="+">Yes</option>
                                     <option value="-">No</option>
                                 </select>
@@ -50,9 +50,9 @@
                                 <div class="row">
                                     <div class ="col text-center">
                                         <span class="align-middle">
-                                            <button (click)="incrementMonster(monster.id)" class="btn btn-secondary">+</button>
-                                            <p class="d-inline-block align-middle monster-count">{{monster.count}}</p>
-                                            <button (click)="decrementMonster(monster.id)" class="btn btn-secondary">-</button>
+                                            <button (click)="incrementMonster(monster.id)" class="btn btn-count">+</button>
+                                            <b class="d-inline-block align-middle monster-count">{{monster.count}}</b>
+                                            <button (click)="decrementMonster(monster.id)" class="btn btn-count">-</button>
                                         </span>
                                     </div>
                                 </div>
@@ -63,12 +63,12 @@
                                 <div class="row">
                                     <div class="col-6 align-items-center justify-content-center">
                                         <span>
-                                            <button class="btn btn-primary btn-sm btn-block">Search</button>
+                                            <button (click)="monster.search ? unsearchMonster(monster.id) : searchMonster(monster.id)" [ngClass]="(monster.search)? 'sp' : 'nsp'" class="btn btn-sm btn-block btn-sp">Search</button>
                                         </span>
                                     </div>
                                     <div class="col-6 align-items-center justify-content-center">
                                         <span>
-                                            <button class="btn btn-primary btn-sm btn-block">Propose</button>
+                                            <button (click)="monster.propose ? unproposeMonster(monster.id) : proposeMonster(monster.id)" [ngClass]="(monster.propose)? 'sp' : 'nsp'" class="btn btn-sm btn-block btn-sp">Propose</button>
                                         </span>
                                     </div>
                                 </div>

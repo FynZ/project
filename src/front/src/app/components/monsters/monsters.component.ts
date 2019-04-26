@@ -16,9 +16,9 @@ export class MonstersComponent implements OnInit
     public monsters: Monster[];
     public displayedMonsters: Monster[] = [];
 
-    public filterHave : string;
-    public filterNeed : string;
-    public filterPropose: string;
+    public filterHave: string = '/';
+    public filterNeed: string = '/';
+    public filterPropose: string = '/';
 
     private displaying: boolean = false;
 
@@ -112,18 +112,63 @@ export class MonstersComponent implements OnInit
         }
     }
 
-    // async incrementMonster(monsterId: number)
-    // {
-        
-    // }
+    async searchMonster(monsterId: number)
+    {
+        if (await this.monsterService.searchMonster(monsterId))
+        {
+            const monster = this.monsters.find(x => x.id == monsterId);
+            monster.search = true;
 
-    // async incrementMonster(monsterId: number)
-    // {
-        
-    // }
+            this.toastr.success(`Now looking for ${monster.name}`, 'Success');
+        }
+        else
+        {
+            this.toastr.error('An unexpected error occured', 'Error');
+        }
+    }
 
-    // async incrementMonster(monsterId: number)
-    // {
-        
-    // }
+    async unsearchMonster(monsterId: number)
+    {
+        if (await this.monsterService.unsearchMonster(monsterId))
+        {
+            const monster = this.monsters.find(x => x.id == monsterId);
+            monster.search = false;
+
+            this.toastr.success(`No longer looking for ${monster.name}`, 'Success');
+        }
+        else
+        {
+            this.toastr.error('An unexpected error occured', 'Error');
+        }
+    }
+
+    async proposeMonster(monsterId: number)
+    {
+        if (await this.monsterService.proposeMonster(monsterId))
+        {
+            const monster = this.monsters.find(x => x.id == monsterId);
+            monster.propose = true;
+
+            this.toastr.success(`Now proposing ${monster.name}`, 'Success');
+        }
+        else
+        {
+            this.toastr.error('An unexpected error occured', 'Error');
+        }
+    }
+
+    async unproposeMonster(monsterId: number)
+    {
+        if (await this.monsterService.unproposeMonster(monsterId))
+        {
+            const monster = this.monsters.find(x => x.id == monsterId);
+            monster.propose = false;
+
+            this.toastr.success(`No longer proposing ${monster.name}`, 'Success');
+        }
+        else
+        {
+            this.toastr.error('An unexpected error occured', 'Error');
+        }
+    }
 }

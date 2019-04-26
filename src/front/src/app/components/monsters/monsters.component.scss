@@ -8,8 +8,9 @@
 }
 
 .monster-count {
-    margin-left: 3%;
-    margin-right: 3%;
+    font-size: 150%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .acquired {
@@ -26,4 +27,34 @@
 
 .invisible {
     display: none;
+}
+
+.btn-count {
+    width: 40px;
+    color: #ebebeb;
+    border: 1px solid black;
+    border-radius: 2px;
+    background-color: #636363;
+    font-weight: bold;
+}
+
+.btn-sp {
+    width: 80px;
+    color: #ebebeb;
+    border: 1px solid black;
+    border-radius: 2px;
+    background-color: #636363;
+    font-weight: bold;
+}
+
+.sp {
+    color: white;
+    background-color: #636363;
+    // background-color: blue;
+}
+
+.nsp {
+    color: #383838;
+    background-color: #DEDEDE;
+    // background-color: orange;
 }
