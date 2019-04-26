@@ -1,67 +1,67 @@
 version: "3.5"
 services:
 
-  postgres:
-    image: postgres:latest
-    container_name: postgres
-    environment:
-      POSTGRES_DB: accounts
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: azerty1234
-    ports:
-      - "5532:5432"
-    volumes:
-      - postgres-volume:/var/lib/postgresql/data
+  # postgres:
+  #   image: postgres:latest
+  #   container_name: postgres
+  #   environment:
+  #     POSTGRES_DB: accounts
+  #     POSTGRES_USER: admin
+  #     POSTGRES_PASSWORD: azerty1234
+  #   ports:
+  #     - "5532:5432"
+  #   volumes:
+  #     - postgres-volume:/var/lib/postgresql/data
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.1
-    container_name: elasticsearch
-    ports:
-      - 9200:9200
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    #volumes:
-      #- elasticsearch-volume
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:6.5.1
+  #   container_name: elasticsearch
+  #   ports:
+  #     - 9200:9200
+  #   environment:
+  #     - cluster.name=docker-cluster
+  #     - bootstrap.memory_lock=true
+  #     - xpack.security.enabled=false
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   #volumes:
+  #     #- elasticsearch-volume
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:6.5.1
-    container_name: kibana
-    environment:
-      - xpack.security.enabled=false
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-    ports:
-      - 5601:5601
-    #volumes:
-      #- kibana-volume
-    depends_on:
-      - elasticsearch
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:6.5.1
+  #   container_name: kibana
+  #   environment:
+  #     - xpack.security.enabled=false
+  #     - ELASTICSEARCH_URL=http://elasticsearch:9200
+  #   ports:
+  #     - 5601:5601
+  #   #volumes:
+  #     #- kibana-volume
+  #   depends_on:
+  #     - elasticsearch
 
-  messagebus:
-    image: rabbitmq:3.6-management
-    container_name: pm-messagebus
-    environment:
-      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbit log_levels [{error}]"
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: azerty1234
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+  # messagebus:
+  #   image: rabbitmq:3.6-management
+  #   container_name: pm-messagebus
+  #   environment:
+  #     RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbit log_levels [{error}]"
+  #     RABBITMQ_DEFAULT_USER: admin
+  #     RABBITMQ_DEFAULT_PASS: azerty1234
+  #   ports:
+  #     - "5772:5672"
+  #     - "15672:15672"
 
   gateway:
     image: pocket_monsters-gateway:latest
     container_name: pm-gateway
     ports:
       - 80:80
-    depends_on:
-      - postgres
-      - elasticsearch
+    # depends_on:
+    #   - postgres
+    #   - elasticsearch
       # - messagebus
 
   accounts:
@@ -71,10 +71,10 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
     ports:
       - 81:80
-    depends_on:
-      - postgres
-      - elasticsearch
-      - messagebus
+    # depends_on:
+    #   - postgres
+    #   - elasticsearch
+    #   - messagebus
 
   monsters:
     image: pocket_monsters-monsters:latest
@@ -83,10 +83,10 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
     ports:
       - 82:80
-    depends_on:
-      - postgres
-      - elasticsearch
-      - messagebus
+    # depends_on:
+    #   - postgres
+    #   - elasticsearch
+    #   - messagebus
       
   # trading
 
@@ -99,9 +99,9 @@ services:
     container_name: pm-ressources
     ports:
       - 89:80
-    depends_on:
-      - postgres
-      - elasticsearch
+    # depends_on:
+    #   - postgres
+    #   - elasticsearch
       # - messagebus
 
   eureka:
@@ -109,11 +109,16 @@ services:
     container_name: pm-eureka
     ports:
       - 90:80
-    depends_on:
-      - postgres
-      - elasticsearch
+    # depends_on:
+    #   - postgres
+    #   - elasticsearch
       # - messagebus
 
-volumes:
-  postgres-volume:
-    external: true
+# volumes:
+#   postgres-volume:
+#     external: true
+
+networks:
+  default:
+    external:
+      name: default_network

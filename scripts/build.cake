@@ -5,7 +5,7 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var version = Argument("productversion", "1.0.0");
-var location = Argument("loc", "desktop");
+var location = EnvironmentVariable("CAKE_ENVIRONMENT") ?? "desktop";
 
 var sln = "../PocketMonsters.sln";
 var publishDir = "../publish/";
@@ -265,9 +265,16 @@ public void ExecuteProcess(string process, params string[] args)
 
 Task("MavenBuild").Does(() =>
 {
+    Console.WriteLine("");
+    Console.WriteLine($"Cake environment is {location}");
+    Console.WriteLine("");
+
     foreach (var project in mavenProjects)
     {
+        Console.WriteLine("");
         Console.WriteLine("Building maven project {0}", project);
+        Console.WriteLine("");
+
         if (location == "desktop")
         {
         	ExecuteProcess("D:/Programs/maven/bin/mvn.cmd", "-f", $"../src/{project}", "compile", "com.google.cloud.tools:jib-maven-plugin:1.1.1:dockerBuild");
