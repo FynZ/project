@@ -4,52 +4,52 @@
         <div class="col-2">
         </div>
         <div class="col-8">
-            <form>
+            <form [formGroup]="form">
                 <div class="form-group">
                     <label for="inputUsername">Username</label>
-                    <input type="text" class="form-control" id="inputUsername" placeholder="Username">
+                    <input formControlName="username" type="text" class="form-control" id="inputUsername" placeholder="Username">
                 </div>
                 <div class="form-group">
                     <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                    <input formControlName="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputCharacter">In-Game character</label>
-                        <input type="email" class="form-control" id="inputCharacter" placeholder="Character">
+                        <input formControlName="character" type="text" class="form-control" id="inputCharacter" placeholder="Character">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputServer">Server</label>
-                        <select class="form-control" id="inputServer">
-                            <option>Meriana</option>
-                            <option>Agride</option>
-                            <option>Nidas</option>
-                            <option>Brumen</option>
-                            <option>Merkator</option>
-                            <option>Furye</option>
-                            <option>Julith</option>
-                            <option>Ush</option>
-                            <option>Pandora</option>
+                        <select formControlName="server" class="form-control" id="inputServer">
+                            <option value="Meriana" >Meriana</option>
+                            <option value="Agride"  >Agride</option>
+                            <option value="Nidas"   >Nidas</option>
+                            <option value="Brumen"  >Brumen</option>
+                            <option value="Merkator">Merkator</option>
+                            <option value="Furye"   >Furye</option>
+                            <option value="Julith"  >Julith</option>
+                            <option value="Ush"     >Ush</option>
+                            <option value="Pandora" >Pandora</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword">Password</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                    <input formControlName="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
                 </div>
                 <div class="form-group">
-                    <label for="inputRepeatPassword">Repeat Password</label>
-                    <input type="password" class="form-control" id="inputRepeatPassword" placeholder="Repeat Password">
+                    <label for="inputPasswordRepeat">Repeat Password</label>
+                    <input formControlName="passwordConfirm" type="password" class="form-control" id="inputPasswordRepeat" placeholder="Repeat Password">
                 </div>
                 <br/>
                 <div class="form-group">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="updatesNotification">
+                        <input formControlName="subscribe" class="form-check-input" type="checkbox" id="updatesNotification">
                         <label class="form-check-label" for="updatesNotification">Be informed on updates</label>
                     </div>
                 </div>
                 <hr/>
-                <button type="submit" class="btn btn-primary">Sign in</button>
+                <button (click)="register()" type="submit" class="btn btn-primary">Sign in</button>
                 </form>
             </div>
             <div class="col-2">

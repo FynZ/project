@@ -13,9 +13,17 @@
 }
 
 .acquired {
-    background-color: green
+    background-color: #80B780
 }
 
 .missing {
-    background-color: red
+    background-color: #FF7575
+}
+
+.search {
+    margin-bottom: 1%;
+}
+
+.invisible {
+    display: none;
 }

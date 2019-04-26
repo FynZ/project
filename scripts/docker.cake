@@ -85,6 +85,7 @@ Task("SetupDevEnvironment") // Build and run a Docker integration environment st
         Files = new [] {envComposeFile},
         Build = true,
         ForceRecreate = true,
-        DetachedMode = true
+        DetachedMode = true,
+        RemoveOrphans = false
     });
 });

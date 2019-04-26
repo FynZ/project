@@ -2,6 +2,9 @@ import { LoginResult } from './../models/login-result';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tokenKey } from '@angular/core/src/view';
+import { Login } from '../models/login';
+import { Register } from '../models/register';
+import { RegisterResult } from '../models/register-result';
 
 @Injectable({
     providedIn: 'root'
@@ -29,15 +32,15 @@ export class AuthService {
          };
      }
 
-    public async login(email: string, password: string, rememberMe: boolean = false): Promise<boolean>
+    public async login(login: Login): Promise<boolean>
     {
         try
         {
-            const response = await this.http.post<LoginResult>('http://localhost:81/auth/login/', {
-                Email: email,
-                Password: password,
-                RememberMe: rememberMe
-            }, this.options).toPromise();
+            const response = await this.http.post<LoginResult>(
+                'http://localhost:81/auth/login/',
+                login,
+                this.options
+            ).toPromise();
 
             const result = response as unknown as LoginResult;
 
@@ -57,6 +60,35 @@ export class AuthService {
         {
             return false;
         }
+    }
+
+    public async register(register: Register) : Promise<RegisterResult>
+    {
+        let result: RegisterResult;
+        try
+        {
+            const response = await this.http.post<RegisterResult>(
+                'http://localhost:81/auth/register/',
+                register,
+                this.options
+            ).toPromise();
+
+            result = response as unknown as RegisterResult;
+        }
+        catch (ex)
+        {
+            console.log(ex);
+            result = ex.error as unknown as RegisterResult;
+
+            console.log(result);
+        }
+
+        if (result)
+        {
+            return result;
+        }
+
+        return null;
     }
 
     public logout()

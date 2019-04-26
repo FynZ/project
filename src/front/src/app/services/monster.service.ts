@@ -25,7 +25,7 @@ export class MonsterService {
     {
         try
         {
-            const response = await this.http.get<Monster[]>('http://localhost:82/monsters/', this.options).toPromise();
+            const response = await this.http.get<Monster[]>('http://localhost:82/monsters/', this.jsonOptions).toPromise();
             const content = response as unknown as Monster[];
 
             console.log('success');

@@ -15,6 +15,9 @@ namespace Accounts.ViewModels
         public string Email { get; set; }
 
         [Required]
+        public string Character { get; set; }
+
+        [Required]
         public Server Server { get; set; }
 
         [Required]
@@ -26,6 +29,9 @@ namespace Accounts.ViewModels
         [MinLength(7)]
         [MaxLength(20)]
         [Compare("Password")]
-        public string ConfirmPassword { get; set; }
+        public string PasswordConfirm { get; set; }
+
+        [Required]
+        public bool Subscribe { get; set; }
     }
 }

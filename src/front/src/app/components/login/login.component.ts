@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Login } from 'src/app/models/login';
 
 @Component({
     selector: 'app-login',
@@ -28,11 +29,14 @@ export class LoginComponent implements OnInit
 
     async login()
     {
-        const val = this.form.value;
-
-        if (val.email && val.password)
+        if (this.form.valid)
         {
-            if (await this.authService.login(val.email, val.password))
+            const login = new Login();
+            login.email = this.form.value.email;
+            login.password = this.form.value.password;
+            login.rememberMe = this.form.value.rememberMe; 
+
+            if (await this.authService.login(login))
             {
                 this.toastr.success('Successfully logged in', 'Success');
                 this.router.navigateByUrl('/monsters');
