@@ -11,7 +11,7 @@ import { RegisterResult } from '../models/register-result';
 })
 export class AuthService {
 
-    private options: any;
+    private httpHeaders: HttpHeaders;
 
     private authenticated: boolean;
     private roles: string[];
@@ -23,13 +23,35 @@ export class AuthService {
     {
         this.authenticated = false;
 
-        const headers = new HttpHeaders({
+        this.httpHeaders = new HttpHeaders({
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': 'http://localhost:4200/'
          });
-        this.options = {
-            headers
-         };
+     }
+
+     private async test() : Promise<any> {
+
+        const httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localhost:4200/'
+         });
+
+         const options: any = {headers : httpHeaders};
+
+         //
+        const response = await this.http.post<LoginResult>(
+            'http://localhost:81/auth/login/',
+            {},
+            options
+        ).toPromise();
+
+        const responseBis = await this.http.post<LoginResult>(
+            'http://localhost:81/auth/login/',
+            {},
+            {headers: httpHeaders},
+        ).toPromise();
+
+        return 1;
      }
 
     public async login(login: Login): Promise<boolean>
@@ -39,15 +61,13 @@ export class AuthService {
             const response = await this.http.post<LoginResult>(
                 'http://localhost:81/auth/login/',
                 login,
-                this.options
+                {headers : this.httpHeaders}
             ).toPromise();
 
-            const result = response as unknown as LoginResult;
-
-            if (result)
+            if (response)
             {
-                this.token = result.token;
-                this.expires = result.expires;
+                this.token = response.token;
+                this.expires = response.expires;
 
                 this.authenticated = true;
 
@@ -64,38 +84,32 @@ export class AuthService {
 
     public async register(register: Register) : Promise<RegisterResult>
     {
-        let result: RegisterResult;
         try
         {
-            const response = await this.http.post<RegisterResult>(
+            return await this.http.post<RegisterResult>(
                 'http://localhost:81/auth/register/',
                 register,
-                this.options
+                {headers: this.httpHeaders}
             ).toPromise();
-
-            result = response as unknown as RegisterResult;
         }
         catch (ex)
         {
-            console.log(ex);
-            result = ex.error as unknown as RegisterResult;
+            // Conflict error, we have the data to see what went wrong
+            if (ex.code === 401)
+            {
+                return ex.error as unknown as RegisterResult;
+            }
 
-            console.log(result);
+            // non 401 error
+            return null;
         }
-
-        if (result)
-        {
-            return result;
-        }
-
-        return null;
     }
 
     public logout()
     {
         this.authenticated = false;
         this.roles = [];
-        this.token = "";
+        this.token = '';
         this.expires = 0;
     }
 

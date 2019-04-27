@@ -68,13 +68,13 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     CommonModule,
-    BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 2500,
       positionClass: 'toast-bottom-right',

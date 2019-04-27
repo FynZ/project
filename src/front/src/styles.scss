@@ -2,3 +2,9 @@
 
 // then import toastr scss
 @import "~ngx-toastr/toastr-bs4-alert.scss";
+
+router-outlet ~ * {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}

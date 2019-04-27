@@ -25,6 +25,12 @@ zuul:
     trading:
       path: /trading/**
       url: http://pm-trading:80/trading
+    marketplace:
+      path: /messaging/**
+      url: http://pm-messages:80/marketplace
+    map:
+      path: /messaging/**
+      url: http://pm-messages:80/map
     messaging:
       path: /messaging/**
       url: http://pm-messages:80/messaging
