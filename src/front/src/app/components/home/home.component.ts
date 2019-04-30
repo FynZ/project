@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsService } from 'src/app/services/news.service';
 import { News } from 'src/app/models/news';
+import { SlugifyPipe } from 'angular-pipes';
 
 @Component({
     selector: 'app-home',

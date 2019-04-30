@@ -10,7 +10,7 @@
           <div class="card-body">
             <h5 class="card-title">{{new.title}}</h5>
             <p class="card-text">{{new.content}}</p>
-            <a href="#" class="btn btn-primary">Read more</a>
+            <a routerLink="/news/{{new.title | slugify}}" class="btn btn-primary">Read more</a>
           </div>
         </div>
       </div>
