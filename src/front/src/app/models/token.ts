@@ -1,4 +1,5 @@
-export class Token {
+export class Token
+{
     public id: number;
     public name: string;
     public iss: string;
@@ -8,5 +9,5 @@ export class Token {
     public nbf: number;
     public iat: number;
     public jti: string;
-    public roles: string[]
+    public roles: string[];
 }

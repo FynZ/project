@@ -1,16 +1,16 @@
-import { LoginResult } from './../models/login-result';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { tokenKey } from '@angular/core/src/view';
+
 import { Login } from '../models/login';
 import { Register } from '../models/register';
+import { LoginResult } from './../models/login-result';
 import { RegisterResult } from '../models/register-result';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AuthService {
-
+export class AuthService
+{
     private httpHeaders: HttpHeaders;
 
     private authenticated: boolean;
@@ -26,33 +26,8 @@ export class AuthService {
         this.httpHeaders = new HttpHeaders({
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': 'http://localhost:4200/'
-         });
-     }
-
-     private async test() : Promise<any> {
-
-        const httpHeaders = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:4200/'
-         });
-
-         const options: any = {headers : httpHeaders};
-
-         //
-        const response = await this.http.post<LoginResult>(
-            'http://localhost:81/auth/login/',
-            {},
-            options
-        ).toPromise();
-
-        const responseBis = await this.http.post<LoginResult>(
-            'http://localhost:81/auth/login/',
-            {},
-            {headers: httpHeaders},
-        ).toPromise();
-
-        return 1;
-     }
+        });
+    }
 
     public async login(login: Login): Promise<boolean>
     {
@@ -62,7 +37,7 @@ export class AuthService {
                 'http://localhost:81/auth/login/',
                 login,
                 {headers : this.httpHeaders}
-            ).toPromise();
+                ).toPromise();
 
             if (response)
             {
@@ -82,7 +57,7 @@ export class AuthService {
         }
     }
 
-    public async register(register: Register) : Promise<RegisterResult>
+    public async register(register: Register): Promise<RegisterResult>
     {
         try
         {

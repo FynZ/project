@@ -1,4 +1,5 @@
-export class LoginResult {
+export class LoginResult
+{
     token: string;
     expires: number;
 }
