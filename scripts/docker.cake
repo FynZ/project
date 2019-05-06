@@ -62,14 +62,15 @@ Task("Package") // Publishing backend artifacts for CI (backend tests included).
 
 var envComposeFile = string.Format("./environments/docker-compose.{0}.yml", Argument<string>("Env", "prod"));
 
-Task("CleanDevEnvironment").Does(() => // Cleaning the existing Docker integration environment...
+Task("CleanDevEnvironment") // Cleaning the existing Docker integration environment...
+    .Does(() =>
 {
     Console.WriteLine($"Running compose down with compose file {envComposeFile}");
 
     DockerComposeDown(new DockerComposeDownSettings
     {
         Files = new [] {envComposeFile},
-        RemoveOrphans = true,
+        RemoveOrphans = false,
         Volumes = true,
         Rmi = "local"
     });    

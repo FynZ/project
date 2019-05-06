@@ -14,7 +14,7 @@ var publishDir = "../publish/";
 // #load "exporters.cake"
 // #load "rancher.cake"
 
-var publishedProjects = new [] { "Accounts", "Monsters" };
+var publishedProjects = new [] { "Accounts", "Monsters", "Trading" };
 var mavenProjects = new [] { "gateway", "eureka", "ressources"};
 
 Setup(ctx =>

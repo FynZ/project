@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO.Compression;
+using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -22,12 +23,14 @@ namespace Accounts
 {
     public class Startup
     {
+        public string AssemblyName { get; }
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
+            AssemblyName = Assembly.GetEntryAssembly().GetName().Name;
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -50,14 +53,14 @@ namespace Accounts
             services
                 .AddMvc(o =>
                 {
-                    o.UseGeneralRoutePrefix("auth");
+                    o.UseGeneralRoutePrefix(Configuration?.GetValue("RoutePrefix", AssemblyName));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Authentication Microservice", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = $"{AssemblyName} Microservice", Version = "v1" });
                 c.DescribeAllEnumsAsStrings();
 
                 var security = new Dictionary<string, IEnumerable<string>>
@@ -114,7 +117,7 @@ namespace Accounts
             })
             .UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication Microservice");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{AssemblyName} Microservice");
             });
         }
 

@@ -89,6 +89,13 @@ services:
     #   - messagebus
       
   # trading
+  trading:
+    image: pocket_monsters-trading:latest
+    container_name: pm-trading
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+    ports:
+      - 83:80
 
   # messaging
 

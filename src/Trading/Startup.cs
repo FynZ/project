@@ -9,16 +9,14 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Monsters.Configuration.Extensions;
-using Monsters.Configuration.Security;
-using Monsters.Repositories;
-using Monsters.Services;
-using Monsters.Services.HostedServices;
-using Monsters.Services.HostedServices.Communication;
-using Monsters.Settings;
+using Trading.Configuration.Extensions;
+using Trading.Configuration.Security;
+using Trading.Repositories;
+using Trading.Services;
+using Trading.Settings;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace Monsters
+namespace Trading
 {
     public class Startup
     {
@@ -92,11 +90,9 @@ namespace Monsters
 
             // Dependency Injection registration
             services
-                .AddSingleton<IMonsterRepository, MonsterRepository>(x => new MonsterRepository(Configuration.GetConnectionString("Postgres")))
-                .AddSingleton<IMonsterService, MonsterService>()
-                .AddSingleton<IMonsterIniter, MonsterService>()
-                .AddTransient<IHostedServiceAccessor<IAccountServiceCommunication>, HostServiceAccessor<IAccountServiceCommunication>>()
-                .AddSingleton<IHostedService, AccountServiceCommunication>();
+                .AddSingleton<ITradingRepository, TradingRepository>(x =>
+                    new TradingRepository(Configuration.GetConnectionString("Postgres")))
+                .AddSingleton<ITradingService, TradingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

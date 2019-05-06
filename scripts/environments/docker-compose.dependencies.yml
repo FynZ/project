@@ -30,16 +30,19 @@ services:
     ports:
       - 9200:9200
     environment:
-      - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - xpack.security.enabled=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    #volumes:
-      #- elasticsearch-volume
+      - discovery.type=single-node
+      # - cluster.name=docker-cluster
+      # - bootstrap.memory_lock=true
+      # - xpack.security.enabled=false
+      # - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    # ulimits:
+    #   memlock:
+    #     soft: -1
+    #     hard: -1
+    volumes:
+      - elasticsearch-volume:/usr/share/elasticsearch/data
 
   kibana:
     image: docker.elastic.co/kibana/kibana:6.5.1
@@ -66,9 +69,13 @@ services:
       - "15672:15672"
 
 volumes:
+  portainer-volume:
+    external: true
   postgres-volume:
     external: true
-  portainer-volume:
+  elasticsearch-volume:
+    external: true
+  kibana-volume:
     external: true
 
 networks:

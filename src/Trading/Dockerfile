@@ -8,4 +8,4 @@ ARG source
 WORKDIR /app
 COPY . /app
 EXPOSE 80
-CMD ["dotnet", "Monsters.dll"]
+CMD ["dotnet", "Trading.dll"]

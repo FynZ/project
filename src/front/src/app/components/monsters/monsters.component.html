@@ -3,35 +3,37 @@
     <div class="row">
         <div class="col">
             <div class="row">
-                <div class="col-12 card search">
-                    <div class="card-body">
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="filterHave">I Have</label>
-                                <select [(ngModel)]="filterHave" class="form-control" id="filterHave">
-                                    <option value="/">-</option>
-                                    <option value="+">Yes</option>
-                                    <option value="-">No</option>
-                                </select>
+                <div class="col-12">
+                    <div class="card search">
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="filterHave">I Have</label>
+                                    <select [(ngModel)]="filterHave" class="form-control" id="filterHave">
+                                        <option value="/">-</option>
+                                        <option value="+">Yes</option>
+                                        <option value="-">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="filterNeed">Need</label>
+                                    <select [(ngModel)]="filterNeed" class="form-control" id="filterNeed">
+                                        <option value="/">-</option>
+                                        <option value="+">Yes</option>
+                                        <option value="-">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="filterHave">Propose</label>
+                                    <select [(ngModel)]="filterPropose" class="form-control" id="filterHave">
+                                        <option value="/">-</option>
+                                        <option value="+">Yes</option>
+                                        <option value="-">No</option>
+                                    </select>
+                                </div>
+                                
+                                <button (click)="filter()" type="submit" class="btn btn-primary">Apply</button>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="filterNeed">Need</label>
-                                <select [(ngModel)]="filterNeed" class="form-control" id="filterNeed">
-                                    <option value="/">-</option>
-                                    <option value="+">Yes</option>
-                                    <option value="-">No</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="filterHave">Propose</label>
-                                <select [(ngModel)]="filterPropose" class="form-control" id="filterHave">
-                                    <option selectvalue="/">-</option>
-                                    <option value="+">Yes</option>
-                                    <option value="-">No</option>
-                                </select>
-                            </div>
-                            
-                            <button (click)="filter()" type="submit" class="btn btn-primary">Apply</button>
                         </div>
                     </div>
                 </div>
