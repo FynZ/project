@@ -24,5 +24,13 @@ namespace Trading.Controllers
 
             return Ok(monsters);
         }
+
+        [HttpGet("{targetId}")]
+        public IActionResult GetTradingDetails(int targetId)
+        {
+            var details = _tradingService.GetTradingDetails(this.AuthenticatedUserId(), targetId);
+
+            return Ok(details);
+        }
     }
 }

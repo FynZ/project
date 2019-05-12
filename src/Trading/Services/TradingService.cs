@@ -34,10 +34,33 @@ namespace Trading.Services
                 var proposed = user.Value.Where(x => x.Propose && searchIds.Contains(x.Id)).ToList();
                 var searched = user.Value.Where(x => x.Search && proposeIds.Contains(x.Id)).ToList();
 
-                result.Add(new TradingResult(user.Key, searched.Count, proposed.Count));
+                result.Add(new TradingResult
+                {
+                    UserId = user.Key,
+                    MatchingSearchCount = searched.Count,
+                    MatchingProposeCount = proposed.Count
+                });
             }
 
             return result;
+        }
+
+        public TradingDetails GetTradingDetails(int userId, int targetId)
+        {
+            var userMonsters = _tradingRepository.GetUserMonsters(userId);
+            var targetMonsters = _tradingRepository.GetUserMonsters(targetId);
+
+            var searchIdsPlayer = userMonsters.Where(x => x.Search).Select(x => x.Id).ToArray();
+            var searchIdsTarget = targetMonsters.Where(x => x.Search).Select(x => x.Id).ToArray();
+
+            var propose = userMonsters.Where(x => x.Propose && searchIdsTarget.Contains(x.Id)).ToList();
+            var search = targetMonsters.Where(x => x.Propose && searchIdsPlayer.Contains(x.Id)).ToList();
+
+            return new TradingDetails
+            {
+                MatchingPropose = propose,
+                MatchingSearch = search
+            };
         }
     }
 }

@@ -13,14 +13,5 @@ namespace Trading.DTO
         public int MatchingSearchCount { get; set; }
 
         public int MatchingProposeCount { get; set; }
-        //public List<UserMonster> Search { get; set; }
-        //public List<UserMonster> Propose { get; set; }
-
-        public TradingResult(int userId, int matchingSearchCount, int matchingProposeCount)
-        {
-            UserId = userId;
-            MatchingProposeCount = matchingProposeCount;
-            MatchingSearchCount = matchingSearchCount;
-        }
     }
 }

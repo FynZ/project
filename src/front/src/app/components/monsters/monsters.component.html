@@ -39,7 +39,7 @@
                 </div>
                 <div *ngFor="let monster of displayedMonsters" class="col-4 card-group monster">
                     <div class="card">
-                        <div [ngClass]="(monster.count > 0)? 'acquired' : 'missing'" class="card-body">
+                        <div [ngClass]="(monster.count > 0) ? 'acquired' : 'missing'" class="card-body">
                             <div class="text-center">
                                 <img src="http://localhost:89/ressources/monsters/{{monster.slug}}.png" class="card-img-top img-monster" alt="...">
                             </div>

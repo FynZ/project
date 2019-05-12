@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO.Compression;
 using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -27,7 +28,7 @@ namespace Monsters
 
         public Startup(IConfiguration configuration)
         {
-            AssemblyName = Assembly.GetEntryAssembly().GetName().Name;
+            AssemblyName = Assembly.GetEntryAssembly()?.GetName().Name ?? throw new Exception("Assembly name not found");
             Configuration = configuration;
         }
 

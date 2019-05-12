@@ -5,8 +5,8 @@ import { Monster } from '../models/monster';
 @Injectable({
     providedIn: 'root'
 })
-export class MonsterService {
-
+export class MonsterService
+{
     private httpHeaders: HttpHeaders;
 
     constructor(private http: HttpClient)
