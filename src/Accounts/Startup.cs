@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Accounts.Configuration.Extensions;
 using Accounts.Configuration.Security;
 using Accounts.Repositories;
 using Accounts.Services;
@@ -18,6 +17,8 @@ using Accounts.Services.HostedServices.Communication;
 using Accounts.Settings;
 using Microsoft.Extensions.Hosting;
 using Swashbuckle.AspNetCore.Swagger;
+using WebApi.Shared.Configuration.Extensions;
+using WebApi.Shared.Configuration.Security;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Accounts

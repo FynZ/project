@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Xml;
 
-namespace Accounts.Configuration.Security
+namespace WebApi.Shared.Configuration.Security
 {
     public static class RSAExtensions
     {

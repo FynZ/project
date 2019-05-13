@@ -29,6 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\WebApi.Shared\WebApi.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Ressources\private-key.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

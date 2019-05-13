@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Trading.Configuration.Extensions;
-using Trading.Configuration.Security;
 using Trading.Repositories;
 using Trading.Services;
 using Trading.Settings;
 using Swashbuckle.AspNetCore.Swagger;
+using WebApi.Shared.Configuration.Extensions;
+using WebApi.Shared.Configuration.Security;
 
 namespace Trading
 {

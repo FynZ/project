@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Dapper;
 using Trading.Models;
 using Npgsql;
-using Remotion.Linq.Clauses;
 
 namespace Trading.Repositories
 {

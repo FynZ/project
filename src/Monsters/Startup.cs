@@ -10,14 +10,14 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Monsters.Configuration.Extensions;
-using Monsters.Configuration.Security;
 using Monsters.Repositories;
 using Monsters.Services;
 using Monsters.Services.HostedServices;
 using Monsters.Services.HostedServices.Communication;
 using Monsters.Settings;
 using Swashbuckle.AspNetCore.Swagger;
+using WebApi.Shared.Configuration.Extensions;
+using WebApi.Shared.Configuration.Security;
 
 namespace Monsters
 {

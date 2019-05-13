@@ -1,24 +1,15 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Serilog;
-using Serilog.Debugging;
-using Serilog.Events;
-using Serilog.Exceptions;
-using Serilog.Sinks.Elasticsearch;
-using Accounts.Configuration.Extensions;
+using WebApi.Shared.Configuration.Extensions;
+using WebApi.Shared.Configuration.Program;
 
 namespace Accounts
 {
     public class Program
     {
-        public static IConfiguration Configuration { get; private set; }
-
         public static async Task<int> Main(string[] args)
         {
             try
@@ -27,8 +18,8 @@ namespace Accounts
                     Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
                     ?? "development";
 
-                Program.InitializeConfiguration(environment);
-                Program.InitializeLogging();
+                var configuration = ProgramConfiguration.InitializeConfiguration(environment);
+                ProgramConfiguration.InitializeLogging(configuration);
 
                 if (environment != "development")
                 {
@@ -39,8 +30,8 @@ namespace Accounts
 
                 await WebHost.CreateDefaultBuilder(args)
                     .UseStartup<Startup>()
-                    .UseUrls($"http://*:{(Int32.TryParse(Configuration["Port"], out var port) ? port : 80)}")
-                    .UseConfiguration(Configuration)
+                    .UseUrls($"http://*:{(Int32.TryParse(configuration["Port"], out var port) ? port : 80)}")
+                    .UseConfiguration(configuration)
                     .AddLogging()
                     .AddMetrics()
                     .Build()
@@ -58,54 +49,6 @@ namespace Accounts
             {
                 Log.CloseAndFlush();
             }
-        }
-
-        private static void InitializeLogging()
-        {
-            SelfLog.Enable(Console.Error);
-
-            var assembly = Assembly.GetEntryAssembly();
-
-            var logCfg = new LoggerConfiguration()
-                .ReadFrom.Configuration(Configuration)
-                .Enrich.WithExceptionDetails()
-                .Enrich.WithProperty("Application", assembly.GetName().Name)
-                .Enrich.WithProperty("Version", FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion)
-                .Enrich.WithProperty("Environment", Configuration["ASPNETCORE_ENVIRONMENT"])
-                .WriteTo.Console();
-
-            var enableElasticSearchLogging = Boolean.Parse(Configuration["EnableElasticSearchLogging"]);
-
-            if (enableElasticSearchLogging)
-            {
-                var elasticSearchUri = Configuration["ElasticSearchUri"];
-                var indexPrefixTemplate = Configuration["ElasticSearchIndexPrefix"];
-
-                Console.WriteLine("Elastic Logs will be stored at " + elasticSearchUri);
-                logCfg.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elasticSearchUri))
-                {
-                    AutoRegisterTemplate = true,
-                    BatchPostingLimit = 50,
-                    InlineFields = true,
-                    MinimumLogEventLevel = LogEventLevel.Debug,
-                    BufferFileSizeLimitBytes = 5242880,
-                    IndexFormat = indexPrefixTemplate + "-{0:yyyy.MM}"
-                });
-            }
-
-            Log.Logger = logCfg.CreateLogger();
-        }
-
-        private static void InitializeConfiguration(string environment)
-        {
-            Console.WriteLine($"Configuration is {environment}");
-
-            Configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false)
-                .AddJsonFile($"appsettings.{environment}.json", optional: true)
-                .AddEnvironmentVariables()
-                .Build();
         }
     }
 }
