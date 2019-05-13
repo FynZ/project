@@ -10,14 +10,15 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Monsters.Configuration.Extensions;
-using Monsters.Configuration.Security;
 using Monsters.Repositories;
 using Monsters.Services;
 using Monsters.Services.HostedServices;
 using Monsters.Services.HostedServices.Communication;
 using Monsters.Settings;
+using Steeltoe.Discovery.Client;
 using Swashbuckle.AspNetCore.Swagger;
+using WebApi.Shared.Configuration.Extensions;
+using WebApi.Shared.Configuration.Security;
 
 namespace Monsters
 {
@@ -35,6 +36,8 @@ namespace Monsters
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDiscoveryClient(Configuration);
+
             services.AddCors(o => o.AddPolicy("Default", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -117,7 +120,8 @@ namespace Monsters
             .UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{AssemblyName} Microservice");
-            });
+            })
+            .UseDiscoveryClient();
         }
 
         public static ForwardedHeadersOptions GetForwardedHeadersOptions()

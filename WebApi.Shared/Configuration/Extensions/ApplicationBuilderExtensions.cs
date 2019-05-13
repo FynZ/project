@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Trading.Configuration.Middlewares;
+using WebApi.Shared.Configuration.Middlewares;
 
-namespace Trading.Configuration.Extensions
+namespace WebApi.Shared.Configuration.Extensions
 {
     public static class ApplicationBuilderExtensions
     {

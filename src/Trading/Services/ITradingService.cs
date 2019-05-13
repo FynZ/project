@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Trading.DTO;
-using Trading.Models;
 
 namespace Trading.Services
 {

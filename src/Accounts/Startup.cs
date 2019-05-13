@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Accounts.Configuration.Extensions;
 using Accounts.Configuration.Security;
 using Accounts.Repositories;
 using Accounts.Services;
@@ -17,7 +16,10 @@ using Accounts.Services.HostedServices;
 using Accounts.Services.HostedServices.Communication;
 using Accounts.Settings;
 using Microsoft.Extensions.Hosting;
+using Steeltoe.Discovery.Client;
 using Swashbuckle.AspNetCore.Swagger;
+using WebApi.Shared.Configuration.Extensions;
+using WebApi.Shared.Configuration.Security;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Accounts
@@ -36,6 +38,8 @@ namespace Accounts
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDiscoveryClient(Configuration);
+
             services.AddCors(o => o.AddPolicy("Default", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -119,7 +123,8 @@ namespace Accounts
             .UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{AssemblyName} Microservice");
-            });
+            })
+            .UseDiscoveryClient();
         }
 
         private static ForwardedHeadersOptions GetForwardedHeadersOptions()

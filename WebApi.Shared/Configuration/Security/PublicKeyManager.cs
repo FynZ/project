@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Monsters.Configuration.Security
+namespace WebApi.Shared.Configuration.Security
 {
     public class PublicKeyManager
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Serilog;
 
-namespace Trading.Configuration.Extensions
+namespace WebApi.Shared.Configuration.Extensions
 {
     public static class WebHostBuilderExtensions
     {

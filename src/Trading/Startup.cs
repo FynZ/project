@@ -10,12 +10,13 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Trading.Configuration.Extensions;
-using Trading.Configuration.Security;
+using Steeltoe.Discovery.Client;
 using Trading.Repositories;
 using Trading.Services;
 using Trading.Settings;
 using Swashbuckle.AspNetCore.Swagger;
+using WebApi.Shared.Configuration.Extensions;
+using WebApi.Shared.Configuration.Security;
 
 namespace Trading
 {
@@ -33,6 +34,8 @@ namespace Trading
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDiscoveryClient(Configuration);
+
             services.AddCors(o => o.AddPolicy("Default", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -113,7 +116,8 @@ namespace Trading
             .UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{AssemblyName} Microservice");
-            });
+            })
+            .UseDiscoveryClient();
         }
 
         public static ForwardedHeadersOptions GetForwardedHeadersOptions()

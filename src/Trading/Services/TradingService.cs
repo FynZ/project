@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Trading.DTO;
-using Trading.Models;
 using Trading.Repositories;
 
 namespace Trading.Services
@@ -47,8 +45,8 @@ namespace Trading.Services
 
         public TradingDetails GetTradingDetails(int userId, int targetId)
         {
-            var userMonsters = _tradingRepository.GetUserMonsters(userId);
-            var targetMonsters = _tradingRepository.GetUserMonsters(targetId);
+            var userMonsters = _tradingRepository.GetUserMonsters(userId).ToList();
+            var targetMonsters = _tradingRepository.GetUserMonsters(targetId).ToList();
 
             var searchIdsPlayer = userMonsters.Where(x => x.Search).Select(x => x.Id).ToArray();
             var searchIdsTarget = targetMonsters.Where(x => x.Search).Select(x => x.Id).ToArray();

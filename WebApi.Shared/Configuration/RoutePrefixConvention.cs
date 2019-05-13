@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Routing;
 
-namespace Accounts.Configuration
+namespace WebApi.Shared.Configuration
 {
     public class RoutePrefixConvention : IApplicationModelConvention
     {

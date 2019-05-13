@@ -9,6 +9,7 @@ using Accounts.Models;
 using Accounts.Settings;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using WebApi.Shared.Configuration.Security;
 
 namespace Accounts.Configuration.Security
 {
