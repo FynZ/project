@@ -24,8 +24,7 @@ export class AuthService
         this.authenticated = false;
 
         this.httpHeaders = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:4200/'
+            'Content-Type': 'application/json'
         });
     }
 
@@ -34,7 +33,7 @@ export class AuthService
         try
         {
             const response = await this.http.post<LoginResult>(
-                'http://localhost:81/auth/login/',
+                'http://localhost:80/auth/login/',
                 login,
                 {headers : this.httpHeaders}
                 ).toPromise();
@@ -62,7 +61,7 @@ export class AuthService
         try
         {
             return await this.http.post<RegisterResult>(
-                'http://localhost:81/auth/register/',
+                'http://localhost:80/auth/register/',
                 register,
                 {headers: this.httpHeaders}
             ).toPromise();

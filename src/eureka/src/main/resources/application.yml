@@ -1,6 +1,18 @@
+# server:
+#   port: 80
+# eureka:
+#   client:
+#     registerWithEureka: false
+#     fetchRegistry: false
+
 server:
-  port: 80
+    port: 80
+
 eureka:
+  instance:
+    hostname: localhost
   client:
     registerWithEureka: false
     fetchRegistry: false
+  server:
+    enableSelfPreservation: false

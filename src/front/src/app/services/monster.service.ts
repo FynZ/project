@@ -21,7 +21,7 @@ export class MonsterService
     {
         try
         {
-            return await this.http.get<Monster[]>('http://localhost:82/monsters/', {headers: this.httpHeaders}).toPromise();
+            return await this.http.get<Monster[]>('http://localhost:80/monsters/', {headers: this.httpHeaders}).toPromise();
         }
         catch (e)
         {
@@ -31,32 +31,32 @@ export class MonsterService
 
     async incrementMonster(monsterId: number): Promise<boolean>
     {
-        return await this.executeMonsterRequest(`http://localhost:82/monsters/increment/${monsterId}`);
+        return await this.executeMonsterRequest(`http://localhost:80/monsters/increment/${monsterId}`);
     }
 
     async decrementMonster(monsterId: number): Promise<boolean>
     {
-        return await this.executeMonsterRequest(`http://localhost:82/monsters/decrement/${monsterId}`);
+        return await this.executeMonsterRequest(`http://localhost:80/monsters/decrement/${monsterId}`);
     }
 
     async proposeMonster(monsterId: number): Promise<boolean>
     {
-        return await this.executeMonsterRequest(`http://localhost:82/monsters/propose/${monsterId}`);
+        return await this.executeMonsterRequest(`http://localhost:80/monsters/propose/${monsterId}`);
     }
 
     async unproposeMonster(monsterId: number): Promise<boolean>
     {
-        return await this.executeMonsterRequest(`http://localhost:82/monsters/unpropose/${monsterId}`);
+        return await this.executeMonsterRequest(`http://localhost:80/monsters/unpropose/${monsterId}`);
     }
 
     async searchMonster(monsterId: number): Promise<boolean>
     {
-        return await this.executeMonsterRequest(`http://localhost:82/monsters/search/${monsterId}`);
+        return await this.executeMonsterRequest(`http://localhost:80/monsters/search/${monsterId}`);
     }
 
     async unsearchMonster(monsterId: number): Promise<boolean>
     {
-        return await this.executeMonsterRequest(`http://localhost:82/monsters/unsearch/${monsterId}`);
+        return await this.executeMonsterRequest(`http://localhost:80/monsters/unsearch/${monsterId}`);
     }
 
     private async executeMonsterRequest(url: string): Promise<boolean>

@@ -11,43 +11,70 @@ zuul:
     # ALLOW ANONYMOUS
     news:
       path: /news/**
-      url: http://pm-news:80/news
+      serviceId: news
+      strip-prefix: false
+    #   url: http://pm-news:80/news
     ressources:
       path: /ressources/**
-      url: http://pm-ressources:80/ressources
+      serviceId: resources
+      strip-prefix: false
+    #   url: http://pm-ressources:80/ressources
     auth:
       path: /auth/**
-      url: http://pm-accounts:80/auth
+      serviceId: accounts
+      strip-prefix: false
+    #   url: http://pm-accounts:80/auth
     # ROLE USER
     monsters:
       path: /monsters/**
-      url: http://pm-monsters:80/monsters
+      serviceId: monsters
+      strip-prefix: false
+    #   url: http://pm-monsters:80/monsters
     trading:
       path: /trading/**
-      url: http://pm-trading:80/trading
+      serviceId: trading
+      strip-prefix: false
+    #   url: http://pm-trading:80/trading
     marketplace:
       path: /messaging/**
-      url: http://pm-messages:80/marketplace
+      serviceId: marketplace
+      strip-prefix: false
+    #   url: http://pm-messages:80/marketplace
     map:
       path: /messaging/**
-      url: http://pm-messages:80/map
+      serviceId: map
+      strip-prefix: false
+    #   url: http://pm-messages:80/map
     messaging:
       path: /messaging/**
-      url: http://pm-messages:80/messaging
+      serviceId: messaging
+      strip-prefix: false
+    #   url: http://pm-messages:80/messaging
     # ROLE ADMIN
     admin:
       path: /admin/**
-      url: http://pm-admin:80/admin
-  
+      serviceId: admin
+      strip-prefix: false
+    #   url: http://pm-admin:80/admin
+
+ribbon:
+  eureka:
+    enabled: true
 
 eureka:
-  instance:
-    prefer-ip-address: true
   client:
-    register-with-eureka: true
-    fetch-registry:  true
-    service-url:
-      default-zones: ${EUREKA_URI:http://localhost:8761/eureka}
+    serviceUrl:
+      defaultZone: http://pm-eureka:80/eureka/
+    registerWithEureka: false
+
+# eureka:
+#   instance:
+#     prefer-ip-address: true
+#   client:
+#     register-with-eureka: true
+#     fetch-registry:  true
+#     service-url:
+#       default-zones: ${EUREKA_URI:http://pm-eureka:80/eureka}
 
 security:
   oauth2:

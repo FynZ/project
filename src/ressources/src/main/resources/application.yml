@@ -1,3 +1,18 @@
+server:  
+  port: 80
 
-server:
-  port : 80
+spring:  
+  application:
+    name: resources
+
+eureka:  
+  client:
+    serviceUrl:
+      defaultZone: http://pm-eureka:80/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+      
+ribbon:
+  eureka:
+    enabled: true
