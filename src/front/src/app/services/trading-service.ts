@@ -24,7 +24,7 @@ export class TradingService
         try
         {
             return await this.http.get<Trading[]>(
-                'http://localhost:83/trading/',
+                'http://localhost:80/trading/',
                 {headers: this.httpHeaders}
             ).toPromise();
         }
@@ -40,7 +40,7 @@ export class TradingService
         try
         {
             return await this.http.get<TradingDetails>(
-                `http://localhost:83/trading/${userId}`,
+                `http://localhost:80/trading/${userId}`,
                 {headers: this.httpHeaders}
             ).toPromise();
         }

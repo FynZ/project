@@ -2,38 +2,45 @@ package com.fynzie.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-// import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+
 import org.springframework.context.annotation.Bean;
-// import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
-import com.fynzie.gateway.config.JwtFilter;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-// @EnableResourceServer
 @ComponentScan("com.fynzie")
+@Configuration
 @EnableZuulProxy
 @SpringBootApplication
-// @EnableDiscoveryClient
-public class GatewayApplication {
+public class GatewayApplication
+{
+    @Bean
+    public CorsFilter corsFilter()
+    {
+        final CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("HEAD");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("PATCH");
 
-	@Bean
-	public FilterRegistrationBean jwtFilter() {
-		final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-		registrationBean.setFilter(new JwtFilter());
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
 
-		return registrationBean;
-	}
+        return new CorsFilter(source);
+    }
 
-	public static void main(String[] args) {
-
-        Logger log = LogManager.getLogger(GatewayApplication.class);
-        log.info("Hello, World!");
-
+    public static void main(String[] args)
+    {
 		SpringApplication.run(GatewayApplication.class, args);
 	}
 }

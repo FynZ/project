@@ -1,29 +1,25 @@
 <br />
 <div class="container">
-  <div class="row">
-    <div class="col">
-      <div class="row">
+    <div class="row">
         <div *ngFor="let trade of trading" class="col-4 card-group">
-          <div class="card">
-            <div class="card-body">
-              <div>
-                <h5  class="card-title">{{trade.userId}}</h5>
-              </div>
-              <div class="container-fluid">
-                <div class="row">
-                  <div class ="col text-center">
-                    <span class="align-middle">
-                      <button class="btn btn-count">{{trade.matchingSearchCount}}</button>
-                      <b class="d-inline-block align-middle monster-count">|</b>
-                      <button class="btn btn-count">{{trade.matchingProposeCount}}</button>
-                    </span>
-                  </div>
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h5  class="card-title">{{trade.userId}}</h5>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class ="col text-center">
+                                <span class="align-middle">
+                                    <button class="btn btn-count">{{trade.matchingSearchCount}}</button>
+                                    <b class="d-inline-block align-middle monster-count">|</b>
+                                    <button class="btn btn-count">{{trade.matchingProposeCount}}</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
