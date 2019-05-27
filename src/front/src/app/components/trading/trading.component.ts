@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
     selector: 'app-trading',
     templateUrl: './trading.component.html',
-    styleUrls: ['./trading.component.sass']
+    styleUrls: ['./trading.component.scss']
 })
 export class TradingComponent implements OnInit
 {

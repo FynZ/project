@@ -4,18 +4,27 @@
         <div *ngFor="let trade of trading" class="col-4 card-group">
             <div class="card">
                 <div class="card-body">
-                    <div>
-                        <h5  class="card-title">{{trade.userId}}</h5>
+                    <div class="trading-header">
+                        <span>
+                            <div class="float-left">User {{trade.userId}}</div>
+                            <div class="float-right">Affinity {{trade.affinity}}</div>
+                        </span>
                     </div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class ="col text-center">
-                                <span class="align-middle">
-                                    <button class="btn btn-count">{{trade.matchingSearchCount}}</button>
-                                    <b class="d-inline-block align-middle monster-count">|</b>
-                                    <button class="btn btn-count">{{trade.matchingProposeCount}}</button>
-                                </span>
-                            </div>
+                    <br/>
+                    <div *ngIf="trade.matchingSearchCount > 0" class="progress">
+                        <div class="progress-bar progress-bar-striped bg-warning" 
+                            role="progressbar" 
+                            [style.width]="trade.matchingSearchCount * 5 + '%'" 
+                            [attr.aria-valuenow]="trade.matchingSearchCount" 
+                            aria-valuemin="0" 
+                            aria-valuemax="20">{{trade.matchingSearchCount}}
+                        </div>
+                        <div *ngIf="trade.matchingProposeCount > 0" class="progress-bar progress-bar-striped bg-success" 
+                            role="progressbar" 
+                            [style.width]="trade.matchingProposeCount * 5 + '%'" 
+                            [attr.aria-valuenow]="trade.matchingProposeCount" 
+                            aria-valuemin="0" 
+                            aria-valuemax="20">{{trade.matchingProposeCount}}
                         </div>
                     </div>
                 </div>

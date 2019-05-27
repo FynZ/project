@@ -4,6 +4,8 @@
     {
         public int UserId { get; set; }
 
+        public int Affinity { get; set; }
+
         public int MatchingSearchCount { get; set; }
 
         public int MatchingProposeCount { get; set; }

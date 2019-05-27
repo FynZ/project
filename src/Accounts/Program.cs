@@ -21,7 +21,7 @@ namespace Accounts
                 var configuration = ProgramConfiguration.InitializeConfiguration(environment);
                 ProgramConfiguration.InitializeLogging(configuration);
 
-                if (environment != "development")
+                if (environment.ToLowerInvariant() != "development")
                 {
                     var delay = 30 * 1000;
                     Console.WriteLine($"Waiting {delay / 1000} seconds for dependencies to be ready");

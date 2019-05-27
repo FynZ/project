@@ -10,6 +10,6 @@
         Furye,
         Julith,
         Ush,
-        Pandora
+        Pandore
     }
 }

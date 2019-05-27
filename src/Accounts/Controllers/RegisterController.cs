@@ -31,6 +31,7 @@ namespace Accounts.Controllers
                 {
                     Username = registerViewModel.Username,
                     Email = registerViewModel.Email,
+                    InGameName = registerViewModel.Character
                 }, registerViewModel.Password);
 
                 if (result.WasCreated)

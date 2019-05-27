@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Accounts.Models.Enumerations;
 
 namespace Accounts.Models
 {
@@ -10,6 +11,8 @@ namespace Accounts.Models
         public string Email { get; set; }
         public string EmailUpper { get; set; }
         public string Password { get; set; }
+        public string InGameName { get; set; }
+        public Server Server { get; set; }
         public bool Verified { get; set; }
         public bool Banned { get; set; }
         public IEnumerable<Role> Roles { get; set; }

@@ -21,7 +21,7 @@ namespace Trading
                 var configuration = ProgramConfiguration.InitializeConfiguration(environment);
                 ProgramConfiguration.InitializeLogging(configuration);
 
-                if (environment != "Development")
+                if (environment.ToLowerInvariant() != "development")
                 {
                     var delay = 30 * 1000;
                     Console.WriteLine($"Waiting {delay / 1000} seconds for dependencies to be ready");

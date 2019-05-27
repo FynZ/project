@@ -76,6 +76,8 @@ namespace Accounts.Repositories
                 email, 
                 email_upper, 
                 password, 
+                in_game_name,
+                server,
                 verified, 
                 banned
             ) 
@@ -86,6 +88,8 @@ namespace Accounts.Repositories
                 @Email, 
                 @EmailUpper, 
                 @Password, 
+                @InGameName,
+                @Server::server,
                 @Verified, 
                 @Banned
             );";
@@ -120,6 +124,26 @@ namespace Accounts.Repositories
         public UserRepository(string connectionString)
         {
             _connectionString = connectionString;
+        }
+
+        public User GetUserById(int userId)
+        {
+            using (var con = new NpgsqlConnection(_connectionString))
+            {
+                con.Open();
+
+                var user = con.Query<User>(SELECT_BY_ID, new
+                {
+                    Id = userId
+                }).FirstOrDefault();
+
+                if (user != null)
+                {
+                    user.Roles = this.GetUserRoles(con, user.Id);
+                }
+
+                return user;
+            }
         }
 
         public User GetUserByEmail(string email)
@@ -184,7 +208,9 @@ namespace Accounts.Repositories
                     UsernameUpper = user.Username.ToUpperInvariant(),
                     Email = user.Email,
                     EmailUpper = user.Email.ToUpperInvariant(),
-                    password = user.Password,
+                    Password = user.Password,
+                    InGameName = user.InGameName,
+                    Server = user.Server.ToString(),
                     Verified = true,
                     Banned = false
                 });

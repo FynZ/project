@@ -5,6 +5,7 @@ namespace Accounts.Repositories
 {
     public interface IUserRepository
     {
+        User GetUserById(int userId);
         User GetUserByEmail(string email);
         User GetUserByUsername(string username);
         IEnumerable<User> GetAllUsers();

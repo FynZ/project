@@ -2,6 +2,7 @@
 using System.Linq;
 using Trading.DTO;
 using Trading.Repositories;
+using Trading.Utils;
 
 namespace Trading.Services
 {
@@ -35,6 +36,7 @@ namespace Trading.Services
                 result.Add(new TradingResult
                 {
                     UserId = user.Key,
+                    Affinity = TradingUtils.GetAffinity(searched.Count, proposed.Count),
                     MatchingSearchCount = searched.Count,
                     MatchingProposeCount = proposed.Count
                 });

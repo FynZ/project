@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trading", "src\Trading\Trad
 		{D0B96D28-C8F4-46F0-A8E3-74EA3E67C6AE} = {D0B96D28-C8F4-46F0-A8E3-74EA3E67C6AE}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Shared", "WebApi.Shared\WebApi.Shared.csproj", "{D0B96D28-C8F4-46F0-A8E3-74EA3E67C6AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Shared", "src\WebApi.Shared\WebApi.Shared.csproj", "{D0B96D28-C8F4-46F0-A8E3-74EA3E67C6AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -26,6 +26,16 @@ namespace Accounts.Services
             _jwtHandler = jwtHandler;
         }
 
+        public User GetUser(int userId)
+        {
+            return _userRepository.GetUserById(userId);
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            return _userRepository.GetAllUsers();
+        }
+
         public Jwt Authenticate(string email, string password)
         {
             var user = _userRepository.GetUserByEmail(email);
@@ -43,11 +53,6 @@ namespace Accounts.Services
             }
 
             return null;
-        }
-
-        public IEnumerable<User> GetAll()
-        {
-            return _userRepository.GetAllUsers();
         }
 
         public RegisterResult CreateUser(User user, string password)
