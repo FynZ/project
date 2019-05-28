@@ -3,6 +3,7 @@ using Accounts.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Accounts.Models;
+using Accounts.Models.Enumerations;
 using Accounts.Services;
 using Accounts.ViewModels;
 using Microsoft.AspNetCore.Cors;
@@ -31,7 +32,9 @@ namespace Accounts.Controllers
                 {
                     Username = registerViewModel.Username,
                     Email = registerViewModel.Email,
-                    InGameName = registerViewModel.Character
+                    Server = registerViewModel.Server,
+                    InGameName = registerViewModel.InGameName,
+                    Subscribed = registerViewModel.Subscribe,
                 }, registerViewModel.Password);
 
                 if (result.WasCreated)

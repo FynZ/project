@@ -60,6 +60,10 @@ namespace Accounts
                 {
                     o.UseGeneralRoutePrefix(Configuration?.GetValue("RoutePrefix", AssemblyName));
                 })
+                .AddJsonOptions(o =>
+                {
+                    o.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Swagger

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Accounts.Models;
 using Dapper;
@@ -17,6 +18,9 @@ namespace Accounts.Repositories
                 email                       AS Email, 
                 email_upper                 AS EmailUpper, 
                 password                    AS Password, 
+                server                      AS Server, 
+                in_game_name                AS InGameName, 
+                subscribed                  AS Subscribed, 
                 verified                    AS Verified, 
                 banned                      AS Banned 
             FROM 
@@ -30,6 +34,9 @@ namespace Accounts.Repositories
                 email                       AS Email, 
                 email_upper                 AS EmailUpper, 
                 password                    AS Password, 
+                server                      AS Server, 
+                in_game_name                AS InGameName, 
+                subscribed                  AS Subscribed, 
                 verified                    AS Verified, 
                 banned                      AS Banned 
             FROM 
@@ -45,6 +52,9 @@ namespace Accounts.Repositories
                 email                       AS Email, 
                 email_upper                 AS EmailUpper, 
                 password                    AS Password, 
+                server                      AS Server, 
+                in_game_name                AS InGameName, 
+                subscribed                  AS Subscribed, 
                 verified                    AS Verified, 
                 banned                      AS Banned 
             FROM 
@@ -60,6 +70,9 @@ namespace Accounts.Repositories
                 email                       AS Email, 
                 email_upper                 AS EmailUpper, 
                 password                    AS Password, 
+                server                      AS Server, 
+                in_game_name                AS InGameName, 
+                subscribed                  AS Subscribed, 
                 verified                    AS Verified, 
                 banned                      AS Banned 
             FROM 
@@ -75,9 +88,10 @@ namespace Accounts.Repositories
                 username_upper, 
                 email, 
                 email_upper, 
-                password, 
-                in_game_name,
+                password,
                 server,
+                in_game_name,
+                subscribed, 
                 verified, 
                 banned
             ) 
@@ -88,8 +102,9 @@ namespace Accounts.Repositories
                 @Email, 
                 @EmailUpper, 
                 @Password, 
-                @InGameName,
-                @Server::server,
+                @Server::server, 
+                @InGameName, 
+                @Subscribed, 
                 @Verified, 
                 @Banned
             );";
@@ -117,6 +132,14 @@ namespace Accounts.Repositories
                 @UserId, 
                 @RoleId
             );";
+
+        private const string UPDATE_LAST_LOGIN_DATE = @"
+            UPDATE
+                t_users as tu
+            SET
+                last_login_date = @Date
+            WHERE
+                tu.user_id = @Id;";
         #endregion Queries
 
         private readonly string _connectionString;
@@ -205,14 +228,15 @@ namespace Accounts.Repositories
                 con.Execute(INSERT, new
                 {
                     Username = user.Username,
-                    UsernameUpper = user.Username.ToUpperInvariant(),
+                    UsernameUpper = user.UsernameUpper,
                     Email = user.Email,
-                    EmailUpper = user.Email.ToUpperInvariant(),
+                    EmailUpper = user.EmailUpper,
                     Password = user.Password,
-                    InGameName = user.InGameName,
                     Server = user.Server.ToString(),
-                    Verified = true,
-                    Banned = false
+                    InGameName = user.InGameName,
+                    Subscribed = user.Subscribed,
+                    Verified = user.Verified,
+                    Banned = user.Banned
                 });
 
                 // get inserted user for id
@@ -225,6 +249,20 @@ namespace Accounts.Repositories
                 this.CreateUserRole(con, insertedUser.Id, (int)Models.Enumerations.Role.User);
 
                 return insertedUser.Id;
+            }
+        }
+
+        public void UpdateLastLoginDate(int userId, DateTime date)
+        {
+            using (var con = new NpgsqlConnection(_connectionString))
+            {
+                con.Open();
+
+                con.Execute(UPDATE_LAST_LOGIN_DATE, new
+                {
+                    Date = date,
+                    Id = userId
+                });
             }
         }
 

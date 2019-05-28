@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Accounts.Models;
 
 namespace Accounts.Repositories
@@ -10,5 +11,6 @@ namespace Accounts.Repositories
         User GetUserByUsername(string username);
         IEnumerable<User> GetAllUsers();
         int CreateUser(User user);
+        void UpdateLastLoginDate(int userId, DateTime date);
     }
 }

@@ -1,36 +1,28 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Accounts.Models.Enumerations;
+﻿using Accounts.Models.Enumerations;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Accounts.ViewModels
 {
-    public class RegisterViewModel
+    public class UpdateProfileViewModel
     {
-        [Required]
-        [MinLength(3)]
-        [MaxLength(20)]
-        public string Username { get; set; }
-
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
-        public string Character { get; set; }
-
-        [Required]
         public Server Server { get; set; }
 
         [Required]
-        [MinLength(3)]
-        [MaxLength(30)]
-        public string InGameName { get; set; }
+        public string InGameCharacter { get; set; }
 
-        [Required]
         [MinLength(7)]
         [MaxLength(20)]
         public string Password { get; set; }
 
-        [Required]
         [MinLength(7)]
         [MaxLength(20)]
         [Compare("Password")]
