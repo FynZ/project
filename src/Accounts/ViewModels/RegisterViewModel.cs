@@ -15,9 +15,6 @@ namespace Accounts.ViewModels
         public string Email { get; set; }
 
         [Required]
-        public string Character { get; set; }
-
-        [Required]
         public Server Server { get; set; }
 
         [Required]

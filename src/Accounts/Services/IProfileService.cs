@@ -13,8 +13,8 @@ namespace Accounts.Services
 
         UserProfile GetUserProfile(int userId);
 
-        void UpdateUserProfile(User user);
+        bool UpdateUserProfile(User user);
 
-        void UpdateUserProfile(User user, string password);
+        bool UpdateUserProfile(User user, string password);
     }
 }

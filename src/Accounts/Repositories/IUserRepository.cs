@@ -12,5 +12,7 @@ namespace Accounts.Repositories
         IEnumerable<User> GetAllUsers();
         int CreateUser(User user);
         void UpdateLastLoginDate(int userId, DateTime date);
+        void UpdateUserProfile(User user);
+        void UpdateUserProfileWithPassword(User user);
     }
 }

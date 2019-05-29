@@ -104,8 +104,9 @@ namespace Accounts
             services
                 .AddSingleton<IJwtHandler, JwtHandler>()
                 .AddSingleton<IUserRepository, UserRepository>(x => new UserRepository(Configuration.GetConnectionString("Postgres")))
-                .AddSingleton<IMonsterIniter, MonsterIniter>()
                 .AddSingleton<IUserService, UserService>()
+                .AddSingleton<IProfileService, ProfileService>()
+                .AddSingleton<IMonsterIniter, MonsterIniter>()
                 .AddTransient<IHostedServiceAccessor<IMonsterServiceCommunication>, HostServiceAccessor<IMonsterServiceCommunication>>()
                 .AddSingleton<IHostedService, MonsterServiceCommunication>();
         }

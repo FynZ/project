@@ -11,5 +11,6 @@ namespace Accounts.DTO
         public string Username { get; set; }
         public Server Server { get; set; }
         public string InGameName { get; set; }
+        public DateTime LastLoginDate { get; set; }
     }
 }

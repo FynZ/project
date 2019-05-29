@@ -22,7 +22,8 @@ namespace Accounts.Repositories
                 in_game_name                AS InGameName, 
                 subscribed                  AS Subscribed, 
                 verified                    AS Verified, 
-                banned                      AS Banned 
+                banned                      AS Banned, 
+                last_login_date             AS LastLoginDate
             FROM 
                 t_users";
 
@@ -38,7 +39,8 @@ namespace Accounts.Repositories
                 in_game_name                AS InGameName, 
                 subscribed                  AS Subscribed, 
                 verified                    AS Verified, 
-                banned                      AS Banned 
+                banned                      AS Banned, 
+                last_login_date             AS LastLoginDate 
             FROM 
                 t_users 
             WHERE 
@@ -56,7 +58,8 @@ namespace Accounts.Repositories
                 in_game_name                AS InGameName, 
                 subscribed                  AS Subscribed, 
                 verified                    AS Verified, 
-                banned                      AS Banned 
+                banned                      AS Banned, 
+                last_login_date             AS LastLoginDate 
             FROM 
                 t_users 
             WHERE 
@@ -74,7 +77,8 @@ namespace Accounts.Repositories
                 in_game_name                AS InGameName, 
                 subscribed                  AS Subscribed, 
                 verified                    AS Verified, 
-                banned                      AS Banned 
+                banned                      AS Banned, 
+                last_login_date             AS LastLoginDate 
             FROM 
                 t_users 
             WHERE 
@@ -93,7 +97,8 @@ namespace Accounts.Repositories
                 in_game_name,
                 subscribed, 
                 verified, 
-                banned
+                banned, 
+                last_login_date 
             ) 
             VALUES 
             (
@@ -106,7 +111,8 @@ namespace Accounts.Repositories
                 @InGameName, 
                 @Subscribed, 
                 @Verified, 
-                @Banned
+                @Banned, 
+                @LastLoginDate
             );";
 
         private const string SELECT_USER_ROLES = @"
@@ -139,7 +145,32 @@ namespace Accounts.Repositories
             SET
                 last_login_date = @Date
             WHERE
-                tu.user_id = @Id;";
+                tu.id = @Id;";
+
+        private const string UPDATE_USER_PROFILE = @"
+            UPDATE
+                t_users as tu
+            SET 
+                email = @Email, 
+                email_upper = @EmailUpper, 
+                server = @Server::server,
+                in_game_name = @InGameName,
+                subscribed = @Subscribed 
+            WHERE
+                id = @UserId";
+
+        private const string UPDATE_USER_PROFILE_WITH_PASSWORD = @"
+            UPDATE
+                t_users as tu
+            SET 
+                email = @Email, 
+                email_upper = @EmailUpper, 
+                password = @Password,
+                server = @Server::server,
+                in_game_name = @InGameName,
+                subscribed = @Subscribed 
+            WHERE
+                id = @UserId";
         #endregion Queries
 
         private readonly string _connectionString;
@@ -236,7 +267,8 @@ namespace Accounts.Repositories
                     InGameName = user.InGameName,
                     Subscribed = user.Subscribed,
                     Verified = user.Verified,
-                    Banned = user.Banned
+                    Banned = user.Banned,
+                    LastLoginDate = user.LastLoginDate
                 });
 
                 // get inserted user for id
@@ -262,6 +294,43 @@ namespace Accounts.Repositories
                 {
                     Date = date,
                     Id = userId
+                });
+            }
+        }
+
+        public void UpdateUserProfile(User user)
+        {
+            using (var con = new NpgsqlConnection(_connectionString))
+            {
+                con.Open();
+
+                con.Execute(UPDATE_USER_PROFILE, new
+                {
+                    UserId = user.Id,
+                    Email = user.Email,
+                    EmailUpper = user.EmailUpper,
+                    Server = user.Server.ToString(),
+                    InGameName = user.InGameName,
+                    Subscribed = user.Subscribed
+                });
+            }
+        }
+
+        public void UpdateUserProfileWithPassword(User user)
+        {
+            using (var con = new NpgsqlConnection(_connectionString))
+            {
+                con.Open();
+
+                con.Execute(UPDATE_USER_PROFILE_WITH_PASSWORD, new
+                {
+                    UserId = user.Id,
+                    Email = user.Email,
+                    EmailUpper = user.EmailUpper,
+                    Password = user.Password,
+                    Server = user.Server.ToString(),
+                    InGameName = user.InGameName,
+                    Subscribed = user.Subscribed
                 });
             }
         }

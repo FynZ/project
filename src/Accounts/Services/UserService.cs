@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Accounts.Configuration.Security;
 using Accounts.DTO;
+using Accounts.Helpers;
 using Accounts.Models;
 using Accounts.Repositories;
 using Accounts.Services.HostedServices;
@@ -32,11 +33,13 @@ namespace Accounts.Services
 
             if (user != null)
             {
-                if (PasswordsMatch(password, user.Password))
+                if (PasswordHelper.PasswordsMatch(password, user.Password))
                 {
                     var claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, user.Username));
                     claims.AddRange(user.Roles.Select(role => new Claim("roles", role.Name)));
+
+                    _userRepository.UpdateLastLoginDate(user.Id, DateTime.UtcNow);
 
                     return _jwtHandler.Create(user);
                 }
@@ -50,7 +53,10 @@ namespace Accounts.Services
             user.EmailUpper = user.Email.ToUpperInvariant();
             user.UsernameUpper = user.Username.ToUpperInvariant();
 
-            user.Password = HashPassword(password);
+            // there is no logic for account verification yet, so all account are direcly flagged as verified
+            user.Verified = true;
+
+            user.Password = PasswordHelper.HashPassword(password);
 
             var result = new RegisterResult
             {
@@ -68,31 +74,6 @@ namespace Accounts.Services
             }
 
             return result;
-        }
-
-        private static bool PasswordsMatch(string givenPassword, string storedPassword)
-        {
-            using (var hashBuilder = SHA512.Create())
-            {
-                byte[] bytePassword = hashBuilder.ComputeHash(Encoding.UTF8.GetBytes(givenPassword));
-                var base64Password = Convert.ToBase64String(bytePassword);
-
-                if (base64Password != storedPassword)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private static string HashPassword(string password)
-        {
-            using (var hashBuilder = SHA512.Create())
-            {
-                byte[] bytePassword = hashBuilder.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return Convert.ToBase64String(bytePassword);
-            }
         }
     }
 }

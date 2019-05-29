@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using Accounts.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,7 @@ namespace Accounts.Controllers
                     Server = registerViewModel.Server,
                     InGameName = registerViewModel.InGameName,
                     Subscribed = registerViewModel.Subscribe,
+                    LastLoginDate = DateTime.UtcNow
                 }, registerViewModel.Password);
 
                 if (result.WasCreated)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Accounts.DTO;
+using Accounts.Helpers;
 using Accounts.Models;
 using Accounts.Repositories;
 
@@ -28,7 +29,8 @@ namespace Accounts.Services
                     Email = user.Email,
                     Username = user.Username,
                     Server = user.Server,
-                    InGameName = user.InGameName
+                    InGameName = user.InGameName,
+                    LastLoginDate = user.LastLoginDate
                 };
             }
 
@@ -45,21 +47,49 @@ namespace Accounts.Services
                 {
                     Username = user.Username,
                     Server = user.Server,
-                    InGameName = user.InGameName
+                    InGameName = user.InGameName,
+                    LastLoginDate = user.LastLoginDate
                 };
             }
 
             return null;
         }
 
-        public void UpdateUserProfile(User user)
+        public bool UpdateUserProfile(User user)
         {
-            throw new NotImplementedException();
+            user.EmailUpper = user.Email.ToUpperInvariant();
+
+            // check if the to update email is already taken
+            var sameEMail = _userRepository.GetUserByEmail(user.EmailUpper);
+
+            // if no match or we match the same user, it's good to go
+            if (sameEMail is null || user.Id == sameEMail.Id)
+            {
+                _userRepository.UpdateUserProfile(user);
+
+                return true;
+            }
+
+            return false;
         }
 
-        public void UpdateUserProfile(User user, string password)
+        public bool UpdateUserProfile(User user, string password)
         {
-            throw new NotImplementedException();
+            user.EmailUpper = user.Email.ToUpperInvariant();
+            user.Password = PasswordHelper.HashPassword(password);
+
+            // check if the to update email is already taken
+            var sameEMail = _userRepository.GetUserByEmail(user.EmailUpper);
+
+            // if no match or we match the same user, it's good to go
+            if (sameEMail is null || user.Id == sameEMail.Id)
+            {
+                _userRepository.UpdateUserProfileWithPassword(user);
+
+                return true;
+            }
+
+            return false;
         }
     }
 }
