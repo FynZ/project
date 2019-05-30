@@ -1,4 +1,4 @@
-package com.fynzie.demo;
+package com.fynzie.news;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
