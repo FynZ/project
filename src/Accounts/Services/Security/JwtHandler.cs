@@ -4,14 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Accounts.Configuration.Security.Models;
+using Accounts.DTO;
 using Accounts.Models;
+using Accounts.Services.Security.Models;
 using Accounts.Settings;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using WebApi.Shared.Configuration.Security;
 
-namespace Accounts.Configuration.Security
+namespace Accounts.Services.Security
 {
     public class JwtHandler : IJwtHandler
     {
@@ -46,21 +47,27 @@ namespace Accounts.Configuration.Security
 
         private static SigningCredentials CreateRsaCredentials(string privateKeyRelativePath)
         {
-            //using (RSA privateRsa = RSA.Create())
-            //{
-            //    var privateKeyXml = File.ReadAllText(privateKeyRelativePath);
-            //    privateRsa.FromXml(privateKeyXml);
-            //    var privateKey = new RsaSecurityKey(privateRsa);
+            #region Windows Implementation
+            /*
+            using (RSA privateRsa = RSA.Create())
+            {
+                var privateKeyXml = File.ReadAllText(privateKeyRelativePath);
+                privateRsa.FromXml(privateKeyXml);
+                var privateKey = new RsaSecurityKey(privateRsa);
 
-            //    return new SigningCredentials(privateKey, SecurityAlgorithms.RsaSha256);
-            //}
+                return new SigningCredentials(privateKey, SecurityAlgorithms.RsaSha256);
+            }
+            */
+            #endregion
 
+            #region Linux Implementation
             RSA privateRsa = RSA.Create();
             var privateKeyXml = File.ReadAllText(privateKeyRelativePath);
             privateRsa.FromXml(privateKeyXml);
             var privateKey = new RsaSecurityKey(privateRsa);
 
             return new SigningCredentials(privateKey, SecurityAlgorithms.RsaSha256);
+            #endregion
         }
 
     public Jwt Create(User user)
@@ -82,7 +89,7 @@ namespace Accounts.Configuration.Security
             nbf = now,
             iat = now,
             jti = Guid.NewGuid().ToString("N"),
-            roles = user.Roles.Select(x => x.Name)
+            roles = user.Roles.Select(x => x.ToString())
         };
 
         var jwt = new JwtSecurityToken(_jwtHeader, jwtToken);

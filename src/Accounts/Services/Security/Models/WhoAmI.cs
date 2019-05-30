@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace Accounts.Configuration.Security.Models
+namespace Accounts.Services.Security.Models
 {
 #pragma warning disable IDE1006 // Naming Styles
     [SuppressMessage("ReSharper", "InconsistentNaming")]

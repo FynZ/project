@@ -1,10 +1,7 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using Accounts.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Accounts.Models;
-using Accounts.Models.Enumerations;
 using Accounts.Services;
 using Accounts.ViewModels;
 using Microsoft.AspNetCore.Cors;
@@ -29,15 +26,15 @@ namespace Accounts.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = _userService.CreateUser(new User
+                var result = _userService.CreateUser(new UserCreation
                 {
                     Username = registerViewModel.Username,
                     Email = registerViewModel.Email,
+                    Password = registerViewModel.Password,
                     Server = registerViewModel.Server,
                     InGameName = registerViewModel.InGameName,
                     Subscribed = registerViewModel.Subscribe,
-                    LastLoginDate = DateTime.UtcNow
-                }, registerViewModel.Password);
+                });
 
                 if (result.WasCreated)
                 {

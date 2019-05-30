@@ -3,9 +3,9 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-using Accounts.Configuration.Security.Models;
-using Accounts.Models;
+using Accounts.DTO;
 using Accounts.Services;
+using Accounts.Services.Security.Models;
 using Accounts.ViewModels;
 using Microsoft.AspNetCore.Cors;
 

@@ -1,4 +1,4 @@
-﻿namespace Accounts.Models
+﻿namespace Accounts.DTO
 {
     public class Jwt
     {

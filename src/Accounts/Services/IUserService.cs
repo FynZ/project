@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using Accounts.DTO;
-using Accounts.Models;
+﻿using Accounts.DTO;
 
 namespace Accounts.Services
 {
     public interface IUserService
     {
+        RegisterResult CreateUser(UserCreation user);
         Jwt Authenticate(string username, string password);
-
-        RegisterResult CreateUser(User user, string password);
     }
 }

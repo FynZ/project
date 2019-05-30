@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Accounts.Configuration.Security.Models
+namespace Accounts.Services.Security.Models
 {
 #pragma warning disable IDE1006 // Naming Styles
     [SuppressMessage("ReSharper", "InconsistentNaming")]

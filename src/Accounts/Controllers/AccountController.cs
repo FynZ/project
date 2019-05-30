@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using Accounts.DTO;
 using Accounts.Models;
 using Accounts.Services;
@@ -10,7 +7,6 @@ using Accounts.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using WebApi.Shared.Extensions;
 
 namespace Accounts.Controllers

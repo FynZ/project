@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Accounts.Models;
+using Accounts.Models.Enumerations;
 using Dapper;
 using Npgsql;
 
@@ -9,6 +10,11 @@ namespace Accounts.Repositories
 {
     public class UserRepository : IUserRepository
     {
+        static UserRepository()
+        {
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<Role>(typeof(Role).Name);
+        }
+
         #region Queries
         private const string SELECT_ALL = @"
             SELECT 
@@ -113,16 +119,15 @@ namespace Accounts.Repositories
                 @Verified, 
                 @Banned, 
                 @LastLoginDate
-            );";
+            )
+            RETURNING id;";
 
         private const string SELECT_USER_ROLES = @"
             SELECT 
-                tr.id                       AS Id, 
-                tr.name                     AS Name 
+                tur.user_id                 AS UserId,
+                tur.role::role              AS Role 
             FROM 
-                t_roles                     AS tr 
-            INNER JOIN 
-                t_user_roles                AS tur ON tur.role_id = tr.id 
+                t_user_roles                AS tur
             WHERE 
                 tur.user_id = @Id;";
 
@@ -131,12 +136,12 @@ namespace Accounts.Repositories
                 t_user_roles 
             (
                 user_id, 
-                role_id
+                role
             ) 
             VALUES 
             (
                 @UserId, 
-                @RoleId
+                @Role::role
             );";
 
         private const string UPDATE_LAST_LOGIN_DATE = @"
@@ -256,31 +261,31 @@ namespace Accounts.Repositories
             {
                 con.Open();
 
-                con.Execute(INSERT, new
+                using (var transaction = con.BeginTransaction())
                 {
-                    Username = user.Username,
-                    UsernameUpper = user.UsernameUpper,
-                    Email = user.Email,
-                    EmailUpper = user.EmailUpper,
-                    Password = user.Password,
-                    Server = user.Server.ToString(),
-                    InGameName = user.InGameName,
-                    Subscribed = user.Subscribed,
-                    Verified = user.Verified,
-                    Banned = user.Banned,
-                    LastLoginDate = user.LastLoginDate
-                });
+                    // insert user
+                    var insertedUserId = con.QueryFirst<int>(INSERT, new
+                    {
+                        Username = user.Username,
+                        UsernameUpper = user.UsernameUpper,
+                        Email = user.Email,
+                        EmailUpper = user.EmailUpper,
+                        Password = user.Password,
+                        Server = user.Server.ToString(),
+                        InGameName = user.InGameName,
+                        Subscribed = user.Subscribed,
+                        Verified = user.Verified,
+                        Banned = user.Banned,
+                        LastLoginDate = user.LastLoginDate
+                    }, transaction);
 
-                // get inserted user for id
-                var insertedUser = con.Query<User>(SELECT_BY_EMAIL, new
-                {
-                    Email = user.Email.ToUpperInvariant()
-                }).First();
+                    // insert roles (default is only user)
+                    con.Execute(INSERT_USER_ROLE, user.Roles.Select(x => new {UserId = insertedUserId, Role = x.ToString()}), transaction);
 
-                // insert default role (User)
-                this.CreateUserRole(con, insertedUser.Id, (int)Models.Enumerations.Role.User);
+                    transaction.Commit();
 
-                return insertedUser.Id;
+                    return insertedUserId;
+                }
             }
         }
 
@@ -337,19 +342,10 @@ namespace Accounts.Repositories
 
         private IEnumerable<Role> GetUserRoles(NpgsqlConnection con, int userId)
         {
-            return con.Query<Role>(SELECT_USER_ROLES, new
+            return con.Query<UserRole>(SELECT_USER_ROLES, new
             {
                 Id = userId
-            });
-        }
-
-        private void CreateUserRole(NpgsqlConnection con, int userId, int roleId)
-        {
-            con.Execute(INSERT_USER_ROLE, new
-            {
-                UserId = userId,
-                RoleId = roleId
-            });
+            }).Select(x => x.Role);
         }
 
         #region InMemoryImplementation

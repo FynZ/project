@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using Accounts.Configuration.Security;
 using Accounts.DTO;
 using Accounts.Helpers;
 using Accounts.Models;
+using Accounts.Models.Enumerations;
 using Accounts.Repositories;
 using Accounts.Services.HostedServices;
 using Accounts.Services.HostedServices.Communication;
+using Accounts.Services.Security;
 
 namespace Accounts.Services
 {
@@ -27,36 +26,23 @@ namespace Accounts.Services
             _jwtHandler = jwtHandler;
         }
 
-        public Jwt Authenticate(string email, string password)
+        public RegisterResult CreateUser(UserCreation userCreation)
         {
-            var user = _userRepository.GetUserByEmail(email);
-
-            if (user != null)
+            var user = new User
             {
-                if (PasswordHelper.PasswordsMatch(password, user.Password))
-                {
-                    var claims = new List<Claim>();
-                    claims.Add(new Claim(ClaimTypes.Name, user.Username));
-                    claims.AddRange(user.Roles.Select(role => new Claim("roles", role.Name)));
-
-                    _userRepository.UpdateLastLoginDate(user.Id, DateTime.UtcNow);
-
-                    return _jwtHandler.Create(user);
-                }
-            }
-
-            return null;
-        }
-
-        public RegisterResult CreateUser(User user, string password)
-        {
-            user.EmailUpper = user.Email.ToUpperInvariant();
-            user.UsernameUpper = user.Username.ToUpperInvariant();
-
-            // there is no logic for account verification yet, so all account are direcly flagged as verified
-            user.Verified = true;
-
-            user.Password = PasswordHelper.HashPassword(password);
+                Username = userCreation.Username,
+                UsernameUpper = userCreation.Username.ToUpperInvariant(),
+                Email = userCreation.Email,
+                EmailUpper = userCreation.Email.ToUpperInvariant(),
+                Password = PasswordHelper.HashPassword(userCreation.Password),
+                Server = userCreation.Server,
+                InGameName = userCreation.InGameName,
+                Subscribed = userCreation.Subscribed,
+                Verified = true, // there is no logic for account verification yet, so all account are directly flagged as verified
+                Banned = false,
+                LastLoginDate = DateTime.UtcNow,
+                Roles = new List<Role> { Role.User }
+            };
 
             var result = new RegisterResult
             {
@@ -74,6 +60,27 @@ namespace Accounts.Services
             }
 
             return result;
+        }
+
+        public Jwt Authenticate(string email, string password)
+        {
+            var user = _userRepository.GetUserByEmail(email);
+
+            if (user != null)
+            {
+                if (PasswordHelper.PasswordsMatch(password, user.Password))
+                {
+                    var claims = new List<Claim>();
+                    claims.Add(new Claim(ClaimTypes.Name, user.Username));
+                    claims.AddRange(user.Roles.Select(role => new Claim("roles", role.ToString())));
+
+                    _userRepository.UpdateLastLoginDate(user.Id, DateTime.UtcNow);
+
+                    return _jwtHandler.Create(user);
+                }
+            }
+
+            return null;
         }
     }
 }
