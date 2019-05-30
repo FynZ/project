@@ -11,9 +11,9 @@ import { Register } from 'src/app/models/register';
     styleUrls: ['./register.component.sass']
 })
 export class RegisterComponent implements OnInit {
-    
+
     form: FormGroup;
-    
+
     constructor(
         private fb: FormBuilder,
         private authService: AuthService,
@@ -21,12 +21,12 @@ export class RegisterComponent implements OnInit {
         private router: Router)
         {
             this.form = this.fb.group({
-                username: ['test-user', Validators.required],
-                email: ['test@test.test', Validators.required],
-                character: ['test-user', Validators.required],
+                username: ['user', Validators.required],
+                email: ['user@test.test', Validators.required],
+                character: ['user', Validators.required],
                 server : ['Meriana', Validators.required],
-                password: ['testtest', Validators.required],
-                passwordConfirm: ['testtest', Validators.required],
+                password: ['azerty123', Validators.required],
+                passwordConfirm: ['azerty123', Validators.required],
                 subscribe : [false, Validators.required]
             });
         }
@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
             const register = new Register();
             register.username = this.form.value.username;
             register.email = this.form.value.email;
-            register.character = this.form.value.character;
+            register.inGameName = this.form.value.character;
             register.server = this.form.value.server;
             register.password = this.form.value.password;
             register.passwordConfirm = this.form.value.passwordConfirm;

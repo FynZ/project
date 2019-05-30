@@ -35,7 +35,7 @@ namespace Accounts
             //Cors
             services.AddDefaultCorsConfiguration();
             // Mvc
-            services.AddDefaultMvcConfiguration(AssemblyName);
+            services.AddDefaultMvcConfiguration(Configuration["RoutePrefix"]);
             // Swagger
             services.AddDefaultSwaggerConfiguration(AssemblyName);
             // Compression

@@ -1,18 +1,20 @@
 <br />
 <div class="container">
     <div class="row">
-        <div *ngFor="let trade of trading" class="col-4 card-group">
-            <div class="card">
-                <div class="card-body">
-                    <div class="trading-header">
-                        <span>
-                            <div class="float-left">User {{trade.userId}}</div>
-                            <div class="float-right">Affinity {{trade.affinity}}</div>
-                        </span>
-                    </div>
-                    <br/>
-                    <div *ngIf="trade.matchingSearchCount > 0" class="progress">
-                        <div class="progress-bar progress-bar-striped bg-warning" 
+        <div *ngIf="trading.length > 0; then thenBlock; else elseBlock">this is ignored</div>
+        <ng-template #elseBlock>
+            <div *ngFor="let trade of trading" class="col-4 card-group">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="trading-header">
+                            <span>
+                                <div class="float-left">User {{trade.userId}}</div>
+                                <div class="float-right">Affinity {{trade.affinity}}</div>
+                            </span>
+                        </div>
+                        <br/>
+                        <div *ngIf="trade.matchingSearchCount > 0" class="progress">
+                            <div class="progress-bar progress-bar-striped bg-warning" 
                             role="progressbar" 
                             [style.width]="trade.matchingSearchCount * 5 + '%'" 
                             [attr.aria-valuenow]="trade.matchingSearchCount" 
@@ -30,5 +32,17 @@
                 </div>
             </div>
         </div>
-    </div>
+    </ng-template>
+    <ng-template #elseBlock>
+        <div class="card">
+            <div class="card-header">
+                Woops
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">We didn't found anyone to trade with :(</h5>
+                <p class="card-text">Come back later to see if people caught some more archimonsters to trade</p>
+                <a routerLink="/monsters" routerLinkActive="active" class="btn btn-primary">My monsters</a>
+            </div>
+        </div>
+    </ng-template>
 </div>

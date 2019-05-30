@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ using Monsters.Settings;
 using Steeltoe.Discovery.Client;
 using WebApi.Shared.Configuration;
 using WebApi.Shared.Configuration.Extensions;
+using WebApi.Shared.Configuration.Security;
 
 namespace Monsters
 {
@@ -32,7 +34,7 @@ namespace Monsters
             //Cors
             services.AddDefaultCorsConfiguration();
             // Mvc
-            services.AddDefaultMvcConfiguration(AssemblyName);
+            services.AddDefaultMvcConfiguration(Configuration["RoutePrefix"]);
             // Swagger
             services.AddDefaultSwaggerConfiguration(AssemblyName);
             // Compression
@@ -40,6 +42,14 @@ namespace Monsters
 
             // Service Discovery
             services.AddDiscoveryClient(Configuration);
+
+            // Authentication
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = PublicKeyManager.InitializeJwtParameters(Configuration.GetSection("jwtValidation")["rsaPublicKeyXml"]);
+                });
+
 
             // Config to Object registration
             services
