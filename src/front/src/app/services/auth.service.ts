@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Login } from '../models/login';
 import { Register } from '../models/register';
-import { LoginResult } from './../models/login-result';
+import { LoginResult } from '../models/login-result';
 import { RegisterResult } from '../models/register-result';
 
 @Injectable({

@@ -42,15 +42,15 @@ const appRoutes: Routes = [
   { path: 'news/:name',     component: NewsDetailsComponent },
   { path: 'login',          component: LoginComponent },
   { path: 'register',       component: RegisterComponent },
-  { path: 'profile',        component: ProfileComponent},
-  { path: 'monsters',       component: MonstersComponent},
+  { path: 'profile',        component: ProfileComponent },
+  { path: 'monsters',       component: MonstersComponent },
   { path: 'monsters/:id',   component: MonsterDetailsComponent },
-  { path: 'trading',        component: TradingComponent},
-  { path: 'marketplace',    component: MarketplaceComponent},
-  { path: 'map',            component: MapComponent},
-  { path: 'messages',       component: MessagesComponent},
-  { path: 'user/;id',       component: UserComponent},
-  { path: 'admin',          component: AdminComponent},
+  { path: 'trading',        component: TradingComponent },
+  { path: 'marketplace',    component: MarketplaceComponent },
+  { path: 'map',            component: MapComponent },
+  { path: 'messages',       component: MessagesComponent },
+  { path: 'user/:id',       component: UserComponent },
+  { path: 'admin',          component: AdminComponent },
   { path: '**',             component: NotFoundComponent }
 ];
 

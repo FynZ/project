@@ -15,34 +15,37 @@
                         <br/>
                         <div *ngIf="trade.matchingSearchCount > 0" class="progress">
                             <div class="progress-bar progress-bar-striped bg-warning" 
-                            role="progressbar" 
-                            [style.width]="trade.matchingSearchCount * 5 + '%'" 
-                            [attr.aria-valuenow]="trade.matchingSearchCount" 
-                            aria-valuemin="0" 
-                            aria-valuemax="20">{{trade.matchingSearchCount}}
-                        </div>
-                        <div *ngIf="trade.matchingProposeCount > 0" class="progress-bar progress-bar-striped bg-success" 
-                            role="progressbar" 
-                            [style.width]="trade.matchingProposeCount * 5 + '%'" 
-                            [attr.aria-valuenow]="trade.matchingProposeCount" 
-                            aria-valuemin="0" 
-                            aria-valuemax="20">{{trade.matchingProposeCount}}
+                                role="progressbar" 
+                                [style.width]="trade.matchingSearchCount * 5 + '%'" 
+                                [attr.aria-valuenow]="trade.matchingSearchCount" 
+                                aria-valuemin="0" 
+                                aria-valuemax="20">{{trade.matchingSearchCount}}
+                            </div>
+                            <div *ngIf="trade.matchingProposeCount > 0" class="progress-bar progress-bar-striped bg-success" 
+                                role="progressbar" 
+                                [style.width]="trade.matchingProposeCount * 5 + '%'" 
+                                [attr.aria-valuenow]="trade.matchingProposeCount" 
+                                aria-valuemin="0" 
+                                aria-valuemax="20">{{trade.matchingProposeCount}}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </ng-template>
-    <ng-template #elseBlock>
-        <div class="card">
-            <div class="card-header">
-                Woops
+        </ng-template>
+        <ng-template #elseBlock>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Woops
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">We didn't find anyone for you to trade with :(</h5>
+                        <p class="card-text">Come back later to see if people caught some more archimonsters to trade</p>
+                        <a routerLink="/monsters" routerLinkActive="active" class="btn btn-primary">My monsters</a>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <h5 class="card-title">We didn't found anyone to trade with :(</h5>
-                <p class="card-text">Come back later to see if people caught some more archimonsters to trade</p>
-                <a routerLink="/monsters" routerLinkActive="active" class="btn btn-primary">My monsters</a>
-            </div>
-        </div>
-    </ng-template>
+        </ng-template>
+    </div>
 </div>
