@@ -1,4 +1,5 @@
 ﻿using Accounts.Models.Enumerations;
+using WebApi.Shared.Enumerations;
 
 namespace Accounts.Models
 {

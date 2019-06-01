@@ -10,6 +10,7 @@ using Accounts.Repositories;
 using Accounts.Services.HostedServices;
 using Accounts.Services.HostedServices.Communication;
 using Accounts.Services.Security;
+using WebApi.Shared.Enumerations;
 
 namespace Accounts.Services
 {

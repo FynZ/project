@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\" />
     <Folder Include="Models\Enumerations\" />
     <Folder Include="Helpers\" />
     <Folder Include="ViewModels\" />

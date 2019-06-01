@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Elasticsearch.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Shared.Enumerations;
 
 namespace Accounts.Controllers
 {
@@ -12,7 +14,7 @@ namespace Accounts.Controllers
     public class TestController : ControllerBase
     {
         [HttpGet("user")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.User))]
         public IActionResult TestUser()
         {
             return Content($"Hello {User.Identity.Name}");

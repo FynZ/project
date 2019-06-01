@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Monsters.DTO;
 using Monsters.Services;
+using WebApi.Shared.Extensions;
 
 namespace Monsters.Controllers
 {
@@ -16,13 +19,19 @@ namespace Monsters.Controllers
             _monsterService = monsterService;
         }
 
-        [HttpGet("init/{userId}")]
-        [AllowAnonymous]
-        public IActionResult Init(int userId)
+        [HttpGet("summary")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [ProducesResponseType(typeof(MonsterSummary), (int)HttpStatusCode.OK)]
+        public IActionResult GetUserMonsterSummary()
         {
-            (_monsterService as IMonsterIniter)?.InitUser(userId);
+            var summary = _monsterService.GetSummary(this.AuthenticatedUserId());
 
-            return Ok();
+            if (summary != null)
+            {
+                return Ok(summary);
+            }
+
+            return NotFound();
         }
 
         [HttpGet("")]

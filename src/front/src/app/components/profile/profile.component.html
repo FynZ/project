@@ -1,9 +1,51 @@
-<p>
-  profile works!
-</p>
-
-<p>{{ userInformation.email}}</p>
-<p>{{ userInformation.userName}}</p>
-<p>{{ userInformation.server}}</p>
-<p>{{ userInformation.inGameName}}</p>
-<p>{{ userInformation.lastLoginDate}}</p>
+<div class="container">
+    <div class="row">
+        <div class="col-7">
+            <p>Number of monsters you have: {{ monsterSummary?.haveCount }}</p>
+            <p>Number of monsters you are proposing: {{ monsterSummary?.proposeCount }}</p>
+            <p>Number of monsters you are looking for: {{ monsterSummary?.searchCount }}</p>
+            <p>Number of monsters tradables: {{ monsterSummary?.tradableCount }}</p>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="inputEmail">Email</label>
+                <input type="email" class="form-control" id="inputEmail" [(ngModel)]="userInformation.email" >
+            </div>
+            <div class="form-group">
+                <label for="inputCharacter">In-Game character</label>
+                <input type="text" class="form-control" id="inputCharacter" [(ngModel)]="userInformation.inGameName" >
+            </div>
+            <div class="form-group">
+                <label for="inputServer">Server</label>
+                <select class="form-control" id="inputServer" [(ngModel)]="userInformation.server" >
+                    <option value="Meriana" >Meriana</option>
+                    <option value="Agride"  >Agride</option>
+                    <option value="Nidas"   >Nidas</option>
+                    <option value="Brumen"  >Brumen</option>
+                    <option value="Merkator">Merkator</option>
+                    <option value="Furye"   >Furye</option>
+                    <option value="Julith"  >Julith</option>
+                    <option value="Ush"     >Ush</option>
+                    <option value="Pandora" >Pandora</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Password</label>
+                <input type="password" class="form-control" id="inputPassword" [(ngModel)]="password" >
+            </div>
+            <div class="form-group">
+                <label for="inputPasswordRepeat">Repeat Password</label>
+                <input type="password" class="form-control" id="inputPasswordRepeat" [(ngModel)]="passwordConfirm" >
+            </div>
+            <br/>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="updatesNotification" [(ngModel)]="userInformation.subscribed" >
+                    <label class="form-check-label" for="updatesNotification">Be informed on updates</label>
+                </div>
+            </div>
+            <hr/>
+            <button (click)="updateProfile()" type="submit" class="btn btn-primary">Update</button>
+        </div>
+    </div>
+</div>

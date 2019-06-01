@@ -1,3 +1,4 @@
+import { MonsterSummary } from './../models/monster-summary';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Monster } from '../models/monster';
@@ -15,6 +16,18 @@ export class MonsterService
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': 'http://localhost:4200/'
         });
+    }
+
+    async getSummary(): Promise<MonsterSummary>
+    {
+        try
+        {
+            return await this.http.get<MonsterSummary>("http://localhost:80/monsters/summary", {headers: this.httpHeaders}).toPromise();
+        }
+        catch (e)
+        {
+            return null;
+        }
     }
 
     async getMonsters(): Promise<Monster[]>

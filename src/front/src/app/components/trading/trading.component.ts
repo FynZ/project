@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class TradingComponent implements OnInit
 {
-    public trading: Trading[];
+    public trading: Trading[] = [];
 
     constructor(
         private monsterService: TradingService,

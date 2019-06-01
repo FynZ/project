@@ -48,8 +48,8 @@ namespace Accounts.Controllers
                     Id = this.AuthenticatedUserId(),
                     Email = updateProfileViewModel.Email,
                     Server = updateProfileViewModel.Server,
-                    InGameName = updateProfileViewModel.InGameCharacter,
-                    Subscribed = updateProfileViewModel.Subscribe
+                    InGameName = updateProfileViewModel.InGameName,
+                    Subscribed = updateProfileViewModel.Subscribed
                 };
 
                 // if both password and passwordConfirm are missing, null or empty we update all the rest

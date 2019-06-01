@@ -1,3 +1,5 @@
+import { UpdateProfileWithPassword } from './../models/update-profile-with-password';
+import { UpdateProfile } from './../models/update-profile';
 import { UserInformation } from '../models/user-information';
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
@@ -47,13 +49,32 @@ export class UserService {
         }
     }
 
-    public async updateUserProfile(userProfile: any): Promise<boolean>
+    public async updateUserProfile(userProfile: UpdateProfile): Promise<boolean>
     {
         try
         {
             await this.http.post(
                 `http://localhost:80/auth/profile/update`,
+                userProfile,
                 {headers : this.httpHeaders}
+            ).toPromise();
+
+            return true;
+        }
+        catch (ex)
+        {
+            return false;
+        }
+    }
+
+    public async updateUserProfileWithPassword(userProfile: UpdateProfileWithPassword): Promise<boolean>
+    {
+        try
+        {
+            await this.http.post(
+                `http://localhost:80/auth/profile/update`,
+                userProfile,
+                {headers : this.httpHeaders},
             ).toPromise();
 
             return true;

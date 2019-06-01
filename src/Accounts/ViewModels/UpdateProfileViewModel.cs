@@ -13,7 +13,7 @@ namespace Accounts.ViewModels
         public Server Server { get; set; }
 
         [Required]
-        public string InGameCharacter { get; set; }
+        public string InGameName { get; set; }
 
         [MinLength(7)]
         [MaxLength(20)]
@@ -25,6 +25,6 @@ namespace Accounts.ViewModels
         public string PasswordConfirm { get; set; }
 
         [Required]
-        public bool Subscribe { get; set; }
+        public bool Subscribed { get; set; }
     }
 }

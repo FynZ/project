@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Trading.Services;
+using WebApi.Shared.Extensions;
 
 namespace Trading.Controllers
 {

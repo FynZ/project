@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Accounts.Models.Enumerations;
+using WebApi.Shared.Enumerations;
 
 namespace Accounts.Models
 {

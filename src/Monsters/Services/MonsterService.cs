@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Monsters.DTO;
 using Monsters.Models;
 using Monsters.Repositories;
 
@@ -20,6 +22,19 @@ namespace Monsters.Services
             }
 
             return _monsterRepository.InitUser(userId);
+        }
+
+        public MonsterSummary GetSummary(int userId)
+        {
+            var monsters = _monsterRepository.GetUserMonsters(userId);
+
+            return new MonsterSummary
+            {
+                HaveCount = monsters.Count(x => x.Count > 0),
+                ProposeCount = monsters.Count(x => x.Propose),
+                SearchCount = monsters.Count(x => x.Search),
+                TradableCount = monsters.Count(x => x.Count > 1)
+            };
         }
 
         public UserMonster GetUserMonster(int monsterId, int userId)

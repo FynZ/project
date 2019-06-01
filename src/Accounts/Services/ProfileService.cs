@@ -26,6 +26,7 @@ namespace Accounts.Services
                     Username = user.Username,
                     Server = user.Server,
                     InGameName = user.InGameName,
+                    Subscribed = user.Subscribed,
                     LastLoginDate = user.LastLoginDate
                 };
             }

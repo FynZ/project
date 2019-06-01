@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Monsters.DTO;
 using Monsters.Models;
 
 namespace Monsters.Services
 {
     public interface IMonsterService
     {
-        UserMonster GetUserMonster(int monsterId, int userId);
+        MonsterSummary GetSummary(int userId);
         IEnumerable<UserMonster> GetUserMonsters(int userId);
         void IncrementMonster(int monsterId, int userId);
         void DecrementMonster(int monsterId, int userId);

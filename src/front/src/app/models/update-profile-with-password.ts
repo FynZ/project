@@ -1,9 +1,9 @@
-export class UserInformation
+export class UpdateProfileWithPassword
 {
     public email: string;
-    public userName: string;
     public server: string;
     public inGameName: string;
+    public password: string;
+    public passwordConfirm: string;
     public subscribed: boolean;
-    public lastLoginDate: Date;
 }
