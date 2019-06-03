@@ -72,7 +72,7 @@ export class UserService {
         try
         {
             await this.http.post(
-                `http://localhost:80/auth/profile/update`,
+                `http://localhost:80/auth/profile/complete-update`,
                 userProfile,
                 {headers : this.httpHeaders},
             ).toPromise();

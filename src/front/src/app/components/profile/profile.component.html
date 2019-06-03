@@ -1,12 +1,63 @@
 <div class="container">
     <div class="row">
         <div class="col-7">
-            <p>Number of monsters you have: {{ monsterSummary?.haveCount }}</p>
-            <p>Number of monsters you are proposing: {{ monsterSummary?.proposeCount }}</p>
-            <p>Number of monsters you are looking for: {{ monsterSummary?.searchCount }}</p>
-            <p>Number of monsters tradables: {{ monsterSummary?.tradableCount }}</p>
+            <h2>Accounts Summary</h2>
+            <br/>
+            <h4>Overall progress:</h4>
+            <br/>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-success" 
+                    role="progressbar" 
+                    [style.width]="monsterSummary?.haveCount * 100 / 286 + '%'" 
+                    [attr.aria-valuenow]="monsterSummary?.haveCount * 100 / 286" 
+                    aria-valuemin="0" 
+                    aria-valuemax="100">{{ monsterSummary?.haveCount }}
+                </div>
+                <div class="progress-bar progress-bar-striped bg-danger" 
+                    role="progressbar" 
+                    [style.width]="(286 - monsterSummary?.haveCount) * 5 + '%'" 
+                    [attr.aria-valuenow]="(286 - monsterSummary?.haveCount) * 100 / 286" 
+                    aria-valuemin="0" 
+                    aria-valuemax="100">{{ 286 - monsterSummary?.haveCount }}
+                </div>
+            </div>
+            <br/>
+            <h6>You are currently proposing {{ monsterSummary?.proposeCount }} monster(s)</h6>
+            <h6>You are currently looking for {{ monsterSummary?.searchCount }} monster(s)</h6>
+            <h6>You currently have {{ monsterSummary?.tradableCount }} monster(s) available for trading</h6>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="col-6">
+                    <h5>Monsters you are proposing:</h5>
+                    <br/>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Cras justo odio</li>
+                        <li class="list-group-item">Dapibus ac facilisis in</li>
+                        <li class="list-group-item">Morbi leo risus</li>
+                        <li class="list-group-item">Porta ac consectetur ac</li>
+                        <li class="list-group-item">Vestibulum at eros</li>
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <h5>Monsters you are looking for:</h5>
+                    <br/>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Cras justo odio</li>
+                        <li class="list-group-item">Dapibus ac facilisis in</li>
+                        <li class="list-group-item">Morbi leo risus</li>
+                        <li class="list-group-item">Porta ac consectetur ac</li>
+                        <li class="list-group-item">Vestibulum at eros</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="col-4">
+        <div class ="col-1">
+
+        </div>
+        <div *ngIf="userInformation" class="col-4">
+            <h2>Update your profile</h2>
+            <br/>
             <div class="form-group">
                 <label for="inputEmail">Email</label>
                 <input type="email" class="form-control" id="inputEmail" [(ngModel)]="userInformation.email" >

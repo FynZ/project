@@ -5,11 +5,12 @@ import { UserService } from './../../services/user-service';
 import { Component, OnInit } from '@angular/core';
 import { UpdateProfileWithPassword } from 'src/app/models/update-profile-with-password';
 import { ToastrService } from 'ngx-toastr';
+import { UpdateProfile } from 'src/app/models/update-profile';
 
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.sass']
+    styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit
 {
@@ -32,13 +33,13 @@ export class ProfileComponent implements OnInit
         this.monsterSummary = await this.monsterService.getSummary();
     }
 
-    async update()
+    async updateProfile()
     {
         let result = false;
 
-        if (this.password.length !== 0 || this.passwordConfirm.length !== 0)
+        if (this.password.length === 0 && this.passwordConfirm.length === 0)
         {
-            const profile = new UpdateProfileWithPassword();
+            const profile = new UpdateProfile();
             profile.email = this.userInformation.email;
             profile.server = this.userInformation.server;
             profile.inGameName = this.userInformation.inGameName;
@@ -58,6 +59,9 @@ export class ProfileComponent implements OnInit
 
             result = await this.userService.updateUserProfileWithPassword(profile);
         }
+
+        this.password = '';
+        this.passwordConfirm = '';
 
         if (result)
         {

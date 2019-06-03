@@ -52,21 +52,35 @@ namespace Accounts.Controllers
                     Subscribed = updateProfileViewModel.Subscribed
                 };
 
-                // if both password and passwordConfirm are missing, null or empty we update all the rest
-                if (String.IsNullOrWhiteSpace(updateProfileViewModel.Password) && String.IsNullOrWhiteSpace(updateProfileViewModel.PasswordConfirm))
+                if (!_profileService.UpdateUserProfile(user))
                 {
-                    if (!_profileService.UpdateUserProfile(user))
-                    {
-                        return Conflict();
-                    }
+                    return Conflict();
                 }
-                // else we update the rest and the password
-                else
+
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [Authorize]
+        [HttpPost("profile/complete-update")]
+        public IActionResult UpdateProfile([FromBody] UpdateProfileWithPasswordViewModel updateProfileViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new User
                 {
-                    if (!_profileService.UpdateUserProfile(user, updateProfileViewModel.Password))
-                    {
-                        return Conflict();
-                    }
+                    Id = this.AuthenticatedUserId(),
+                    Email = updateProfileViewModel.Email,
+                    Server = updateProfileViewModel.Server,
+                    InGameName = updateProfileViewModel.InGameName,
+                    Subscribed = updateProfileViewModel.Subscribed
+                };
+
+                if (!_profileService.UpdateUserProfile(user, updateProfileViewModel.Password))
+                {
+                    return Conflict();
                 }
 
                 return Ok();
