@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface NewsRepository extends JpaRepository<News, Long>
 {
-    public News findById(long id);
+    News findById(long id);
     
-    public News findBySlug(String slug);
+    News findBySlug(String slug);
 }
