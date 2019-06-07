@@ -13,11 +13,11 @@ public interface NewsService
 {
     boolean createNews(NewsCreation newsCreation);
 
-    public DetailedNews getById(long id);
+    DetailedNews getById(long id);
 
-    public DetailedNews getBySlug(String slug);
+    DetailedNews getBySlug(String slug);
 
-    public List<NewsSummary> getNews();
+    List<NewsSummary> getNews();
 
-    public List<NewsSummary> getByOffset(int offset);
+    List<NewsSummary> getByOffset(int offset);
 }
