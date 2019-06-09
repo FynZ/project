@@ -87,12 +87,11 @@ public class NewsServiceImpl implements NewsService {
             return a.getCreationDate().isAfter(b.getCreationDate()) ? -1 : 1;
         });
 
-        // offset is off the list, 15 < 3 * 5 - 5 (10)
+        // offset is off the list, 7 < 3 * 5 - 5 (10)
         if (news.size() < offset * PAGE_PER_VIEW - PAGE_PER_VIEW)
         {
             return new ArrayList<NewsSummary>();
         }
-        
 
         // list is smaller than 14, we need the last x starting from 3 * 5 - 5
         if (news.size() < offset * PAGE_PER_VIEW - 1)
