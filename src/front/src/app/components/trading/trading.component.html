@@ -1,7 +1,7 @@
 <br />
 <div class="container">
     <div class="row">
-        <div *ngIf="trading.length > 0; then thenBlock; else elseBlock">this is ignored</div>
+        <div *ngIf="trading && trading.length > 0; then thenBlock; else elseBlock">this is ignored</div>
         <ng-template #thenBlock>
             <div *ngFor="let trade of trading" class="col-4 card-group">
                 <div class="card">

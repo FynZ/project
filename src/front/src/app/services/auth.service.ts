@@ -5,6 +5,7 @@ import { Login } from '../models/login';
 import { Register } from '../models/register';
 import { LoginResult } from '../models/login-result';
 import { RegisterResult } from '../models/register-result';
+import { Token } from '../models/token';
 
 @Injectable({
     providedIn: 'root'
@@ -14,14 +15,29 @@ export class AuthService
     private httpHeaders: HttpHeaders;
 
     private authenticated: boolean;
-    private roles: string[];
 
-    private token: string;
+    private token: Token;
+    private tokenString: string;
     private expires: number;
 
     constructor(private http: HttpClient)
     {
-        this.authenticated = false;
+        const token = localStorage.getItem('token');
+
+        if (token && token.length !== 0)
+        {
+            // check if token is still valid
+            console.log(token);
+            this.token = JSON.parse(atob(token.split('.')[1])) as Token;
+            console.log(this.token);
+
+            this.tokenString = token;
+            this.authenticated = true;
+        }
+        else
+        {
+            this.authenticated = false;
+        }
 
         this.httpHeaders = new HttpHeaders({
             'Content-Type': 'application/json'
@@ -36,11 +52,17 @@ export class AuthService
                 'http://localhost:80/auth/login/',
                 login,
                 {headers : this.httpHeaders}
-                ).toPromise();
+            ).toPromise();
 
             if (response)
             {
-                this.token = response.token;
+                localStorage.setItem('token', response.token);
+
+                this.token = JSON.parse(atob(response.token.split('.')[1])) as Token;
+                console.log(this.token);
+
+                this.tokenString = response.token;
+
                 this.expires = response.expires;
 
                 this.authenticated = true;
@@ -81,10 +103,12 @@ export class AuthService
 
     public logout()
     {
+        localStorage.setItem('token', '');
+
+        this.token = null;
+        this.tokenString = '';
+        this.expires = -1;
         this.authenticated = false;
-        this.roles = [];
-        this.token = '';
-        this.expires = 0;
     }
 
     public isAuthenticated(): boolean
@@ -92,18 +116,26 @@ export class AuthService
         return this.authenticated;
     }
 
+    public hasRole(role: string): boolean
+    {
+        if (this.isAuthenticated)
+        {
+            if (this.token.roles.includes(role))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public getToken(): string
     {
         if (this.token)
         {
-            return this.token;
+            return this.tokenString;
         }
 
         return '';
-    }
-
-    private decodeJwt(loginResult: LoginResult)
-    {
-
     }
 }

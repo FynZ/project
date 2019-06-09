@@ -1,3 +1,4 @@
+import { AuthGuardService } from './services/authguard.service';
 import { FooterComponent } from './components/footer/footer.component';
 // default
 import { NgModule } from '@angular/core';
@@ -50,7 +51,7 @@ const appRoutes: Routes = [
   { path: 'map',            component: MapComponent },
   { path: 'messages',       component: MessagesComponent },
   { path: 'user/:id',       component: UserComponent },
-  { path: 'admin',          component: AdminComponent },
+  { path: 'admin',          component: AdminComponent, canActivate: [AuthGuardService], },
   { path: '**',             component: NotFoundComponent }
 ];
 
