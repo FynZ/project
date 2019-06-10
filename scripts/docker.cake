@@ -3,6 +3,9 @@
 #addin nuget:?package=Cake.Json
 #addin nuget:?package=Newtonsoft.Json&version=9.0.1
 
+var imageTag = Argument("image_tag", "latest");
+var envComposeFile = string.Format("./environments/docker-compose.{0}.yml", Argument<string>("Env", "prod"));
+
 class DockerConfig
 {
     public string RegistryServer {get;set;}
@@ -10,24 +13,6 @@ class DockerConfig
     public string User {get;set;}
     public string Password {get;set;}
     public string RegistryPath {get;set;}
-}
-
-var imageTag = Argument("image_tag", "latest");
-
-string GetFullDockerPath(string tag, string projectName)
-{
-    return "pocket_monsters-" + projectName + ":" + imageTag;
-}
-
-void BuildDockerImage(string imageTag, string binDir, string projectName)
-{
-    Information($"Building docker image for {projectName}");
-    DockerBuild(new DockerImageBuildSettings
-    {
-        Tag = new string[] { GetFullDockerPath(imageTag, projectName) },
-        BuildArg = new string[] { "TARGET_VERSION=Release" }
-    },
-    binDir);
 }
 
 Task("Package") // Publishing backend artifacts for CI (backend tests included)...
@@ -42,8 +27,6 @@ Task("Package") // Publishing backend artifacts for CI (backend tests included).
         BuildDockerImage(imageTag, dockerFilePath, projectName);
     }
 });
-
-var envComposeFile = string.Format("./environments/docker-compose.{0}.yml", Argument<string>("Env", "prod"));
 
 Task("CleanDevEnvironment") // Cleaning the existing Docker integration environment...
     .Does(() =>
@@ -73,3 +56,19 @@ Task("SetupDevEnvironment") // Build and run a Docker integration environment st
         RemoveOrphans = false
     });
 });
+
+string GetFullDockerPath(string tag, string projectName)
+{
+    return "pocket_monsters-" + projectName + ":" + imageTag;
+}
+
+void BuildDockerImage(string imageTag, string binDir, string projectName)
+{
+    Information($"Building docker image for {projectName}");
+    DockerBuild(new DockerImageBuildSettings
+    {
+        Tag = new string[] { GetFullDockerPath(imageTag, projectName) },
+        BuildArg = new string[] { "TARGET_VERSION=Release" }
+    },
+    binDir);
+}
