@@ -1,5 +1,5 @@
 // #tool "nuget:?package=ReportGenerator"
-#addin nuget:?package=Cake.Coverlet
+#addin nuget:?package=Cake.Coverlet&version=2.2.1
 #addin nuget:?package=Cake.FileHelpers
 
 var target = Argument("target", "Default");

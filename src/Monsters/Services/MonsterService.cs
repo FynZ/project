@@ -24,9 +24,19 @@ namespace Monsters.Services
             return _monsterRepository.InitUser(userId);
         }
 
+        public IEnumerable<UserMonster> GetUserMonsters(int userId)
+        {
+            return _monsterRepository.GetUserMonsters(userId);
+        }
+
+        public UserMonster GetUserMonster(int monsterId, int userId)
+        {
+            return _monsterRepository.GetUserMonster(monsterId, userId);
+        }
+
         public MonsterSummary GetSummary(int userId)
         {
-            var monsters = _monsterRepository.GetUserMonsters(userId);
+            var monsters = _monsterRepository.GetUserMonsters(userId).ToList();
 
             return new MonsterSummary
             {
@@ -37,14 +47,18 @@ namespace Monsters.Services
             };
         }
 
-        public UserMonster GetUserMonster(int monsterId, int userId)
+        public IEnumerable<UserMonster> GetProposedMonsters(int userId)
         {
-            return _monsterRepository.GetUserMonster(monsterId, userId);
+            var monsters = _monsterRepository.GetUserMonsters(userId);
+
+            return monsters.Where(x => x.Propose);
         }
 
-        public IEnumerable<UserMonster> GetUserMonsters(int userId)
+        public IEnumerable<UserMonster> GetSearchedMonsters(int userId)
         {
-            return _monsterRepository.GetUserMonsters(userId);
+            var monsters = _monsterRepository.GetUserMonsters(userId);
+
+            return monsters.Where(x => x.Search);
         }
 
         public void IncrementMonster(int monsterId, int userId)
@@ -86,12 +100,7 @@ namespace Monsters.Services
         {
             var monsters = _monsterRepository.GetUserMonster(1, userId);
 
-            if (monsters == null)
-            {
-                return false;
-            }
-
-            return true;
+            return monsters != null;
         }
     }
 }
