@@ -3,8 +3,6 @@
 #addin nuget:?package=Cake.Json
 #addin nuget:?package=Newtonsoft.Json&version=9.0.1
 
-#load "./encryption.cake"
-
 class DockerConfig
 {
     public string RegistryServer {get;set;}
@@ -14,13 +12,11 @@ class DockerConfig
     public string RegistryPath {get;set;}
 }
 
-var config = DeserializeJsonFromFile<DockerConfig>("./docker.json");
 var imageTag = Argument("image_tag", "latest");
 
 string GetFullDockerPath(string tag, string projectName)
 {
     return "pocket_monsters-" + projectName + ":" + imageTag;
-    // return config.RegistryServer + config.RegistryPath + "/" + projectName + ":" + imageTag ;
 }
 
 void BuildDockerImage(string imageTag, string binDir, string projectName)
@@ -34,18 +30,6 @@ void BuildDockerImage(string imageTag, string binDir, string projectName)
     binDir);
 }
 
-// void DockerPushImage(string imageTag, string projectName)
-// {
-//     DockerLogin(new DockerRegistryLoginSettings
-//     {
-//         Password = Decrypt(config.Password),
-//         Username = config.User
-//     },
-//     config.RegistryServer);
-
-//     DockerPush(GetFullDockerPath(imageTag, projectName));
-// }
-
 Task("Package") // Publishing backend artifacts for CI (backend tests included)...
     .Does(() =>
 {
@@ -56,7 +40,6 @@ Task("Package") // Publishing backend artifacts for CI (backend tests included).
 		var dockerFilePath = System.IO.Path.GetDirectoryName(dockerFile);
 		var projectName = ((DirectoryPath)(MakeAbsolute(Directory(dockerFilePath)).FullPath)).GetDirectoryName().ToLower();
         BuildDockerImage(imageTag, dockerFilePath, projectName);
-        // DockerPushImage(imageTag, projectName);
     }
 });
 

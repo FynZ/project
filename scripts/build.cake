@@ -11,52 +11,46 @@ var sln = "../PocketMonsters.sln";
 var publishDir = "../publish/";
 
 #load "docker.cake"
-// #load "exporters.cake"
-// #load "rancher.cake"
 
 var publishedProjects = new [] { "Accounts", "Monsters", "Trading" };
 var mavenProjects = new [] { "gateway", "eureka", "ressources"};
 
-Setup(ctx =>
-{
-    Information($"Building Lni {version}");
-});
-
-Task("Clean").Does(() =>
-{
-    CleanDirectory(publishDir);
-    CleanDirectories(string.Format("../**/obj/{0}", configuration));
-    CleanDirectories(string.Format("../**/bin/{0}", configuration));
-});
+Task("Clean")
+    .Does(() =>
+    {
+        CleanDirectory(publishDir);
+        CleanDirectories(string.Format("../**/obj/{0}", configuration));
+        CleanDirectories(string.Format("../**/bin/{0}", configuration));
+    });
 
 Task("Build") // Building Lni.sln...
     .IsDependentOn("Clean")
     .Does(() =>
-{
-    DotNetCoreBuild(sln, new DotNetCoreBuildSettings
     {
-        Configuration = configuration,
-        ArgumentCustomization = args => args.Append("/p:Version=" + version)
+        DotNetCoreBuild(sln, new DotNetCoreBuildSettings
+        {
+            Configuration = configuration,
+            ArgumentCustomization = args => args.Append("/p:Version=" + version)
+        });
     });
-});
 
 Task("Test") // Running unit tests...
     .IsDependentOn("Build")
     .Does(() =>
-{
-    foreach(var project in GetFiles("../test/**/*.Tests.csproj"))
     {
-        var testSettings = new DotNetCoreTestSettings
+        foreach(var project in GetFiles("../test/**/*.Tests.csproj"))
         {
-            Configuration = configuration,
-            NoBuild = true,
-            ArgumentCustomization = args => args.Append("--no-restore --filter \"Category!=Integration\" --verbosity normal")
-        };
+            var testSettings = new DotNetCoreTestSettings
+            {
+                Configuration = configuration,
+                NoBuild = true,
+                ArgumentCustomization = args => args.Append("--no-restore --filter \"Category!=Integration\" --verbosity normal")
+            };
 
-        TestWithCoverage(project, testSettings);
+            TestWithCoverage(project, testSettings);
+        }
+    });
 
-    }
-});
 
 Task("RunIntegrationTests") // Running integration tests from previously published artifacts  (using ASP.NET Core integration settings)...
     .Does(() => Environment.SetEnvironmentVariable("TEST_ENVIRONMENT", "integration"))
@@ -76,15 +70,6 @@ Task("RunIntegrationTests") // Running integration tests from previously publish
             TestWithCoverage(project, testSettings);
         }
     );
-    // .DeferOnError()
-    // .Finally(() =>
-    // {
-        // //Environment.SetEnvironmentVariable("TEST_ENVIRONMENT", null);
-        // //PublishSwagger(publishDir);
-        // //PublishContainerLogs(publishDir);
-        // //PublishMetrics(publishDir);
-        // //PublishEnv(publishDir);
-    // });
 
 void TestWithCoverage(FilePath project, DotNetCoreTestSettings testSettings)
 {
@@ -134,18 +119,7 @@ Task("Publish") // Publishing backend artifacts for CI (backend tests included).
         });
 		CopyFile($"../src/{project}/Dockerfile", System.IO.Path.Combine(publishDir, $"{project}/Dockerfile"));
     }
-
-    {
-        // Publishing sql
-        // var outputDirectory = publishDir+"lni-sql";
-        // var project = "sql";
-        // Information($"Publishing {project} ({outputDirectory})");
-        // CreateDirectory(outputDirectory);
-        // CopyDirectory("../src/" + project, outputDirectory);
-    }
 	
-    Console.WriteLine("##teamcity[publishArtifacts 'publish']");
-
 	// Publishing all backend tests
 	foreach (var project in GetFiles("../test/**/*.csproj"))
     {
@@ -224,29 +198,30 @@ string[] GetDifferentForms(string text)
 
 Task("configure") // Publishing backend artifacts for CI (backend tests included)...
     .Does(() =>
-{
-    var name = Argument<string>("name");
-
-    var oldNames = GetDifferentForms("lni");
-    var newNames = GetDifferentForms(name);
-
-    for(int i=0;i<oldNames.Length;i++)
     {
-        Console.WriteLine($"{oldNames[i]} => {newNames[i]}");
-        ReplaceText(oldNames[i], newNames[i]);
-    }
-});
+        var name = Argument<string>("name");
 
-Task("DockerBuild").Does(() =>
-{
-    foreach(var dockerFile in System.IO.Directory.GetFiles(publishDir, "Dockerfile",System.IO.SearchOption.AllDirectories))
+        var oldNames = GetDifferentForms("lni");
+        var newNames = GetDifferentForms(name);
+
+        for(int i=0;i<oldNames.Length;i++)
+        {
+            Console.WriteLine($"{oldNames[i]} => {newNames[i]}");
+            ReplaceText(oldNames[i], newNames[i]);
+        }
+    });
+
+Task("DockerBuild")
+    .Does(() =>
     {
-		var dockerFilePath = System.IO.Path.GetDirectoryName(dockerFile);
-		var projectName = ((DirectoryPath)(MakeAbsolute(Directory(dockerFilePath)).FullPath)).GetDirectoryName().ToLower();
-        BuildDockerImage(imageTag, dockerFilePath, projectName);
-        // DockerPushImage(imageTag, projectName);
-    }
-});
+        foreach(var dockerFile in System.IO.Directory.GetFiles(publishDir, "Dockerfile",System.IO.SearchOption.AllDirectories))
+        {
+            var dockerFilePath = System.IO.Path.GetDirectoryName(dockerFile);
+            var projectName = ((DirectoryPath)(MakeAbsolute(Directory(dockerFilePath)).FullPath)).GetDirectoryName().ToLower();
+            BuildDockerImage(imageTag, dockerFilePath, projectName);
+            // DockerPushImage(imageTag, projectName);
+        }
+    });
 
 public void ExecuteProcess(string process, params string[] args)
 {
