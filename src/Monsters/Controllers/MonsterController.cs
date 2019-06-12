@@ -67,7 +67,7 @@ namespace Monsters.Controllers
             return Ok(monsters);
         }
 
-        [HttpGet("increment/{monsterId}")]
+        [HttpPost("increment/{monsterId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         public IActionResult Increment(int monsterId)
         {
@@ -76,7 +76,7 @@ namespace Monsters.Controllers
             return Ok();
         }
 
-        [HttpGet("decrement/{monsterId}")]
+        [HttpPost("decrement/{monsterId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         public IActionResult Decrement(int monsterId)
         {
@@ -85,7 +85,7 @@ namespace Monsters.Controllers
             return Ok();
         }
 
-        [HttpGet("propose/{monsterId}")]
+        [HttpPost("propose/{monsterId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         public IActionResult Propose(int monsterId)
         {
@@ -94,7 +94,7 @@ namespace Monsters.Controllers
             return Ok();
         }
 
-        [HttpGet("unpropose/{monsterId}")]
+        [HttpPost("unpropose/{monsterId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         public IActionResult Unpropose(int monsterId)
         {
@@ -103,7 +103,7 @@ namespace Monsters.Controllers
             return Ok();
         }
 
-        [HttpGet("search/{monsterId}")]
+        [HttpPost("search/{monsterId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         public IActionResult Search(int monsterId)
         {
@@ -112,7 +112,7 @@ namespace Monsters.Controllers
             return Ok();
         }
 
-        [HttpGet("unsearch/{monsterId}")]
+        [HttpPost("unsearch/{monsterId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         public IActionResult Unsearch(int monsterId)
         {

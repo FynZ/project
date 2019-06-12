@@ -58,7 +58,10 @@ namespace WebApi.Shared.Configuration.Middlewares
                 var logLevel = statusCode > 499 ? LogEventLevel.Error : LogEventLevel.Information;
                 var elapsedMs = GetElapsedMilliseconds(start, Stopwatch.GetTimestamp());
                 var log = await CreateEnrichedLoggerAsync(httpContext);
-                log.Write(logLevel, MessageTemplate, request.Method, request.Path, statusCode, elapsedMs);
+                if (!httpContext.Request.Path.Value.Contains("swagger"))
+                {
+                    log.Write(logLevel, MessageTemplate, request.Method, request.Path, statusCode, elapsedMs);
+                }
             }
             catch (Exception ex)
             {
