@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NewsService } from 'src/app/services/news.service';
 import { News } from 'src/app/models/news';
 import { SlugifyPipe } from 'angular-pipes';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-home',
@@ -12,12 +13,39 @@ export class HomeComponent implements OnInit {
 
     public news: News[];
 
-    constructor(private newsService: NewsService)
+    private currentLoadedPage: number;
+
+    constructor(private newsService: NewsService, private toastr: ToastrService)
     {
     }
 
     async ngOnInit()
     {
-        this.news = this.newsService.getNews();
+        const news = await this.newsService.getNews();
+
+        if (news)
+        {
+            this.news = news;
+            this.currentLoadedPage = 1;
+        }
+        else
+        {
+            this.toastr.error('An error occured', 'Error');
+        }
+    }
+
+    async loadNextNews()
+    {
+        const news = await this.newsService.getNewsForPage(++this.currentLoadedPage);
+
+        if (news)
+        {
+            this.news.concat(news);
+            this.currentLoadedPage++;
+        }
+        else
+        {
+            this.toastr.error('An error occured', 'Error');
+        }
     }
 }

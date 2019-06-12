@@ -2,24 +2,44 @@ import { Injectable } from '@angular/core';
 import { News } from '../models/news';
 
 import * as moment from 'moment';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
 })
 export class NewsService
 {
-    constructor()
+    private httpHeaders: HttpHeaders;
+
+    constructor(private http: HttpClient)
     {
+        this.httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localhost:4200/'
+        });
     }
 
-    public getNews(): News[]
+    async getNews(): Promise<News[]>
     {
-        const news: News[] = [
-            new News('News 1', 'Content 1', moment().toDate()),
-            new News('News 2', 'Content 2', moment().toDate()),
-            new News('News 3', 'Content 3', moment().toDate())
-        ];
+        try
+        {
+            return await this.http.get<News[]>('http://localhost:80/news/news', {headers: this.httpHeaders}).toPromise();
+        }
+        catch (e)
+        {
+            return null;
+        }
+    }
 
-        return news;
+    async getNewsForPage(page: number)
+    {
+        try
+        {
+            return await this.http.get<News[]>(`http://localhost:80/news/news/${page}`, {headers: this.httpHeaders}).toPromise();
+        }
+        catch (e)
+        {
+            return null;
+        }
     }
 }

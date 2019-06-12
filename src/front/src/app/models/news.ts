@@ -1,13 +1,9 @@
 export class News
 {
     public title: string;
+    public slug: string;
     public content: string;
+    public userCreationId: number;
     public creationDate: Date;
-
-    constructor(title: string, content: string, creationDate: Date)
-    {
-        this.title = title;
-        this.content = content;
-        this.creationDate = creationDate;
-    }
+    public modificationDate: Date;
 }

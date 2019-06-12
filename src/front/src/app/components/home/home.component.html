@@ -1,20 +1,25 @@
 <br />
 <div class="container-fluid">
-	<div class="row">
-		<div class="col">
-			<div *ngFor="let new of news">
-				<div class="card">
-					<div class="card-header">
-						{{new.title}}
-					</div>
-					<div class="card-body">
-						<h5 class="card-title">{{new.title}}</h5>
-						<p class="card-text">{{new.content}}</p>
-						<a routerLink="/news/{{new.title | slugify}}" class="btn btn-primary">Read more</a>
-					</div>
-				</div>
-				<br/>
-			</div>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col">
+            <div *ngFor="let new of news">
+                <div class="card">
+                    <div class="card-header">
+                        {{new.title}}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{new.title}}</h5>
+                        <p class="card-text">{{new.content}}</p>
+                        <a routerLink="/news/{{new.title | slugify}}" class="btn btn-primary">Read more</a>
+                    </div>
+                </div>
+                <br/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <button type="button" class="btn btn-primary">Load More</button>
+    </div>
 </div>

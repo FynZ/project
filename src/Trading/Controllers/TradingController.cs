@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Trading.Services;
+using WebApi.Shared.Enumerations;
 using WebApi.Shared.Extensions;
 
 namespace Trading.Controllers
@@ -18,7 +19,7 @@ namespace Trading.Controllers
         }
 
         [HttpGet("")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.User))]
         public IActionResult GetUserMonsters()
         {
             var monsters = _tradingService.GetTradableUsers(this.AuthenticatedUserId());

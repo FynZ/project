@@ -20,8 +20,8 @@ namespace Accounts.Controllers
             return Content($"Hello {User.Identity.Name}");
         }
 
-        [HttpGet("prout")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Prout")]
+        [HttpGet("admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.Admin))]
         public IActionResult TestProut()
         {
             return Content($"Hello {User.Identity.Name}");
@@ -36,12 +36,6 @@ namespace Accounts.Controllers
             }
 
             return Unauthorized();
-        }
-
-        [HttpGet("claim")]
-        public IActionResult TestClaim()
-        {
-            return Content("working");
         }
     }
 }
