@@ -6,14 +6,13 @@ import { Register } from '../models/register';
 import { LoginResult } from '../models/login-result';
 import { RegisterResult } from '../models/register-result';
 import { Token } from '../models/token';
+import { HttpServiceBase } from '../utils/http-service-base';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AuthService
+export class AuthService extends HttpServiceBase
 {
-    private httpHeaders: HttpHeaders;
-
     private authenticated: boolean;
 
     private token: Token;
@@ -22,6 +21,8 @@ export class AuthService
 
     constructor(private http: HttpClient)
     {
+        super();
+
         const token = localStorage.getItem('token');
 
         if (token && token.length !== 0)
@@ -38,10 +39,6 @@ export class AuthService
         {
             this.authenticated = false;
         }
-
-        this.httpHeaders = new HttpHeaders({
-            'Content-Type': 'application/json'
-        });
     }
 
     public async login(login: Login): Promise<boolean>
@@ -51,7 +48,7 @@ export class AuthService
             const response = await this.http.post<LoginResult>(
                 'http://localhost:80/auth/login/',
                 login,
-                {headers : this.httpHeaders}
+                {headers : this.jsonHeaders}
             ).toPromise();
 
             if (response)
@@ -85,7 +82,7 @@ export class AuthService
             return await this.http.post<RegisterResult>(
                 'http://localhost:80/auth/register/',
                 register,
-                {headers: this.httpHeaders}
+                {headers: this.jsonHeaders}
             ).toPromise();
         }
         catch (ex)

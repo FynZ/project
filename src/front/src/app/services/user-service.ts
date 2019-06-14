@@ -4,19 +4,16 @@ import { UserInformation } from '../models/user-information';
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { UserProfile } from '../models/user-profile';
+import { HttpServiceBase } from '../utils/http-service-base';
 
 @Injectable({
     providedIn: 'root'
 })
-export class UserService {
-
-    private httpHeaders: HttpHeaders;
-
+export class UserService extends HttpServiceBase
+{
     constructor(private http: HttpClient)
     {
-        this.httpHeaders = new HttpHeaders({
-            'Content-Type': 'application/json'
-        });
+        super();
     }
 
     public async getUserInformation(): Promise<UserInformation>
@@ -25,7 +22,7 @@ export class UserService {
         {
             return await this.http.get<UserInformation>(
                 'http://localhost:80/auth/profile/',
-                {headers : this.httpHeaders}
+                {headers : this.jsonHeaders}
             ).toPromise();
         }
         catch (ex)
@@ -40,7 +37,7 @@ export class UserService {
         {
             return await this.http.get<UserProfile>(
                 `http://localhost:80/auth/profile/${userId}`,
-                {headers : this.httpHeaders}
+                {headers : this.jsonHeaders}
             ).toPromise();
         }
         catch (ex)
@@ -56,7 +53,7 @@ export class UserService {
             await this.http.post(
                 `http://localhost:80/auth/profile/update`,
                 userProfile,
-                {headers : this.httpHeaders}
+                {headers : this.jsonHeaders}
             ).toPromise();
 
             return true;
@@ -74,7 +71,7 @@ export class UserService {
             await this.http.post(
                 `http://localhost:80/auth/profile/complete-update`,
                 userProfile,
-                {headers : this.httpHeaders},
+                {headers : this.jsonHeaders},
             ).toPromise();
 
             return true;

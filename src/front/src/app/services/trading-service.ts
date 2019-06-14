@@ -3,20 +3,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Trading } from './../models/trading';
 import { TradingDetails } from '../models/trading-details';
+import { HttpServiceBase } from '../utils/http-service-base';
 
 @Injectable({
     providedIn: 'root'
 })
-export class TradingService
+export class TradingService extends HttpServiceBase
 {
-    private httpHeaders: HttpHeaders;
-
     constructor(private http: HttpClient)
     {
-        this.httpHeaders = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:4200/'
-        });
+        super();
     }
 
     public async getTradableUsers(): Promise<Trading[]>
@@ -25,12 +21,11 @@ export class TradingService
         {
             return await this.http.get<Trading[]>(
                 'http://localhost:80/trading/',
-                {headers: this.httpHeaders}
+                {headers: this.jsonHeaders}
             ).toPromise();
         }
         catch (ex)
         {
-            // non 401 error
             return null;
         }
     }
@@ -41,12 +36,11 @@ export class TradingService
         {
             return await this.http.get<TradingDetails>(
                 `http://localhost:80/trading/${userId}`,
-                {headers: this.httpHeaders}
+                {headers: this.jsonHeaders}
             ).toPromise();
         }
         catch (ex)
         {
-            // non 401 error
             return null;
         }
     }

@@ -2,27 +2,26 @@ import { MonsterSummary } from './../models/monster-summary';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Monster } from '../models/monster';
+import { HttpServiceBase } from '../utils/http-service-base';
 
 @Injectable({
     providedIn: 'root'
 })
-export class MonsterService
+export class MonsterService extends HttpServiceBase
 {
-    private httpHeaders: HttpHeaders;
-
     constructor(private http: HttpClient)
     {
-        this.httpHeaders = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:4200/'
-        });
+        super();
     }
 
     async getSummary(): Promise<MonsterSummary>
     {
         try
         {
-            return await this.http.get<MonsterSummary>("http://localhost:80/monsters/summary", {headers: this.httpHeaders}).toPromise();
+            return await this.http.get<MonsterSummary>(
+                "http://localhost:80/monsters/summary", 
+                {headers: this.jsonHeaders})
+                .toPromise();
         }
         catch (e)
         {
@@ -34,7 +33,10 @@ export class MonsterService
     {
         try
         {
-            return await this.http.get<Monster[]>('http://localhost:80/monsters/', {headers: this.httpHeaders}).toPromise();
+            return await this.http.get<Monster[]>(
+                'http://localhost:80/monsters/',
+                {headers: this.jsonHeaders})
+            .toPromise();
         }
         catch (e)
         {
@@ -76,7 +78,10 @@ export class MonsterService
     {
         try
         {
-            await this.http.get(url, {headers: this.httpHeaders}).toPromise();
+            await this.http.post(
+                url,
+                {headers: this.jsonHeaders})
+            .toPromise();
 
             return true;
         }
