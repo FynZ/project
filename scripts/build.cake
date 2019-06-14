@@ -12,7 +12,7 @@ var sln = "../PocketMonsters.sln";
 var publishDir = "../publish/";
 
 var dotnetProjects = new [] { "Accounts", "Monsters", "Trading" };
-var mavenProjects = new [] { "gateway", "eureka", "ressources"};
+var mavenProjects = new [] { "gateway", "eureka", "ressources", "news"};
 
 Task("Clean")
     .Does(() =>
