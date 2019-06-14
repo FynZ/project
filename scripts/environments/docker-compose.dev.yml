@@ -1,11 +1,16 @@
+################################################################
+#                       NOT USED FILE                          #
+################################################################
+
 version: "3.5"
 services:
 
+  # gateway
   gateway:
     image: pocket_monsters-gateway:latest
     container_name: pm-gateway
     ports:
-      - 80:80
+      - 8080:80
 
   accounts:
     image: pocket_monsters-accounts:latest
@@ -13,7 +18,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
     ports:
-      - 81:80
+      - 8081:80
 
   monsters:
     image: pocket_monsters-monsters:latest
@@ -21,7 +26,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
     ports:
-      - 82:80
+      - 8082:80
       
   # trading
   trading:
@@ -30,23 +35,28 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
     ports:
-      - 83:80
+      - 8083:80
 
   # messaging
 
   # news
+  ressources:
+    image: pocket_monsters-ressources:latest
+    container_name: pm-news
+    ports:
+      - 8088:80
 
   ressources:
     image: pocket_monsters-ressources:latest
     container_name: pm-ressources
     ports:
-      - 89:80
+      - 8089:80
 
   eureka:
     image: pocket_monsters-eureka:latest
     container_name: pm-eureka
     ports:
-      - 90:80
+      - 8090:80
 
 networks:
   default:
