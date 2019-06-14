@@ -4,16 +4,8 @@
 #addin nuget:?package=Newtonsoft.Json&version=9.0.1
 
 var imageTag = Argument("image_tag", "latest");
-var envComposeFile = string.Format("./environments/docker-compose.{0}.yml", Argument<string>("Env", "prod"));
-
-class DockerConfig
-{
-    public string RegistryServer {get;set;}
-    public string DefaultImageTag {get;set;}
-    public string User {get;set;}
-    public string Password {get;set;}
-    public string RegistryPath {get;set;}
-}
+var composeFile = string.Format("./environments/docker-compose.{0}.yml", Argument<string>("Env", "prod"));
+var envComposeFile = string.Format("./environments/docker-compose.{0}.yml", "dependencies");
 
 Task("Package") // Publishing backend artifacts for CI (backend tests included)...
     .Does(() =>
@@ -28,21 +20,7 @@ Task("Package") // Publishing backend artifacts for CI (backend tests included).
     }
 });
 
-Task("CleanDevEnvironment") // Cleaning the existing Docker integration environment...
-    .Does(() =>
-{
-    Console.WriteLine($"Running compose down with compose file {envComposeFile}");
-
-    DockerComposeDown(new DockerComposeDownSettings
-    {
-        Files = new [] {envComposeFile},
-        RemoveOrphans = false,
-        Volumes = true,
-        Rmi = "local"
-    });    
-});
-
-Task("SetupDevEnvironment") // Build and run a Docker integration environment stack
+Task("SetupDependencies") // Build and run a Docker integration environment stack
     .Does(() =>
 {
     Console.WriteLine($"Running compose up with compose file {envComposeFile}");
@@ -57,10 +35,48 @@ Task("SetupDevEnvironment") // Build and run a Docker integration environment st
     });
 });
 
-string GetFullDockerPath(string tag, string projectName)
+Task("SetupDevEnvironment") // Build and run a Docker integration environment stack
+    .Does(() =>
 {
-    return "pocket_monsters-" + projectName + ":" + imageTag;
-}
+    Console.WriteLine($"Running compose up with compose file {composeFile}");
+
+    DockerComposeUp(new DockerComposeUpSettings
+    {
+        Files = new [] {composeFile},
+        Build = true,
+        ForceRecreate = true,
+        DetachedMode = true,
+        RemoveOrphans = false
+    });
+});
+
+Task("CleanDependencies") // Cleaning the existing Docker integration environment...
+    .Does(() =>
+{
+    Console.WriteLine($"Running compose down with compose file {envComposeFile}");
+
+    DockerComposeDown(new DockerComposeDownSettings
+    {
+        Files = new [] {envComposeFile},
+        RemoveOrphans = false,
+        Volumes = true,
+        Rmi = "local"
+    });    
+});
+
+Task("CleanDevEnvironment") // Cleaning the existing Docker integration environment...
+    .Does(() =>
+{
+    Console.WriteLine($"Running compose down with compose file {composeFile}");
+
+    DockerComposeDown(new DockerComposeDownSettings
+    {
+        Files = new [] {composeFile},
+        RemoveOrphans = false,
+        Volumes = true,
+        Rmi = "local"
+    });    
+});
 
 void BuildDockerImage(string imageTag, string binDir, string projectName)
 {
@@ -72,3 +88,22 @@ void BuildDockerImage(string imageTag, string binDir, string projectName)
     },
     binDir);
 }
+
+string GetFullDockerPath(string tag, string projectName)
+{
+    return "pocket_monsters-" + projectName + ":" + imageTag;
+}
+
+/********* ALIASES **********/
+
+Task("Setupd")
+    .IsDependentOn("SetupDevEnvironment");
+
+Task("Cleand")
+    .IsDependentOn("CleanDevEnvironment");
+
+Task("Setupdp")
+    .IsDependentOn("SetupDependencies");
+
+Task("Cleandp")
+    .IsDependentOn("CleanDependencies");
