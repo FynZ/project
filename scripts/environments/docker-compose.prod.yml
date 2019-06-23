@@ -38,8 +38,8 @@ services:
   # messaging
 
   # news
-  ressources:
-    image: pocket_monsters-ressources:latest
+  news:
+    image: pocket_monsters-news:latest
     container_name: pm-news
     ports:
       - 88:80

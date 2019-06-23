@@ -1,0 +1,57 @@
+
+#####################
+#       Server      #
+#####################
+server:
+    port: 80
+    servlet:
+        context-path: /news
+
+#####################
+#     Deployment    #
+#####################
+
+#####################
+#       Spring      #
+#####################
+
+#####################
+#       Database    #
+#####################
+
+spring:
+    application:
+        name: news
+    datasource:
+        platform: postgres
+        url: jdbc:postgresql://postgres:5432/news
+        username: admin
+        password: azerty1234
+    jpa:
+        hibernate:
+            ddl-auto: update
+        open-in-view: false
+
+#####################
+#       Logging     #
+#####################
+
+logging:
+    level:
+        root: INFO
+        org:
+            springframework:
+                web: ERROR
+            hibernate: ERROR
+
+eureka:  
+  client:
+    serviceUrl:
+      defaultZone: http://pm-eureka:80/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+      
+ribbon:
+  eureka:
+    enabled: true
