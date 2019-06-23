@@ -40,7 +40,7 @@ import { NewsDetailsComponent } from './components/news-details/news-details.com
 
 const appRoutes: Routes = [
   { path: '',               component: HomeComponent },
-  { path: 'news/:name',     component: NewsDetailsComponent },
+  { path: 'news/:slug',     component: NewsDetailsComponent },
   { path: 'login',          component: LoginComponent },
   { path: 'register',       component: RegisterComponent },
   { path: 'profile',        component: ProfileComponent },

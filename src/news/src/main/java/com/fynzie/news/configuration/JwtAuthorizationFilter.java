@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * JwtAuthorizationFilter
@@ -66,8 +65,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter
         {
             try
             {
-                byte[] signingKey = SecurityConstants.JWT_SECRET.getBytes();
-
                 Jws<Claims>  parsedToken = Jwts.parser()
                     .setSigningKey(SecurityConstants.getPublicKey())
                     .parseClaimsJws(token.replace(SecurityConstants.TOKEN_PREFIX, ""));

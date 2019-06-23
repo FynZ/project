@@ -12,20 +12,25 @@ import com.fynzie.news.models.News;
 import com.fynzie.news.repositories.NewsRepository;
 import com.github.slugify.Slugify;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * NewsServiceImpl
  */
 @Service
-public class NewsServiceImpl implements NewsService {
-
+@Transactional
+public class NewsServiceImpl implements NewsService
+{
     private static final int PAGE_PER_VIEW = 5;
 
     private final NewsRepository newsRepository;
     private final Slugify slugify;
 
-    public NewsServiceImpl(NewsRepository newsRepository, Slugify slugify) {
+    public NewsServiceImpl(NewsRepository newsRepository, Slugify slugify)
+    {
         this.newsRepository = newsRepository;
         this.slugify = slugify;
     }
@@ -76,7 +81,6 @@ public class NewsServiceImpl implements NewsService {
     public List<NewsSummary> getByOffset(int offset)
     {
         // comments take offset 3 as an example, news[10] -> news[14]
-
         if (offset <= 1)
         {
             return getNews();
@@ -108,12 +112,12 @@ public class NewsServiceImpl implements NewsService {
         return transform(news.subList(offset * PAGE_PER_VIEW - PAGE_PER_VIEW, offset * PAGE_PER_VIEW));
     }
 
-    private static List<NewsSummary> transform(List<News> news)
+    private List<NewsSummary> transform(List<News> news)
     {
         return news.stream().map(x -> transform(x)).collect(Collectors.toList());
     }
 
-    private static NewsSummary transform(News news)
+    private NewsSummary transform(News news)
     {
         if (news == null)
         {
@@ -131,7 +135,7 @@ public class NewsServiceImpl implements NewsService {
         return newsSummary;
     }
 
-    private static DetailedNews detailedTransform(News news)
+    private DetailedNews detailedTransform(News news)
     {
         DetailedNews detailedNews = new DetailedNews();
         detailedNews.setId(news.getId());
@@ -142,7 +146,7 @@ public class NewsServiceImpl implements NewsService {
         detailedNews.setCreationDate(news.getCreationDate());
         detailedNews.setModificationDate(news.getModificationDate());
         detailedNews.setComments(news.getComments());
-        
+
         return detailedNews;
     }
 }

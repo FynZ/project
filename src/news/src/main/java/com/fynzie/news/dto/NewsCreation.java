@@ -43,5 +43,4 @@ public class NewsCreation
 	public void setUserCreationId(long userCreationId) {
 		this.userCreationId = userCreationId;
 	}
-
 }

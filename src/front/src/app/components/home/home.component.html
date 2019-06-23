@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{new.title}}</h5>
                         <p class="card-text">{{new.content}}</p>
-                        <a routerLink="/news/{{new.title | slugify}}" class="btn btn-primary">Read more</a>
+                        <a [routerLink]="['/news', new.slug]" class="btn btn-primary">Read more</a>
                     </div>
                 </div>
                 <br/>
@@ -20,6 +20,6 @@
 </div>
 <div class="container">
     <div class="row justify-content-center">
-        <button type="button" class="btn btn-primary">Load More</button>
+        <button (click)="loadNextNews()"type="button" class="btn btn-primary">Load More</button>
     </div>
 </div>

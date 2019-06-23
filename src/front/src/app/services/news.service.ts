@@ -4,6 +4,7 @@ import { News } from '../models/news';
 import * as moment from 'moment';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { HttpServiceBase } from '../utils/http-service-base';
+import { NewsDetails } from '../models/news-details';
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +21,7 @@ export class NewsService extends HttpServiceBase
         try
         {
             return await this.http.get<News[]>(
-                'http://localhost:80/news/news',
+                'http://localhost:80/news/news/1',
                 {headers: this.jsonHeaders})
             .toPromise();
         }
@@ -36,8 +37,23 @@ export class NewsService extends HttpServiceBase
         {
             return await this.http.get<News[]>(
                 `http://localhost:80/news/news/${page}`, 
-                {headers: this.jsonHeaders})
-            .toPromise();
+                {headers: this.jsonHeaders}
+            ).toPromise();
+        }
+        catch (e)
+        {
+            return null;
+        }
+    }
+
+    async getDetailedNews(slug: string)
+    {
+        try
+        {
+            return await this.http.get<NewsDetails>(
+                `http://localhost:80/news/news/details/${slug}`,
+                {headers: this.jsonHeaders}
+            ).toPromise();
         }
         catch (e)
         {

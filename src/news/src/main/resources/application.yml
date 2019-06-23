@@ -3,6 +3,7 @@
 #       Server      #
 #####################
 server:
+    # port: 8085
     port: 80
     servlet:
         context-path: /news
@@ -25,6 +26,7 @@ spring:
     datasource:
         platform: postgres
         url: jdbc:postgresql://postgres:5432/news
+        # url: jdbc:postgresql://localhost:5432/news
         username: admin
         password: azerty1234
     jpa:
@@ -41,13 +43,14 @@ logging:
         root: INFO
         org:
             springframework:
-                web: ERROR
-            hibernate: ERROR
+                web: INFO
+            hibernate: INFO
 
 eureka:  
   client:
     serviceUrl:
-      defaultZone: http://pm-eureka:80/eureka/
+        defaultZone: http://pm-eureka:80/eureka/
+        # defaultZone: http://localhost:90/eureka/
   instance:
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2

@@ -36,12 +36,14 @@ export class HomeComponent implements OnInit {
 
     async loadNextNews()
     {
-        const news = await this.newsService.getNewsForPage(++this.currentLoadedPage);
+        const news = await this.newsService.getNewsForPage(this.currentLoadedPage + 1);
 
         if (news)
         {
-            this.news.concat(news);
+            this.news = this.news.concat(news);
             this.currentLoadedPage++;
+
+            console.log(this.news);
         }
         else
         {

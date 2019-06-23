@@ -8,10 +8,11 @@ import com.fynzie.news.dto.NewsSummary;
 import com.fynzie.news.services.NewsService;
 import com.fynzie.news.viewmodels.NewsViewModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 /**
@@ -51,7 +51,7 @@ public class NewsController
         return newsService.getByOffset(page);
     }
 
-    @GetMapping(value = {"/detail/{news}"}, produces = "application/json")
+    @GetMapping(value = {"/details/{slug}"}, produces = "application/json")
     @ResponseBody
     public DetailedNews getDetailedNews(@PathVariable String slug)
     {
