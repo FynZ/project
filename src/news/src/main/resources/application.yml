@@ -25,10 +25,10 @@ spring:
         name: news
     datasource:
         platform: postgres
-        url: jdbc:postgresql://postgres:5432/news
+        url: jdbc:postgresql://fynzie.com:5432/news
         # url: jdbc:postgresql://localhost:5432/news
-        username: admin
-        password: azerty1234
+        username: app
+        password: azerty1234!
     jpa:
         hibernate:
             ddl-auto: update
