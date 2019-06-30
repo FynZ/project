@@ -17,7 +17,7 @@ namespace WebApi.Shared.Configuration.Middlewares
 {
     public class SerilogMiddleware
     {
-        private const string MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+        private const string MESSAGE_TEMPLATE = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
         private static readonly ILogger Log = Serilog.Log.ForContext<SerilogMiddleware>();
         private readonly RequestDelegate _next;
         private readonly bool _enableHttpRequestBodyLogging;
@@ -60,14 +60,14 @@ namespace WebApi.Shared.Configuration.Middlewares
                 var log = await CreateEnrichedLoggerAsync(httpContext);
                 if (!httpContext.Request.Path.Value.Contains("swagger"))
                 {
-                    log.Write(logLevel, MessageTemplate, request.Method, request.Path, statusCode, elapsedMs);
+                    log.Write(logLevel, MESSAGE_TEMPLATE, request.Method, request.Path, statusCode, elapsedMs);
                 }
             }
             catch (Exception ex)
             {
                 var elapsedMs = GetElapsedMilliseconds(start, Stopwatch.GetTimestamp());
                 var log = await CreateEnrichedLoggerAsync(httpContext);
-                log.Write(LogEventLevel.Error, ex, MessageTemplate, request.Method, request.Path, (int)HttpStatusCode.InternalServerError, elapsedMs);
+                log.Write(LogEventLevel.Error, ex, MESSAGE_TEMPLATE, request.Method, request.Path, (int)HttpStatusCode.InternalServerError, elapsedMs);
                 throw;
             }
         }
