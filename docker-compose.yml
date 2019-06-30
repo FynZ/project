@@ -1,15 +1,22 @@
 version: '3'
 services:
+
   portainer:
     image: portainer/portainer
     container_name: portainer
     restart: always
-    command: -H unix:///var/run/docker.sock
+    command: --admin-password '$$2y$$05$$IBiI1bppDZtI4FZJz/GJv.qQhqotS64ZbWHqXVHN7woW3SzpmpMHy'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer-data:/data
+      - portainer-volume:/data
     ports:
       - "9000:9000"
 
 volumes:
-  portainer-data:
+  portainer-volume:
+    external: true
+
+networks:
+  default:
+    external:
+      name: default_network
