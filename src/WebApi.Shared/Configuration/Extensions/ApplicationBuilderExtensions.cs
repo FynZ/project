@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using WebApi.Shared.Configuration.Middlewares;
 
 namespace WebApi.Shared.Configuration.Extensions

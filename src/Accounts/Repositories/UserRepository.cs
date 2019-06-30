@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Accounts.Models;
-using Accounts.Models.Enumerations;
 using Dapper;
 using Npgsql;
 using WebApi.Shared.Enumerations;

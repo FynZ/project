@@ -5,7 +5,6 @@ using System.Security.Claims;
 using Accounts.DTO;
 using Accounts.Helpers;
 using Accounts.Models;
-using Accounts.Models.Enumerations;
 using Accounts.Repositories;
 using Accounts.Services.HostedServices;
 using Accounts.Services.HostedServices.Communication;

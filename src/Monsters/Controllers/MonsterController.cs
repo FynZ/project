@@ -66,59 +66,5 @@ namespace Monsters.Controllers
 
             return Ok(monsters);
         }
-
-        [HttpPost("increment/{monsterId}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.User))]
-        public IActionResult Increment(int monsterId)
-        {
-            _monsterService.IncrementMonster(monsterId, this.AuthenticatedUserId());
-
-            return Ok();
-        }
-
-        [HttpPost("decrement/{monsterId}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.User))]
-        public IActionResult Decrement(int monsterId)
-        {
-            _monsterService.DecrementMonster(monsterId, this.AuthenticatedUserId());
-
-            return Ok();
-        }
-
-        [HttpPost("propose/{monsterId}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.User))]
-        public IActionResult Propose(int monsterId)
-        {
-            _monsterService.ProposeMonster(monsterId, this.AuthenticatedUserId());
-
-            return Ok();
-        }
-
-        [HttpPost("unpropose/{monsterId}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.User))]
-        public IActionResult Unpropose(int monsterId)
-        {
-            _monsterService.UnproposeMonster(monsterId, this.AuthenticatedUserId());
-
-            return Ok();
-        }
-
-        [HttpPost("search/{monsterId}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.User))]
-        public IActionResult Search(int monsterId)
-        {
-            _monsterService.SearchMonster(monsterId, this.AuthenticatedUserId());
-
-            return Ok();
-        }
-
-        [HttpPost("unsearch/{monsterId}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.User))]
-        public IActionResult Unsearch(int monsterId)
-        {
-            _monsterService.UnsearchMonster(monsterId, this.AuthenticatedUserId());
-
-            return Ok();
-        }
     }
 }

@@ -50,7 +50,6 @@ namespace Monsters
                     options.TokenValidationParameters = PublicKeyManager.InitializeJwtParameters(Configuration.GetSection("jwtValidation")["rsaPublicKeyXml"]);
                 });
 
-
             // Config to Object registration
             services
                 .Configure<RabbitMQSettings>(Configuration.GetSection("rabbitMQ"));
@@ -58,8 +57,9 @@ namespace Monsters
             // Dependency Injection registration
             services
                 .AddSingleton<IMonsterRepository, MonsterRepository>(x => new MonsterRepository(Configuration.GetConnectionString("Postgres")))
+                .AddSingleton<IManagementService, ManagementService>()
                 .AddSingleton<IMonsterService, MonsterService>()
-                .AddSingleton<IMonsterIniter, MonsterService>()
+                .AddSingleton<IMonsterIniter, ManagementService>()
                 .AddTransient<IHostedServiceAccessor<IAccountServiceCommunication>, HostServiceAccessor<IAccountServiceCommunication>>()
                 .AddSingleton<IHostedService, AccountServiceCommunication>();
         }

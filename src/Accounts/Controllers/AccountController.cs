@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using Accounts.DTO;
 using Accounts.Models;
 using Accounts.Services;
