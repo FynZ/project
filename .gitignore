@@ -429,3 +429,4 @@ MigrationBackup/
 # System Files
 .DS_Store
 Thumbs.db
+/tools/
