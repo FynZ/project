@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { UpdateProfileWithPassword } from 'src/app/models/update-profile-with-password';
 import { ToastrService } from 'ngx-toastr';
 import { UpdateProfile } from 'src/app/models/update-profile';
+import { Monster } from 'src/app/models/monster';
 
 @Component({
     selector: 'app-profile',
@@ -16,6 +17,9 @@ export class ProfileComponent implements OnInit
 {
     public userInformation: UserInformation;
     public monsterSummary: MonsterSummary;
+
+    public searchedMonsters: Monster[] = [];
+    public proposedMonsters: Monster[] = [];
 
     public password: string = '';
     public passwordConfirm: string = '';
@@ -29,8 +33,21 @@ export class ProfileComponent implements OnInit
 
     async ngOnInit()
     {
-        this.userInformation = await this.userService.getUserInformation();
-        this.monsterSummary = await this.monsterService.getSummary();
+        const userInformation = this.userService.getUserInformation();
+        const monsterSummary = this.monsterService.getSummary();
+
+        const searchedMonsters = this.monsterService.getSearchedMonsters();
+        const proposedMonsters = this.monsterService.getProposedMonsters();
+
+        await Promise.all<UserInformation, MonsterSummary, Monster[], Monster[]>
+        ([userInformation, monsterSummary, searchedMonsters, proposedMonsters])
+            .then((result: any[]) =>
+        {
+            this.userInformation = result[0];
+            this.monsterSummary = result[1];
+            this.searchedMonsters = result[2];
+            this.proposedMonsters = result[3];
+        });
     }
 
     async updateProfile()

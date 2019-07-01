@@ -44,6 +44,36 @@ export class MonsterService extends HttpServiceBase
         }
     }
 
+    async getSearchedMonsters(): Promise<Monster[]>
+    {
+        try
+        {
+            return await this.http.get<Monster[]>(
+                'http://localhost:80/monsters/search',
+                {headers: this.jsonHeaders})
+            .toPromise();
+        }
+        catch (e)
+        {
+            return [];
+        }
+    }
+
+    async getProposedMonsters(): Promise<Monster[]>
+    {
+        try
+        {
+            return await this.http.get<Monster[]>(
+                'http://localhost:80/monsters/propose',
+                {headers: this.jsonHeaders})
+            .toPromise();
+        }
+        catch (e)
+        {
+            return [];
+        }
+    }
+
     async incrementMonster(monsterId: number): Promise<boolean>
     {
         return await this.executeMonsterRequest(`http://localhost:80/monsters/increment/${monsterId}`);

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Trading } from './../../models/trading';
 import { Component, OnInit } from '@angular/core';
 import { TradingService } from 'src/app/services/trading-service';
@@ -16,17 +17,23 @@ export class TradingComponent implements OnInit
     constructor(
         private monsterService: TradingService,
         private toastr: ToastrService,
+        private router: Router,
         private authService: AuthService)
-        {
-        }
+    {
+    }
 
-        async ngOnInit()
+    async ngOnInit()
+    {
+        if (this.authService.isAuthenticated())
         {
-            if (this.authService.isAuthenticated())
-            {
-                this.trading = await this.monsterService.getTradableUsers();
+            this.trading = await this.monsterService.getTradableUsers();
 
-                console.log(this.trading);
-            }
+            console.log(this.trading);
         }
     }
+
+    gotoProfile(userId: number)
+    {
+        this.router.navigate(['/user', userId]);
+    }
+}

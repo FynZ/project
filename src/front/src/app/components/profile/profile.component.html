@@ -29,25 +29,17 @@
             <br/>
             <div class="row">
                 <div class="col-6">
-                    <h5>Monsters you are proposing:</h5>
-                    <br/>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Cras justo odio</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Morbi leo risus</li>
-                        <li class="list-group-item">Porta ac consectetur ac</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
-                    </ul>
-                </div>
-                <div class="col-6">
                     <h5>Monsters you are looking for:</h5>
                     <br/>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Cras justo odio</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Morbi leo risus</li>
-                        <li class="list-group-item">Porta ac consectetur ac</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
+                        <li *ngFor="let monster of searchedMonsters" class="list-group-item">{{monster.name}}</li>
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <h5>Monsters you are proposing:</h5>
+                    <br/>
+                    <ul class="list-group list-group-flush">
+                        <li *ngFor="let monster of proposedMonsters" class="list-group-item">{{monster.name}}</li>
                     </ul>
                 </div>
             </div>
