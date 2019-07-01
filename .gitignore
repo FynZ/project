@@ -430,3 +430,4 @@ MigrationBackup/
 .DS_Store
 Thumbs.db
 /tools/
+/scripts/tools/
