@@ -8,8 +8,6 @@ import com.fynzie.news.dto.NewsSummary;
 import com.fynzie.news.services.NewsService;
 import com.fynzie.news.viewmodels.NewsViewModel;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -28,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/news")
-public class NewsController
+public class NewsController extends BaseController
 {
     private final NewsService newsService;
 
@@ -59,33 +57,17 @@ public class NewsController
     }
 
     @PostMapping(value = {"/create"})
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<Object> createNews(@RequestBody NewsViewModel newsViewModel, BindingResult bindingResult)
     {
         if (!bindingResult.hasErrors())
         {
-            NewsCreation newsCration = new NewsCreation(newsViewModel.getTitle(), newsViewModel.getContent(), -1);
+            NewsCreation newsCration = new NewsCreation(newsViewModel.getTitle(), newsViewModel.getContent(), this.getUserId());
             newsService.createNews(newsCration);
 
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    // @PreAuthorize("hasRole('ROLE_USER')")
-
-    /* TEST AREA */
-    @Secured({"ROLE_USER"})
-    @GetMapping(value="/user")
-    public String testUser()
-    {
-        return "Hello User";
-    }
-
-    @Secured({"ROLE_ADMIN"})
-    @GetMapping(value="/admin")
-    public String testAdmin()
-    {
-        return "Hello Admin";
     }
 }

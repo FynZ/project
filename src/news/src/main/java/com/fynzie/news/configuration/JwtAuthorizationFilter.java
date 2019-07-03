@@ -4,7 +4,8 @@ import com.fynzie.news.configuration.SecurityConstants;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -61,13 +62,15 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request)
     {
         String token = request.getHeader(SecurityConstants.TOKEN_HEADER);
-        if (StringUtils.isNotEmpty(token))
+        String cleanedSignaturelessToken = SecurityUtils.cleanToken(token);
+
+        if (StringUtils.isNotEmpty(cleanedSignaturelessToken))
         {
             try
             {
-                Jws<Claims>  parsedToken = Jwts.parser()
-                    .setSigningKey(SecurityConstants.getPublicKey())
-                    .parseClaimsJws(token.replace(SecurityConstants.TOKEN_PREFIX, ""));
+                Jwt<Header,Claims> parsedToken = Jwts.parser()
+                    // .setSigningKey(SecurityConstants.getPublicKey())
+                    .parseClaimsJwt(cleanedSignaturelessToken);
 
                 String username = parsedToken
                     .getBody()

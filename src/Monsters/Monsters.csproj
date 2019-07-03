@@ -25,14 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Ressources\public-key.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Models\Enumerations\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Ressources\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
 

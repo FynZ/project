@@ -45,7 +45,7 @@ namespace Trading
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
-                    options.TokenValidationParameters = PublicKeyManager.InitializeJwtParameters(Configuration.GetSection("jwtValidation")["rsaPublicKeyXml"]);
+                    options.TokenValidationParameters = PublicKeyManager.InitializeJwtParameters();
                 });
 
             // Config to Object registration

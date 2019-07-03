@@ -12,8 +12,6 @@ import com.fynzie.news.models.News;
 import com.fynzie.news.repositories.NewsRepository;
 import com.github.slugify.Slugify;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
