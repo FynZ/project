@@ -21,13 +21,6 @@ namespace Monsters
                 var configuration = ProgramConfiguration.InitializeConfiguration(environment);
                 ProgramConfiguration.InitializeLogging(configuration);
 
-                if (environment != "development")
-                {
-                    var delay = 30 * 1000;
-                    Console.WriteLine($"Waiting {delay / 1000} seconds for dependencies to be ready");
-                    await Task.Delay(delay);
-                }
-
                 await WebHost.CreateDefaultBuilder(args)
                     .UseStartup<Startup>()
                     .UseUrls($"http://*:{(Int32.TryParse(configuration["Port"], out var port) ? port : 80)}")

@@ -62,5 +62,53 @@ namespace Trading.Services
                 MatchingSearch = search
             };
         }
+
+        public ProfileMonster GetSearchedMonstersWithMatchs(int userId, int targetId)
+        {
+            var userMonsters = _tradingRepository.GetUserMonsters(userId).ToDictionary(x => x.Id);
+            var targetMonsters = _tradingRepository.GetUserMonsters(targetId).ToList();
+
+            var monsters = targetMonsters.Where(x => x.Search).Select(x => new TradeMonster
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Slug = x.Slug,
+                MinLevel = x.MinLevel,
+                MaxLevel = x.MaxLevel,
+                AnkamaId = x.AnkamaId,
+                Match = userMonsters.TryGetValue(x.Id, out var monster) ? monster.Propose ? true : false : false
+            }).OrderByDescending(x => x.Match).ToList();
+
+            return new ProfileMonster
+            {
+                Count = monsters.Count,
+                MatchCount = monsters.Count(x => x.Match),
+                Monsters = monsters
+            };
+        }
+
+        public ProfileMonster GetProposedMonstersWithMatchs(int userId, int targetId)
+        {
+            var userMonsters = _tradingRepository.GetUserMonsters(userId).ToList();
+            var targetMonsters = _tradingRepository.GetUserMonsters(targetId).ToDictionary(x => x.Id);
+
+            var monsters = userMonsters.Where(x => x.Search).Select(x => new TradeMonster
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Slug = x.Slug,
+                MinLevel = x.MinLevel,
+                MaxLevel = x.MaxLevel,
+                AnkamaId = x.AnkamaId,
+                Match = targetMonsters.TryGetValue(x.Id, out var monster) ? monster.Propose ? true : false : false
+            }).OrderByDescending(x => x.Match).ToList();
+
+            return new ProfileMonster
+            {
+                Count = monsters.Count,
+                MatchCount = monsters.Count(x => x.Match),
+                Monsters = monsters
+            };
+        }
     }
 }

@@ -7,5 +7,7 @@ namespace Trading.Services
     {
         IEnumerable<TradingResult> GetTradableUsers(int userId);
         TradingDetails GetTradingDetails(int userId, int targetId);
+        ProfileMonster GetSearchedMonstersWithMatchs(int userId, int targetId);
+        ProfileMonster GetProposedMonstersWithMatchs(int userId, int targetId);
     }
 }

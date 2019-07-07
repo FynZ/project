@@ -28,11 +28,30 @@ namespace Trading.Controllers
         }
 
         [HttpGet("{targetId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.User))]
         public IActionResult GetTradingDetails(int targetId)
         {
             var details = _tradingService.GetTradingDetails(this.AuthenticatedUserId(), targetId);
 
             return Ok(details);
+        }
+
+        [HttpGet("search/{targetId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.User))]
+        public IActionResult GetSearchedMonstersWithMatchs(int targetId)
+        {
+            var monsters = _tradingService.GetSearchedMonstersWithMatchs(this.AuthenticatedUserId(), targetId);
+
+            return Ok(monsters);
+        }
+
+        [HttpGet("propose/{targetId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.User))]
+        public IActionResult GetProposedMonstersWithMatchs(int targetId)
+        {
+            var monsters = _tradingService.GetProposedMonstersWithMatchs(this.AuthenticatedUserId(), targetId);
+
+            return Ok(monsters);
         }
     }
 }
