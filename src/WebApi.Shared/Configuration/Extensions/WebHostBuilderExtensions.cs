@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using App.Metrics.AspNetCore;
+using App.Metrics.Formatters.Prometheus;
+using Microsoft.AspNetCore.Hosting;
 using Serilog;
 
 namespace WebApi.Shared.Configuration.Extensions
@@ -10,9 +12,20 @@ namespace WebApi.Shared.Configuration.Extensions
             return app.UseSerilog();
         }
 
-        public static IWebHostBuilder AddMetrics(this IWebHostBuilder app)
+        public static IWebHostBuilder AddMetrics(this IWebHostBuilder builder)
         {
-            return app;
+            builder.UseHealthEndpoints()
+                   .UseMetricsWebTracking()
+                   .UseMetrics(options =>
+                   {
+                       options.EndpointOptions = endpointsOptions =>
+                       {
+                           endpointsOptions.MetricsEndpointOutputFormatter = new MetricsPrometheusProtobufOutputFormatter();
+                           endpointsOptions.MetricsTextEndpointOutputFormatter = new MetricsPrometheusTextOutputFormatter();
+                       };
+                   });
+
+            return builder;
         }
     }
 }
