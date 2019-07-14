@@ -8,6 +8,7 @@ spring:
 eureka:  
   client:
     serviceUrl:
+      # defaultZone: http://localhost:90/eureka/
       defaultZone: http://pm-eureka:80/eureka/
   instance:
     leaseRenewalIntervalInSeconds: 1
