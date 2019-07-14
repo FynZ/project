@@ -1,122 +1,50 @@
-<ul class="nav">
-    <li class="nav-item">
-        <a class="nav-link active" href="#">Create News</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Monitoring</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Users</a>
-    </li>
-</ul>
-
-<div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <div class="row">
-            <div class="col-6">
-                <div [ngClass]="gatewayStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert" role="alert">
-                    Gateway
-                </div>
-                <div [ngClass]="serviceDiscoveryStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert" role="alert">
-                    Service Discovery
-                </div>
-                <div [ngClass]="newsServiceStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert" role="alert">
-                    News Service
-                </div>
-                <div [ngClass]="ressourcesServiceStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert alert-success" role="alert">
-                    Ressources Service
-                </div>
-            </div> 
-            <div class="col-6">
-                <div [ngClass]="authServiceStatus ? 'alert-success' : 'alert-danger'"  
-                    class="alert alert-success" role="alert">
-                    Authentication Service
-                </div>
-                <div [ngClass]="monstersServiceStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert alert-success" role="alert">
-                    Monsters Service
-                </div>
-                <div [ngClass]="tradingServiceStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert alert-success" role="alert">
-                    Trading Service
-                </div>
-            </div> 
-        </div>
-    </div>
-    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row">
-            <div class="col-6">
-                <div [ngClass]="gatewayStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert" role="alert">
-                    Gateway
-                </div>
-                <div [ngClass]="serviceDiscoveryStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert" role="alert">
-                    Service Discovery
-                </div>
-                <div [ngClass]="newsServiceStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert" role="alert">
-                    News Service
-                </div>
-                <div [ngClass]="ressourcesServiceStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert alert-success" role="alert">
-                    Ressources Service
-                </div>
-            </div> 
-            <div class="col-6">
-                <div [ngClass]="authServiceStatus ? 'alert-success' : 'alert-danger'"  
-                    class="alert alert-success" role="alert">
-                    Authentication Service
-                </div>
-                <div [ngClass]="monstersServiceStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert alert-success" role="alert">
-                    Monsters Service
-                </div>
-                <div [ngClass]="tradingServiceStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert alert-success" role="alert">
-                    Trading Service
-                </div>
-            </div> 
-        </div>
-    </div>
-    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-        <div class="row">
-            <div class="col-6">
-                <div [ngClass]="gatewayStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert" role="alert">
-                    Gateway
-                </div>
-                <div [ngClass]="serviceDiscoveryStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert" role="alert">
-                    Service Discovery
-                </div>
-                <div [ngClass]="newsServiceStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert" role="alert">
-                    News Service
-                </div>
-                <div [ngClass]="ressourcesServiceStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert alert-success" role="alert">
-                    Ressources Service
-                </div>
-            </div> 
-            <div class="col-6">
-                <div [ngClass]="authServiceStatus ? 'alert-success' : 'alert-danger'"  
-                    class="alert alert-success" role="alert">
-                    Authentication Service
-                </div>
-                <div [ngClass]="monstersServiceStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert alert-success" role="alert">
-                    Monsters Service
-                </div>
-                <div [ngClass]="tradingServiceStatus ? 'alert-success' : 'alert-danger'" 
-                    class="alert alert-success" role="alert">
-                    Trading Service
-                </div>
-            </div> 
-        </div>
-    </div>
-</div>
+<ngb-tabset>
+    <ngb-tab title="News">
+        <ng-template ngbTabContent>
+            <p>Work in progress</p>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Monitoring">
+        <ng-template ngbTabContent>
+            <div class="row">
+                <div class="col-6">
+                    <div [ngClass]="gatewayStatus ? 'alert-success' : 'alert-danger'" 
+                        class="alert" role="alert">
+                        Gateway
+                    </div>
+                    <div [ngClass]="serviceDiscoveryStatus ? 'alert-success' : 'alert-danger'" 
+                        class="alert" role="alert">
+                        Service Discovery
+                    </div>
+                    <div [ngClass]="newsServiceStatus ? 'alert-success' : 'alert-danger'" 
+                        class="alert" role="alert">
+                        News Service
+                    </div>
+                    <div [ngClass]="ressourcesServiceStatus ? 'alert-success' : 'alert-danger'" 
+                        class="alert alert-success" role="alert">
+                        Ressources Service
+                    </div>
+                </div> 
+                <div class="col-6">
+                    <div [ngClass]="authServiceStatus ? 'alert-success' : 'alert-danger'"  
+                        class="alert alert-success" role="alert">
+                        Authentication Service
+                    </div>
+                    <div [ngClass]="monstersServiceStatus ? 'alert-success' : 'alert-danger'" 
+                        class="alert alert-success" role="alert">
+                        Monsters Service
+                    </div>
+                    <div [ngClass]="tradingServiceStatus ? 'alert-success' : 'alert-danger'" 
+                        class="alert alert-success" role="alert">
+                        Trading Service
+                    </div>
+                </div> 
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Users">
+        <ng-template ngbTabContent>
+            <p>Work in progress</p>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>

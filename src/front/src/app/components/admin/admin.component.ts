@@ -1,6 +1,7 @@
 import { TradingService } from './../../services/trading-service';
 import { MetricsService } from './../../services/metrics.service';
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-admin',
@@ -17,7 +18,7 @@ export class AdminComponent implements OnInit
     public monstersServicesStatus: boolean;
     public tradingServiceStatus: boolean;
 
-    constructor(private metricsService: MetricsService) { }
+    constructor(private metricsService: MetricsService, private toastr: ToastrService) { }
 
     async ngOnInit()
     {
@@ -26,6 +27,7 @@ export class AdminComponent implements OnInit
         setTimeout(async () =>
         {
            await this.poll();
+           this.toastr.success(`Fetched application statuses`, 'Success');
         }, 10000);
     }
 

@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
 import { NgStringPipesModule } from 'angular-pipes';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 // project
 import { AppComponent } from './components/app/app.component';
@@ -91,7 +92,8 @@ const appRoutes: Routes = [
       preventDuplicates: true,
     }),
     NgxTwitterTimelineModule,
-    NgStringPipesModule
+    NgStringPipesModule,
+    NgbModule
   ],
   providers: [
     {

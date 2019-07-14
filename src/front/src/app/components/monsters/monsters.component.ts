@@ -3,8 +3,8 @@ import { Monster } from 'src/app/models/monster';
 import { MonsterService } from 'src/app/services/monster.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { delay } from 'q';
-import { filterQueryId } from '@angular/core/src/view/util';
+// import { delay } from 'q';
+// import { filterQueryId } from '@angular/core/src/view/util';
 
 @Component({
     selector: 'app-monsters',
@@ -23,7 +23,7 @@ export class MonstersComponent implements OnInit
     private displaying: boolean = false;
 
     constructor(
-        private monsterService: MonsterService, 
+        private monsterService: MonsterService,
         private toastr: ToastrService,
         private authService: AuthService)
     {
