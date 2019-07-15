@@ -27,7 +27,7 @@ namespace WebApi.Shared.Configuration.Extensions
             serviceCollection
                 .AddMvc(o =>
                 {
-                    o.UseGeneralRoutePrefix(routePrefix);
+                    //o.UseGeneralRoutePrefix(routePrefix);
                 })
                 .AddJsonOptions(o =>
                 {

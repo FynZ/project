@@ -6,13 +6,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MetricsService
 {
-    private readonly gatewayUrl              = 'http://localhost:80/actuator/ping';
-    private readonly clientDiscoveryUrl      = 'http://localhost:90/actuator/ping';
-    private readonly newsServiceUrl          = 'http://localhost:88/news/actuator/health';
-    private readonly ressourcesServiceUrl    = 'http://localhost:89/ressources/actuator/health';
-    private readonly authServiceUrl          = 'http://localhost:81/ping';
-    private readonly monstersServiceUrl      = 'http://localhost:82/ping';
-    private readonly tradingServiceUrl       = 'http://localhost:83/ping';
+    private readonly gatewayUrl              = 'http://localhost:80/health';
+    private readonly clientDiscoveryUrl      = 'http://localhost:80/service-discovery/health';
+    private readonly newsServiceUrl          = 'http://localhost:80/news/actuator/health';
+    private readonly ressourcesServiceUrl    = 'http://localhost:80/ressources/health';
+    private readonly authServiceUrl          = 'http://localhost:80/auth/health';
+    private readonly monstersServiceUrl      = 'http://localhost:80/monsters/health';
+    private readonly tradingServiceUrl       = 'http://localhost:80/trading/health';
 
     constructor(private http: HttpClient)
     {
@@ -58,12 +58,17 @@ export class MetricsService
     {
         try
         {
-            await this.http.get(url).toPromise();
+            await this.http.get(url, {responseType: 'text'}).toPromise();
+
+            console.log('success');
 
             return true;
         }
         catch (e)
         {
+            console.log(`error while calling ${url} with error`);
+            console.log(e);
+
             return false;
         }
     }

@@ -5,8 +5,8 @@
 server:
     # port: 8085
     port: 80
-    servlet:
-        context-path: /news
+    # servlet:
+        # context-path: /news
 
 #####################
 #     Deployment    #
@@ -37,6 +37,14 @@ spring:
 #####################
 #       Actuator    #
 #####################
+
+management:
+    endpoints:
+        web:
+            cors:
+                allowed-origins: '*'
+                allowed-methods: 'OPTIONS, GET, POST'
+                allowed-headers: '*'
 
 #####################
 #       Logging     #

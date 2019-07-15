@@ -5,6 +5,17 @@ spring:
   application:
     name: gateway
 
+#####################
+#       Actuator    #
+#####################
+
+# 1.5.x configuration
+endpoints:
+    cors:
+        allowed-origins: '*'
+        allowed-methods: 'OPTIONS, GET, POST'
+        allowed-headers: '*'
+
 zuul:
   sensitiveHeaders: Cookie,Set-Cookie
   routes:
@@ -12,50 +23,54 @@ zuul:
     news:
       path: /news/**
       serviceId: news
-      strip-prefix: false
+      strip-prefix: true
     #   url: http://pm-news:80/news
     ressources:
       path: /ressources/**
       serviceId: resources
-      strip-prefix: false
+      strip-prefix: true
     #   url: http://pm-ressources:80/ressources
     auth:
       path: /auth/**
       serviceId: accounts
-      strip-prefix: false
+      strip-prefix: true
     #   url: http://pm-accounts:80/auth
     # ROLE USER
     monsters:
       path: /monsters/**
       serviceId: monsters
-      strip-prefix: false
+      strip-prefix: true
     #   url: http://pm-monsters:80/monsters
     trading:
       path: /trading/**
       serviceId: trading
-      strip-prefix: false
+      strip-prefix: true
     #   url: http://pm-trading:80/trading
     marketplace:
       path: /messaging/**
       serviceId: marketplace
-      strip-prefix: false
+      strip-prefix: true
     #   url: http://pm-messages:80/marketplace
     map:
       path: /messaging/**
       serviceId: map
-      strip-prefix: false
+      strip-prefix: true
     #   url: http://pm-messages:80/map
     messaging:
       path: /messaging/**
       serviceId: messaging
-      strip-prefix: false
+      strip-prefix: true
     #   url: http://pm-messages:80/messaging
     # ROLE ADMIN
     admin:
       path: /admin/**
       serviceId: admin
-      strip-prefix: false
+      strip-prefix: true
     #   url: http://pm-admin:80/admin
+    service-discovery:
+      path: /service-discovery/**
+      url: http://pm-eureka:80
+      strip-prefix: true
 
 ribbon:
   eureka:
