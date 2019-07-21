@@ -62,6 +62,7 @@ namespace Accounts
                 .AddSingleton<IUserRepository, UserRepository>(x => new UserRepository(Configuration.GetConnectionString("Postgres")))
                 .AddSingleton<IUserService, UserService>()
                 .AddSingleton<IProfileService, ProfileService>()
+                .AddSingleton<IManagementService, ManagementService>()
                 .AddTransient<IHostedServiceAccessor<IMonsterServiceCommunication>, HostServiceAccessor<IMonsterServiceCommunication>>()
                 .AddSingleton<IHostedService, MonsterServiceCommunication>();
         }

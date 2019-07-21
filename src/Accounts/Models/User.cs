@@ -18,6 +18,7 @@ namespace Accounts.Models
         public bool Subscribed { get; set; }
         public bool Verified { get; set; }
         public bool Banned { get; set; }
+        public DateTime CreationDate { get; set; }
         public DateTime LastLoginDate { get; set; }
         public IEnumerable<Role> Roles { get; set; }
     }

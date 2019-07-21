@@ -14,5 +14,7 @@ namespace Accounts.Repositories
         void UpdateLastLoginDate(int userId, DateTime date);
         void UpdateUserProfile(User user);
         void UpdateUserProfileWithPassword(User user);
+        void BanUser(int userId);
+        void UnbanUser(int userId);
     }
 }
