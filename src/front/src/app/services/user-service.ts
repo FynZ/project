@@ -1,3 +1,4 @@
+import { UserManagement } from './../models/user-management';
 import { UpdateProfileWithPassword } from './../models/update-profile-with-password';
 import { UpdateProfile } from './../models/update-profile';
 import { UserInformation } from '../models/user-information';
@@ -37,6 +38,21 @@ export class UserService extends HttpServiceBase
         {
             return await this.http.get<UserProfile>(
                 `http://localhost:80/auth/profile/${userId}`,
+                {headers : this.jsonHeaders}
+            ).toPromise();
+        }
+        catch (ex)
+        {
+            return null;
+        }
+    }
+
+    public async getUsers(): Promise<UserManagement[]>
+    {
+        try
+        {
+            return await this.http.get<UserManagement[]>(
+                `http://localhost:80/auth/users/`,
                 {headers : this.jsonHeaders}
             ).toPromise();
         }

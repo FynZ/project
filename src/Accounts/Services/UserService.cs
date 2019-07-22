@@ -40,6 +40,7 @@ namespace Accounts.Services
                 Subscribed = userCreation.Subscribed,
                 Verified = true, // there is no logic for account verification yet, so all account are directly flagged as verified
                 Banned = false,
+                CreationDate = DateTime.UtcNow,
                 LastLoginDate = DateTime.UtcNow,
                 Roles = new List<Role> { Role.User }
             };
@@ -62,7 +63,7 @@ namespace Accounts.Services
             return result;
         }
 
-        public Jwt Authenticate(string email, string password)
+        public AuthenticationResult Authenticate(string email, string password)
         {
             var user = _userRepository.GetUserByEmail(email);
 
@@ -70,17 +71,61 @@ namespace Accounts.Services
             {
                 if (PasswordHelper.PasswordsMatch(password, user.Password))
                 {
-                    var claims = new List<Claim>();
-                    claims.Add(new Claim(ClaimTypes.Name, user.Username));
-                    claims.AddRange(user.Roles.Select(role => new Claim("roles", role.ToString())));
+                    if (user.Verified == false)
+                    {
+                        return new AuthenticationResult
+                        {
+                            Authenticated = true,
+                            AuthenticationOutcome = AuthResult.NotVerified,
+                            Jwt = null
+                        };
+                    }
+                    else if (user.Banned == true)
+                    {
+                        return new AuthenticationResult
+                        {
+                            Authenticated = true,
+                            AuthenticationOutcome = AuthResult.Banned,
+                            Jwt = null
+                        };
+                    }
+                    else
+                    {
+                        var claims = new List<Claim>();
+                        claims.Add(new Claim(ClaimTypes.Name, user.Username));
+                        claims.AddRange(user.Roles.Select(role => new Claim("roles", role.ToString())));
 
-                    _userRepository.UpdateLastLoginDate(user.Id, DateTime.UtcNow);
+                        _userRepository.UpdateLastLoginDate(user.Id, DateTime.UtcNow);
 
-                    return _jwtHandler.Create(user);
+                        var token = _jwtHandler.Create(user);
+
+                        return new AuthenticationResult
+                        {
+                            Authenticated = true,
+                            AuthenticationOutcome = AuthResult.Success,
+                            Jwt = token
+                        };
+                    }
+                }
+                else
+                {
+                    return new AuthenticationResult
+                    {
+                        Authenticated = false,
+                        AuthenticationOutcome = AuthResult.InvalidPassword,
+                        Jwt = null
+                    };
                 }
             }
-
-            return null;
+            else
+            {
+                return new AuthenticationResult
+                {
+                    Authenticated = false,
+                    AuthenticationOutcome = AuthResult.InvalidEmail,
+                    Jwt = null
+                };
+            }
         }
     }
 }

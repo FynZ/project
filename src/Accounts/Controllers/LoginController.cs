@@ -27,17 +27,41 @@ namespace Accounts.Controllers
         [ProducesResponseType(typeof(Jwt), (int)HttpStatusCode.OK)]
         public IActionResult Login([FromBody] LoginViewModel user)
         {
-            var jwt = _userService.Authenticate(user.Email, user.Password);
+            var result = _userService.Authenticate(user.Email, user.Password);
 
-            if (jwt != null)
+            if (result.AuthenticationOutcome == AuthResult.Success)
             {
-                return Ok(jwt);
+                return Ok(result.Jwt);
+            }
+            else if (result.AuthenticationOutcome == AuthResult.InvalidEmail || result.AuthenticationOutcome == AuthResult.InvalidPassword)
+            {
+                return Unauthorized(new
+                {
+                    status = HttpStatusCode.Unauthorized,
+                    message = "Email or Password is incorrect"
+                });
+            }
+            else if (result.AuthenticationOutcome == AuthResult.NotVerified)
+            {
+                return Unauthorized(new
+                {
+                    status = HttpStatusCode.Unauthorized,
+                    message = "Account has not been activated"
+                });
+            }
+            else if (result.AuthenticationOutcome == AuthResult.Banned)
+            {
+                return Unauthorized(new
+                {
+                    status = HttpStatusCode.Unauthorized,
+                    message = "Account banned"
+                });
             }
 
             return Unauthorized(new
             {
                 status = HttpStatusCode.Unauthorized,
-                message = "Email or Password is incorrect"
+                message = "Unauthorized for unknown reason"
             });
         }
 

@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HomeComponent implements OnInit {
 
-    public news: News[];
+    public news: News[] = [];
 
     private currentLoadedPage: number;
 
@@ -22,6 +22,9 @@ export class HomeComponent implements OnInit {
     async ngOnInit()
     {
         const news = await this.newsService.getNews();
+
+        console.log(this.news);
+        console.log(news);
 
         if (news)
         {

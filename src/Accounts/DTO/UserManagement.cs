@@ -1,18 +1,17 @@
-﻿using System;
+﻿using Accounts.Models.Enumerations;
+using System;
 using System.Collections.Generic;
-using Accounts.Models.Enumerations;
+using System.Linq;
+using System.Threading.Tasks;
 using WebApi.Shared.Enumerations;
 
-namespace Accounts.Models
+namespace Accounts.DTO
 {
-    public class User
+    public class UserManagement
     {
         public int Id { get; set; }
         public string Username { get; set; }
-        public string UsernameUpper { get; set; }
         public string Email { get; set; }
-        public string EmailUpper { get; set; }
-        public string Password { get; set; }
         public Server Server { get; set; }
         public string InGameName { get; set; }
         public bool Subscribed { get; set; }
@@ -20,6 +19,5 @@ namespace Accounts.Models
         public bool Banned { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime LastLoginDate { get; set; }
-        public IEnumerable<Role> Roles { get; set; }
     }
 }

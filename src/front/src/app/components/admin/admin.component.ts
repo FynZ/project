@@ -1,34 +1,83 @@
+import { UserService } from './../../services/user-service';
+import { UserManagement } from './../../models/user-management';
 import { TradingService } from './../../services/trading-service';
 import { MetricsService } from './../../services/metrics.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { NewsCreation } from 'src/app/models/news-creation';
+import { NewsService } from 'src/app/services/news.service';
 
 @Component({
     selector: 'app-admin',
     templateUrl: './admin.component.html',
-    styleUrls: ['./admin.component.sass']
+    styleUrls: ['./admin.component.scss']
 })
-export class AdminComponent implements OnInit
+export class AdminComponent implements OnInit, OnDestroy
 {
+    // #region News
+    public title = '';
+    public content = '';
+    // #endregion News
+
+    // #region Monitoring
+    private timerInterval: any;
+
     public gatewayStatus: boolean;
     public serviceDiscoveryStatus: boolean;
     public newsServiceStatus: boolean;
     public ressourcesServiceStatus: boolean;
     public authServiceStatus: boolean;
-    public monstersServicesStatus: boolean;
+    public monstersServiceStatus: boolean;
     public tradingServiceStatus: boolean;
+    // #endregion Monitoring
 
-    constructor(private metricsService: MetricsService, private toastr: ToastrService) { }
+    // #region Users
+    public users: UserManagement[];
+    // #endregion Users
+
+    constructor(
+        private newsService: NewsService,
+        private metricsService: MetricsService,
+        private userService: UserService,
+        private toastr: ToastrService)
+    {
+    }
 
     async ngOnInit()
     {
         await this.poll();
+        this.users = await this.userService.getUsers();
 
-        setTimeout(async () =>
+        this.timerInterval = setInterval(async () =>
         {
-           await this.poll();
-           this.toastr.success(`Fetched application statuses`, 'Success');
+            console.log('polling...');
+
+            await this.poll();
+            this.toastr.success(`Fetched application statuses`, 'Success');
         }, 10000);
+    }
+
+    ngOnDestroy(): void
+    {
+        clearInterval(this.timerInterval);
+    }
+
+    public async createNews()
+    {
+        const news = new NewsCreation(this.title, this.content);
+
+        const result = await this.newsService.createNews(news);
+
+        if (result === true)
+        {
+            this.toastr.success(`News created`, 'Success');
+            this.title = '';
+            this.content = '';
+        }
+        else
+        {
+            this.toastr.error('Error creating news', 'Error');
+        }
     }
 
     private async poll()
@@ -50,7 +99,7 @@ export class AdminComponent implements OnInit
             this.newsServiceStatus = result[2];
             this.ressourcesServiceStatus = result[3];
             this.authServiceStatus = result[4];
-            this.monstersServicesStatus = result[5];
+            this.monstersServiceStatus = result[5];
             this.tradingServiceStatus = result[6];
         });
     }

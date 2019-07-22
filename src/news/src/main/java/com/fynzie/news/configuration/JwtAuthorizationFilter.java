@@ -68,7 +68,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter
         {
             try
             {
-                Jwt<Header,Claims> parsedToken = Jwts.parser()
+                Jwt<Header, Claims> parsedToken = Jwts.parser()
                     // .setSigningKey(SecurityConstants.getPublicKey())
                     .parseClaimsJwt(cleanedSignaturelessToken);
 

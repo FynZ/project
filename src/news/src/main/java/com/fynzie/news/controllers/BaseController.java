@@ -9,8 +9,6 @@ public abstract class BaseController
 {
     public int getUserId() throws NumberFormatException
     {
-        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         return Integer.parseInt((String)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }    
 }

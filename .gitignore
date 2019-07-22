@@ -45,6 +45,7 @@ buildNumber.properties
 # ANGULAR RELATED FILES                                                     #
 #############################################################################
 
+src/gateway/src/main/resources/static/
 dist/
 bazel-out
 integration/bazel/bazel-*

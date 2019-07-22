@@ -8,6 +8,17 @@
 server:
     port: 80
 
+#####################
+#       Actuator    #
+#####################
+
+# 1.5.x configuration
+endpoints:
+    cors:
+        allowed-origins: '*'
+        allowed-methods: 'OPTIONS, GET, POST'
+        allowed-headers: '*'
+
 eureka:
   instance:
     hostname: localhost

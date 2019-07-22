@@ -5,6 +5,17 @@ spring:
   application:
     name: resources
 
+#####################
+#       Actuator    #
+#####################
+
+# 1.5.x configuration
+endpoints:
+    cors:
+        allowed-origins: '*'
+        allowed-methods: 'OPTIONS, GET, POST'
+        allowed-headers: '*'
+
 eureka:  
   client:
     serviceUrl:

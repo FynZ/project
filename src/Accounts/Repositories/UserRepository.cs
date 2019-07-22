@@ -104,6 +104,7 @@ namespace Accounts.Repositories
                 subscribed, 
                 verified, 
                 banned, 
+                creation_date,
                 last_login_date 
             ) 
             VALUES 
@@ -118,6 +119,7 @@ namespace Accounts.Repositories
                 @Subscribed, 
                 @Verified, 
                 @Banned, 
+                @CreationDate,
                 @LastLoginDate
             )
             RETURNING id;";
@@ -174,6 +176,22 @@ namespace Accounts.Repositories
                 server = @Server::server,
                 in_game_name = @InGameName,
                 subscribed = @Subscribed 
+            WHERE
+                id = @UserId";
+
+        private const string BAN_USER = @"
+            UPDATE
+                t_users as tu
+            SET 
+                banned = true
+            WHERE
+                id = @UserId";
+
+        private const string UNBAN_USER = @"
+            UPDATE
+                t_users as tu
+            SET 
+                banned = false
             WHERE
                 id = @UserId";
         #endregion Queries
@@ -276,6 +294,7 @@ namespace Accounts.Repositories
                         Subscribed = user.Subscribed,
                         Verified = user.Verified,
                         Banned = user.Banned,
+                        CreationDate = user.CreationDate,
                         LastLoginDate = user.LastLoginDate
                     }, transaction);
 
@@ -346,6 +365,32 @@ namespace Accounts.Repositories
             {
                 Id = userId
             }).Select(x => x.Role);
+        }
+
+        public void BanUser(int userId)
+        {
+            using (var con = new NpgsqlConnection(_connectionString))
+            {
+                con.Open();
+
+                con.Execute(BAN_USER, new
+                {
+                    UserId = userId,
+                });
+            }
+        }
+
+        public void UnbanUser(int userId)
+        {
+            using (var con = new NpgsqlConnection(_connectionString))
+            {
+                con.Open();
+
+                con.Execute(UNBAN_USER, new
+                {
+                    UserId = userId,
+                });
+            }
         }
 
         #region InMemoryImplementation

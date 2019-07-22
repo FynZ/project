@@ -1,50 +1,118 @@
-<ngb-tabset>
-    <ngb-tab title="News">
-        <ng-template ngbTabContent>
-            <p>Work in progress</p>
-        </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Monitoring">
-        <ng-template ngbTabContent>
-            <div class="row">
-                <div class="col-6">
-                    <div [ngClass]="gatewayStatus ? 'alert-success' : 'alert-danger'" 
-                        class="alert" role="alert">
-                        Gateway
+<div class="row">
+    <div class="col-1">
+    </div>
+    <div class="col-10">
+        <ngb-tabset>
+            <ngb-tab title="News">
+                <ng-template ngbTabContent>
+                    <div class="row offset-top">
+                        <div class="col-1">
+                        </div>
+                        <div class="col-10">
+                            <form>
+                                <div class="form-group">
+                                    <label for="news-title">News title</label>
+                                    <input [(ngModel)]="title" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="news-title" placeholder="My news title">
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="news-content">News content</label>
+                                    <textarea [(ngModel)]="content" [ngModelOptions]="{standalone: true}" class="form-control" id="news-content" rows="10" placeholder="My news content"></textarea>
+                                </div>
+                                <button (click)="createNews()" type="submit" class="btn btn-primary mb-2">Create News</button>
+                            </form>
+                        </div>
+                        <div class="col-1">
+                        </div>
                     </div>
-                    <div [ngClass]="serviceDiscoveryStatus ? 'alert-success' : 'alert-danger'" 
-                        class="alert" role="alert">
-                        Service Discovery
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Monitoring">
+                <ng-template ngbTabContent>
+                    <div class="row offset-top">
+                        <div class="col-1">
+                        </div>
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div [ngClass]="gatewayStatus ? 'alert-success' : 'alert-danger'" 
+                                        class="alert" role="alert">
+                                        Gateway
+                                    </div>
+                                    <div [ngClass]="serviceDiscoveryStatus ? 'alert-success' : 'alert-danger'" 
+                                        class="alert" role="alert">
+                                        Service Discovery
+                                    </div>
+                                    <div [ngClass]="newsServiceStatus ? 'alert-success' : 'alert-danger'" 
+                                        class="alert" role="alert">
+                                        News Service
+                                    </div>
+                                    <div [ngClass]="ressourcesServiceStatus ? 'alert-success' : 'alert-danger'" 
+                                        class="alert alert-success" role="alert">
+                                        Ressources Service
+                                    </div>
+                                </div> 
+                                <div class="col-6">
+                                    <div [ngClass]="authServiceStatus ? 'alert-success' : 'alert-danger'"  
+                                        class="alert alert-success" role="alert">
+                                        Authentication Service
+                                    </div>
+                                    <div [ngClass]="monstersServiceStatus ? 'alert-success' : 'alert-danger'" 
+                                        class="alert alert-success" role="alert">
+                                        Monsters Service
+                                    </div>
+                                    <div [ngClass]="tradingServiceStatus ? 'alert-success' : 'alert-danger'" 
+                                        class="alert alert-success" role="alert">
+                                        Trading Service
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="col-1">
+                        </div>
                     </div>
-                    <div [ngClass]="newsServiceStatus ? 'alert-success' : 'alert-danger'" 
-                        class="alert" role="alert">
-                        News Service
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Users">
+                <ng-template ngbTabContent>
+                    <div class="row offset-top">
+                        <div class="col-1">
+                        </div>
+                        <div class="col-10">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Subscribed</th>
+                                        <th scope="col">Verified</th>
+                                        <th scope="col">Banned</th>
+                                        <th scope="col">Joined at</th>
+                                        <th scope="col">Last login</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let user of users">
+                                        <th scope="row">{{ user.id }}</th>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.subscribed }}</td>
+                                        <td>{{ user.verified }}</td>
+                                        <td>{{ user.banned }}</td>
+                                        <td>{{ user.creationDate }}</td>
+                                        <td>{{ user.lastLoginDate }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-1">
+                        </div>
                     </div>
-                    <div [ngClass]="ressourcesServiceStatus ? 'alert-success' : 'alert-danger'" 
-                        class="alert alert-success" role="alert">
-                        Ressources Service
-                    </div>
-                </div> 
-                <div class="col-6">
-                    <div [ngClass]="authServiceStatus ? 'alert-success' : 'alert-danger'"  
-                        class="alert alert-success" role="alert">
-                        Authentication Service
-                    </div>
-                    <div [ngClass]="monstersServiceStatus ? 'alert-success' : 'alert-danger'" 
-                        class="alert alert-success" role="alert">
-                        Monsters Service
-                    </div>
-                    <div [ngClass]="tradingServiceStatus ? 'alert-success' : 'alert-danger'" 
-                        class="alert alert-success" role="alert">
-                        Trading Service
-                    </div>
-                </div> 
-            </div>
-        </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Users">
-        <ng-template ngbTabContent>
-            <p>Work in progress</p>
-        </ng-template>
-    </ngb-tab>
-</ngb-tabset>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+    <div class="col-1">
+    </div>
+</div>

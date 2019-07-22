@@ -11,7 +11,7 @@ namespace Trading.Utils
             var removedMatchPartSource = sourceProposeMatch - matchingCount;
             var removedMatchPartTarget = targetSearchMatch - matchingCount;
 
-            return matchingCount * 2 + removedMatchPartSource + removedMatchPartTarget;
+            return matchingCount * 4 + removedMatchPartSource + removedMatchPartTarget;
         }
     }
 }

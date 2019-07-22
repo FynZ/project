@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using Accounts.DTO;
 using Accounts.Models;
 using Accounts.Services;
@@ -6,6 +7,7 @@ using Accounts.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Shared.Enumerations;
 using WebApi.Shared.Extensions;
 
 namespace Accounts.Controllers
@@ -15,10 +17,12 @@ namespace Accounts.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IProfileService _profileService;
+        private readonly IManagementService _managementService;
 
-        public AccountController(IProfileService profileService)
+        public AccountController(IProfileService profileService, IManagementService managementService)
         {
             _profileService = profileService;
+            _managementService = managementService;
         }
 
         [Authorize]
@@ -101,6 +105,39 @@ namespace Accounts.Controllers
             }
 
             return NotFound();
+        }
+
+        [HttpGet("users")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.Admin))]
+        [ProducesResponseType(typeof(IEnumerable<UserManagement>), (int)HttpStatusCode.OK)]
+        public IActionResult GetUsersProfiles()
+        {
+            var users = _managementService.GetUsers();
+
+            if (users != null)
+            {
+                return Ok(users);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost("user/ban/{userId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.Admin))]
+        public IActionResult BanUser(int userId)
+        {
+            _managementService.BanUser(userId);
+
+            return Ok();
+        }
+
+        [HttpPost("user/unban/{userId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.Admin))]
+        public IActionResult UnbanUser(int userId)
+        {
+            _managementService.UnbanUser(userId);
+
+            return Ok();
         }
     }
 }
