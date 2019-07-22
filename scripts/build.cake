@@ -5,11 +5,14 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+var frontConfiguration = Argument("front", "developement");
 var version = Argument("productversion", "1.0.0");
 var location = EnvironmentVariable("CAKE_ENVIRONMENT") ?? "desktop";
 
 var sln = "../PocketMonsters.sln";
 var publishDir = "../publish/";
+
+FilePath npmPath = Context.Tools.Resolve("npm.cmd");
 
 var dotnetProjects = new [] { "Accounts", "Monsters", "Trading" };
 var mavenProjects = new [] { "gateway", "eureka", "ressources", "news"};
@@ -22,7 +25,7 @@ Task("Clean")
         CleanDirectories(string.Format("../**/bin/{0}", configuration));
     });
 
-Task("Build") // Building Lni.sln...
+Task("DotnetBuild") // Building Lni.sln...
     .IsDependentOn("Clean")
     .Does(() =>
     {
@@ -34,7 +37,7 @@ Task("Build") // Building Lni.sln...
     });
 
 Task("Test") // Running unit tests...
-    .IsDependentOn("Build")
+    .IsDependentOn("DotnetBuild")
     .Does(() =>
     {
         foreach(var project in GetFiles("../test/**/*.Tests.csproj"))
@@ -140,8 +143,17 @@ Task("MavenBuild").Does(() =>
     }
 });
 
+Task("BuildFront").Does(() =>
+{
+    CleanDirectory("../src/gateway/src/main/resources/static");
+    CleanDirectory("../src/front/dist/front");
+    ExecuteProcess(npmPath.FullPath, "run", "prod-build", "--prefix", "../src/front");
+    CopyDirectory("../src/front/dist/front", "../src/gateway/src/main/resources/static");
+});
+
 Task("Default") // Build and run unit tests only, then publish the application (frontend + backend)
-    .IsDependentOn("Build")
+    .IsDependentOn("BuildFront")
+    .IsDependentOn("DotnetBuild")
     .IsDependentOn("Test")
     .IsDependentOn("Publish")
     .IsDependentOn("DockerBuild")
@@ -195,4 +207,9 @@ void TestWithCoverage(FilePath project, DotNetCoreTestSettings testSettings)
     });
 
     Console.WriteLine($"##teamcity[publishArtifacts 'coverage-results']");
+}
+
+void BuildFront()
+{
+
 }
