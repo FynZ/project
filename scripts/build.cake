@@ -17,6 +17,13 @@ FilePath npmPath = Context.Tools.Resolve("npm.cmd");
 var dotnetProjects = new [] { "Accounts", "Monsters", "Trading" };
 var mavenProjects = new [] { "gateway", "eureka", "ressources", "news"};
 
+Task("FrontClean")
+    .Does(() =>
+    {
+        CleanDirectory("../src/gateway/src/main/resources/static");
+        CleanDirectory("../src/front/dist/front");
+    });
+
 Task("Clean")
     .Does(() =>
     {
@@ -143,13 +150,13 @@ Task("MavenBuild").Does(() =>
     }
 });
 
-Task("BuildFront").Does(() =>
-{
-    CleanDirectory("../src/gateway/src/main/resources/static");
-    CleanDirectory("../src/front/dist/front");
-    ExecuteProcess(npmPath.FullPath, "run", "prod-build", "--prefix", "../src/front");
-    CopyDirectory("../src/front/dist/front", "../src/gateway/src/main/resources/static");
-});
+Task("BuildFront")
+    .IsDependentOn("FrontClean")
+    .Does(() =>
+    {
+        ExecuteProcess(npmPath.FullPath, "run", "prod-build", "--prefix", "../src/front");
+        CopyDirectory("../src/front/dist/front", "../src/gateway/src/main/resources/static");
+    });
 
 Task("Default") // Build and run unit tests only, then publish the application (frontend + backend)
     .IsDependentOn("BuildFront")

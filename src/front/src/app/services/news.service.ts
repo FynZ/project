@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { News } from '../models/news';
-
-import * as moment from 'moment';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpServiceBase } from '../utils/http-service-base';
+
+import { News } from '../models/news';
 import { NewsDetails } from '../models/news-details';
 import { NewsCreation } from '../models/news-creation';
 
@@ -73,7 +72,7 @@ export class NewsService extends HttpServiceBase
     {
         try
         {
-            await this.http.post<any>(
+            await this.http.post(
                 `http://localhost:80/news/news/create`,
                 newsCreation,
                 {headers: this.jsonHeaders}

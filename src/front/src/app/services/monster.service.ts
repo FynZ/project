@@ -1,8 +1,9 @@
-import { MonsterSummary } from './../models/monster-summary';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Monster } from '../models/monster';
 import { HttpServiceBase } from '../utils/http-service-base';
+
+import { MonsterSummary } from './../models/monster-summary';
+import { Monster } from '../models/monster';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +22,7 @@ export class MonsterService extends HttpServiceBase
             return await this.http.get<MonsterSummary>(
                 "http://localhost:80/monsters/summary", 
                 {headers: this.jsonHeaders})
-                .toPromise();
+            .toPromise();
         }
         catch (e)
         {

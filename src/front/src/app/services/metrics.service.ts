@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HttpServiceBase } from '../utils/http-service-base';
+import { MetricsResponse } from '../models/metrics-response';
 
 @Injectable({
     providedIn: 'root'
 })
-export class MetricsService
+export class MetricsService extends HttpServiceBase
 {
     private readonly gatewayUrl              = 'http://localhost:80/health';
     private readonly clientDiscoveryUrl      = 'http://localhost:80/service-discovery/health';
@@ -16,7 +18,7 @@ export class MetricsService
 
     constructor(private http: HttpClient)
     {
-
+        super();
     }
 
     public async getGatewayStatus(): Promise<boolean>
@@ -58,7 +60,11 @@ export class MetricsService
     {
         try
         {
-            await this.http.get(url, {responseType: 'text'}).toPromise();
+            // await this.http.get(url, {responseType: 'text'}).toPromise();
+            const result = await this.http.get<MetricsResponse>(
+                url, 
+                {headers: this.jsonHeaders})
+                .toPromise();
 
             console.log('success');
 

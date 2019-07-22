@@ -18,6 +18,10 @@ endpoints:
 
 zuul:
   sensitiveHeaders: Cookie,Set-Cookie
+  host:
+    connect-timeout-millis: 60000
+    socket-timeout-millis: 60000
+    max-per-route-connections: 100
   routes:
     # ALLOW ANONYMOUS
     news:
@@ -75,6 +79,8 @@ zuul:
 ribbon:
   eureka:
     enabled: true
+  eager-load:
+    enabled: true
 
 eureka:
   client:
@@ -90,9 +96,3 @@ eureka:
 #     fetch-registry:  true
 #     service-url:
 #       default-zones: ${EUREKA_URI:http://pm-eureka:80/eureka}
-
-security:
-  oauth2:
-    resource:
-      jwt:
-        key-value: 123
