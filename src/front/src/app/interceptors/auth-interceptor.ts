@@ -33,11 +33,11 @@ export class AuthInterceptor implements HttpInterceptor
     {
         if (this.authService.isAuthenticated())
         {
-            if (req.method == "GET" && this.exceptions.includes(req.url))
-            {
-                console.log(`Intercepted and no token exception request, skipping for ${req.url}`);
-                return next.handle(req);
-            }
+            // if (req.method == "GET" && this.exceptions.includes(req.url))
+            // {
+            //     console.log(`Intercepted and no token exception request, skipping for ${req.url}`);
+            //     return next.handle(req);
+            // }
 
             const token = this.authService.getToken();
 

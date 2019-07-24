@@ -29,6 +29,7 @@ namespace Accounts.Repositories
                 subscribed                  AS Subscribed, 
                 verified                    AS Verified, 
                 banned                      AS Banned, 
+                creation_date               AS CreationDate,
                 last_login_date             AS LastLoginDate
             FROM 
                 t_users";
@@ -46,6 +47,7 @@ namespace Accounts.Repositories
                 subscribed                  AS Subscribed, 
                 verified                    AS Verified, 
                 banned                      AS Banned, 
+                creation_date               AS CreationDate,
                 last_login_date             AS LastLoginDate 
             FROM 
                 t_users 
@@ -65,6 +67,7 @@ namespace Accounts.Repositories
                 subscribed                  AS Subscribed, 
                 verified                    AS Verified, 
                 banned                      AS Banned, 
+                creation_date               AS CreationDate,
                 last_login_date             AS LastLoginDate 
             FROM 
                 t_users 
@@ -84,6 +87,7 @@ namespace Accounts.Repositories
                 subscribed                  AS Subscribed, 
                 verified                    AS Verified, 
                 banned                      AS Banned, 
+                creation_date               AS CreationDate,
                 last_login_date             AS LastLoginDate 
             FROM 
                 t_users 

@@ -55,9 +55,11 @@ public class AuthenticationFilter implements Filter
                 ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token signature");
             }
         }
-        
-        // not an httprequest or no token, carry on
-        chain.doFilter(request, response);
+        else
+        {
+            // not an httprequest or no token, carry on
+            chain.doFilter(request, response);
+        }
     }
 
     @Override

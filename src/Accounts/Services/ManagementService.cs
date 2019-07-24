@@ -32,7 +32,7 @@ namespace Accounts.Services
                 Banned = x.Banned,
                 CreationDate = x.CreationDate,
                 LastLoginDate = x.LastLoginDate
-            });
+            }).OrderBy(x => x.Id);
         }
 
         public void BanUser(int userId)
