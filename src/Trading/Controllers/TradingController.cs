@@ -31,7 +31,7 @@ namespace Trading.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Role.User))]
         public IActionResult GetTradingDetails(int targetId)
         {
-            var details = _tradingService.GetTradingDetails(this.AuthenticatedUserId(), targetId);
+            var details = _tradingService.GetDetailTrade(this.AuthenticatedUserId(), targetId);
 
             return Ok(details);
         }

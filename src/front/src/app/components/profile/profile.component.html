@@ -8,17 +8,17 @@
             <div class="progress">
                 <div class="progress-bar progress-bar-striped bg-success" 
                     role="progressbar" 
-                    [style.width]="monsterSummary?.haveCount * 100 / 286 + '%'" 
-                    [attr.aria-valuenow]="monsterSummary?.haveCount * 100 / 286" 
+                    [style.width.%]="(monsterSummary?.haveCount * 100) / 286"
+                    [attr.aria-valuenow]="monsterSummary?.haveCount" 
                     aria-valuemin="0" 
-                    aria-valuemax="100">{{ monsterSummary?.haveCount }}
+                    aria-valuemax="286">{{ monsterSummary?.haveCount }}
                 </div>
                 <div class="progress-bar progress-bar-striped bg-danger" 
                     role="progressbar" 
-                    [style.width]="(286 - monsterSummary?.haveCount) * 5 + '%'" 
-                    [attr.aria-valuenow]="(286 - monsterSummary?.haveCount) * 100 / 286" 
+                    [style.width.%]="((286 - monsterSummary?.haveCount) * 100) / 286" 
+                    [attr.aria-valuenow]="286 - monsterSummary?.haveCount" 
                     aria-valuemin="0" 
-                    aria-valuemax="100">{{ 286 - monsterSummary?.haveCount }}
+                    aria-valuemax="286">{{ 286 - monsterSummary?.haveCount }}
                 </div>
             </div>
             <br/>

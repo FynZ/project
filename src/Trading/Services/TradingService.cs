@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Trading.DTO;
+using Trading.Models;
 using Trading.Repositories;
 using Trading.Utils;
 
@@ -76,13 +77,13 @@ namespace Trading.Services
                 MinLevel = x.MinLevel,
                 MaxLevel = x.MaxLevel,
                 AnkamaId = x.AnkamaId,
-                Match = userMonsters.TryGetValue(x.Id, out var monster) ? monster.Propose ? true : false : false
-            }).OrderByDescending(x => x.Match).ToList();
+                //Match = userMonsters.TryGetValue(x.Id, out var monster) ? monster.Propose ? true : false : false
+            })/*.OrderByDescending(x => x.Match)*/.ToList();
 
             return new ProfileMonster
             {
                 Count = monsters.Count,
-                MatchCount = monsters.Count(x => x.Match),
+                //MatchCount = monsters.Count(x => x.Match),
                 Monsters = monsters
             };
         }
@@ -100,14 +101,75 @@ namespace Trading.Services
                 MinLevel = x.MinLevel,
                 MaxLevel = x.MaxLevel,
                 AnkamaId = x.AnkamaId,
-                Match = targetMonsters.TryGetValue(x.Id, out var monster) ? monster.Propose ? true : false : false
-            }).OrderByDescending(x => x.Match).ToList();
+                //Match = targetMonsters.TryGetValue(x.Id, out var monster) ? monster.Propose ? true : false : false
+            })/*.OrderByDescending(x => x.Match)*/.ToList();
 
             return new ProfileMonster
             {
-                Count = monsters.Count,
-                MatchCount = monsters.Count(x => x.Match),
+                //Count = monsters.Count,
+                //MatchCount = monsters.Count(x => x.Match),
                 Monsters = monsters
+            };
+        }
+
+        public UserTrading GetDetailTrade(int userId, int targetId)
+        {
+            var userMonsters = _tradingRepository.GetUserMonsters(userId).ToDictionary(x => x.Id);
+            var targetMonsters = _tradingRepository.GetUserMonsters(targetId).ToDictionary(x => x.Id);
+
+            var matchUser = new List<TradeMonster>();
+            var nomatchUser = new List<TradeMonster>();
+            foreach (var monster in userMonsters.Values)
+            {
+                if (targetMonsters.TryGetValue(monster.Id, out var targetMonster))
+                {
+                    if (targetMonster.Search && monster.Propose)
+                    {
+                        matchUser.Add(this.UserMonsterToTradeMonster(monster));
+                    }
+                    else if (monster.Search)
+                    {
+                        nomatchUser.Add(this.UserMonsterToTradeMonster(monster));
+                    }
+                }
+            }
+
+            var matchTarget = new List<TradeMonster>();
+            var nomatchTarget = new List<TradeMonster>();
+            foreach (var monster in targetMonsters.Values)
+            {
+                if (userMonsters.TryGetValue(monster.Id, out var userMonster))
+                {
+                    if (userMonster.Search && monster.Propose)
+                    {
+                        matchTarget.Add(this.UserMonsterToTradeMonster(monster));
+                    }
+                    else if (monster.Search)
+                    {
+                        nomatchTarget.Add(this.UserMonsterToTradeMonster(monster));
+                    }
+                }
+            }
+
+            return new UserTrading
+            {
+                MatchTargetSearch = matchTarget,
+                TargetSearch = nomatchTarget,
+                MatchUserSearch = matchUser,
+                UserSearch = nomatchUser
+            };
+        }
+
+        private TradeMonster UserMonsterToTradeMonster(UserMonster monster)
+        {
+            return new TradeMonster
+            {
+                Id = monster.Id,
+                Name = monster.Name,
+                Slug = monster.Slug,
+                MinLevel = monster.MinLevel,
+                MaxLevel = monster.MaxLevel,
+                AnkamaId = monster.AnkamaId,
             };
         }
     }

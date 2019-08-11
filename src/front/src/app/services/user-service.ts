@@ -37,7 +37,7 @@ export class UserService extends HttpServiceBase
         try
         {
             return await this.http.get<UserProfile>(
-                `http://localhost:80/auth/profile/${userId}`,
+                `http://localhost:80/auth/users/${userId}`,
                 {headers : this.jsonHeaders}
             ).toPromise();
         }

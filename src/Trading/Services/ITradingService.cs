@@ -9,5 +9,6 @@ namespace Trading.Services
         TradingDetails GetTradingDetails(int userId, int targetId);
         ProfileMonster GetSearchedMonstersWithMatchs(int userId, int targetId);
         ProfileMonster GetProposedMonstersWithMatchs(int userId, int targetId);
+        UserTrading GetDetailTrade(int userId, int targetId);
     }
 }

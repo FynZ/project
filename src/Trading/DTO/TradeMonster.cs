@@ -13,6 +13,5 @@ namespace Trading.DTO
         public int MinLevel { get; set; }
         public int MaxLevel { get; set; }
         public int AnkamaId { get; set; }
-        public bool Match { get; set; }
     }
 }

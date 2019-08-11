@@ -1,3 +1,90 @@
-<p>
-  user works!
-</p>
+<div class="container">
+    <div *ngIf="profile" class="row">
+        <div class="col-12">
+            <br/>
+            <div class="card">
+                <div class="card-body">
+                    <h3><b>{{ profile.username }}</b>'s profile</h3>
+                </div>
+            </div>
+            <br/>
+            <form>
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Server</label>
+                    <div class="col-sm-6 offset-sm-4">
+                        <input type="text" class="form-control" id="inputEmail3" [value]="profile.server" disabled>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">In-Game Name</label>
+                    <div class="col-sm-6 offset-sm-4">
+                        <input type="text" class="form-control" id="inputPassword3" [value]="profile.inGameName" disabled>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">Last Login Date</label>
+                    <div class="col-sm-6 offset-sm-4">
+                        <input type="text" class="form-control" id="inputPassword3" [value]="profile.lastLoginDate" disabled>
+                    </div>
+                </div>
+            </form>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="col-5 offset-2">
+                    <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Send message</a>
+                </div>
+                <div class="col-5">
+                    <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Make trade offer</a>
+                </div>
+            </div>
+            <br/>
+            <br/>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="text-center">Monsters <b>{{ profile.username }}</b> is looking for</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="text-center">Monsters <b>you</b> are looking for</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb border border-success rounded">
+            <li class="breadcrumb-item active" aria-current="page">Matching Monsters</li>
+        </ol>
+    </nav>
+    <div *ngIf="monsters" class="row">
+        <div class="col-5 offset-1 separator">
+            <span *ngFor="let monster of monsters.matchTargetSearch" class="border border-secondary rounded monster-padding">{{ monster.name }}</span>
+        </div>
+        <div class="col-5 offset-1">
+            <span *ngFor="let monster of monsters.matchUserSearch" class="border border-secondary rounded monster-padding">{{ monster.name }}</span>
+        </div>
+    </div>
+    <br/>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb border border-warning rounded">
+            <li class="breadcrumb-item active" aria-current="page">Non-matching Monsters</li>
+        </ol>
+    </nav>
+    <div *ngIf="monsters" class="row">
+        <div class="col-5 offset-1 separator">
+            <span *ngFor="let monster of monsters.targetSearch" class="border border-secondary rounded monster-padding">{{ monster.name }}</span>
+        </div>
+        <div class="col-5 offset-1">
+            <span *ngFor="let monster of monsters.userSearch" class="border border-secondary rounded monster-padding">{{ monster.name }}</span>
+        </div>
+    </div>
+</div>
